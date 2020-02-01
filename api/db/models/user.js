@@ -1,7 +1,9 @@
 /* jshint indent: 1 */
+var post = require('./post.js');
+var follow = require('./follow.js');
 
-module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('user', {
+module.exports = function (sequelize, DataTypes) {
+	var user = sequelize.define('user', {
 		userId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -46,4 +48,7 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		tableName: 'user'
 	});
+	user.hasMany(post, { as: 'post' });
+	user.hasMany(follow, { as: 'follow' });
+	return user;
 };

@@ -1,7 +1,8 @@
 /* jshint indent: 1 */
+var post = require('./post.js');
 
-module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('category', {
+module.exports = function (sequelize, DataTypes) {
+	var category = sequelize.define('category', {
 		categoryId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -16,4 +17,6 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		tableName: 'category'
 	});
+	category.hasMany(post, { as: 'post' });
+	return category
 };
