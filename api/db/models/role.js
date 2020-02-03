@@ -1,5 +1,5 @@
 /* jshint indent: 1 */
-var User = require('./User.js');
+var User = require('./user.js');
 
 module.exports = function (sequelize, DataTypes) {
 	var Role = sequelize.define('role', {

@@ -1,5 +1,5 @@
 /* jshint indent: 1 */
-var Post = require('./Post.js');
+var Post = require('./post.js');
 
 module.exports = function (sequelize, DataTypes) {
 	var Category = sequelize.define('category', {

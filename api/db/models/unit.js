@@ -1,5 +1,5 @@
 /* jshint indent: 1 */
-var Ingredient = require('./Ingredient.js');
+var Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
 	var Unit = sequelize.define('unit', {

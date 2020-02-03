@@ -1,6 +1,6 @@
 /* jshint indent: 1 */
-var Post = require('./Post.js');
-var Follow = require('./Follow.js');
+var Post = require('./post.js');
+var Follow = require('./follow.js');
 
 module.exports = function (sequelize, DataTypes) {
 	var User = sequelize.define('user', {

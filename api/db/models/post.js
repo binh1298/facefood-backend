@@ -1,8 +1,8 @@
 /* jshint indent: 1 */
-var Like = require('./Like.js');
-var Comment = require('./Comment.js');
-var Step = require('./Step.js');
-var Ingredient = require('./Ingredient.js');
+var Like = require('./like.js');
+var Comment = require('./comment.js');
+var Step = require('./step.js');
+var Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
 	var Post = sequelize.define('post', {
