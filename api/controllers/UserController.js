@@ -17,14 +17,25 @@ module.exports = {
   },
   register: {
     post(req, res) {
-      console.log(req.body);
-      return res.status(status.CREATED)
-        .send({
-          success: true,
-          message: 'Register Successfully!!',
-          error: null,
-          token: null
-        });
+      User.find({
+        where: {username: req.body.username},
+        attributes: [ 'username' ]
+      }).then(function(user) {
+        if(!user) {
+          User
+            .create(req.body)
+            .complete(function(err, user) {
+              if(err) throw err;
+              else {
+                res.status(status.CREATED).send({
+                  success: true,
+                  user: user,
+                  message: 'Register Successfully!!',
+                });
+              }
+            })
+        }
+      }) 
     },
   },
   // Private Routes
