@@ -2,9 +2,9 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    database: 'facefood',
-    username: 'admin',
-    password: 'admin',
+    database: 'facefood_database',
+    username: 'username',
+    password: 'password',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
