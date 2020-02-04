@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import Router from './routes';
 const status = require('http-status');
-
+import db from './db/models';
 require('dotenv').config();
 
 const app = express();

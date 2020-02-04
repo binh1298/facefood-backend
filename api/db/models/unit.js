@@ -1,8 +1,8 @@
 /* jshint indent: 1 */
-var Ingredient = require('./ingredient.js');
+const Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
-	var Unit = sequelize.define('unit', {
+	const Unit = sequelize.define('unit', {
 		unitId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -15,8 +15,11 @@ module.exports = function (sequelize, DataTypes) {
 			field: 'name'
 		}
 	}, {
-		tableName: 'unit'
+		tableName: 'unit',
+		associate:function() {
+			Unit.hasMany(Ingredient, { as: 'ingredients', foreignKey: 'unitId'});
+		}
 	});
-	Unit.hasMany(Ingredient, { as: 'ingredient' });
+
 	return Unit;
 };

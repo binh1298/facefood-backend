@@ -1,5 +1,5 @@
 'use strict';
-const User = require('../db/models/User');
+const User = require('../db/models/user.js');
 const status = require('http-status');
 
 module.exports = {

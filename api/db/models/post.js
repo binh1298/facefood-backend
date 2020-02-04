@@ -1,11 +1,11 @@
 /* jshint indent: 1 */
-var Like = require('./like.js');
-var Comment = require('./comment.js');
-var Step = require('./step.js');
-var Ingredient = require('./ingredient.js');
+const Like = require('./like.js');
+const Comment = require('./comment.js');
+const Step = require('./step.js');
+const Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
-	var Post = sequelize.define('post', {
+	const Post = sequelize.define('post', {
 		postId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -38,11 +38,13 @@ module.exports = function (sequelize, DataTypes) {
 			field: 'time_needed'
 		}
 	}, {
-		tableName: 'post'
+		tableName: 'post',
+		associate: function () {
+			Post.hasMany(Like, {as: 'likes', foreignKey: 'postId'});
+			Post.hasMany(Comment, {as: 'comments', foreignKey: 'postId'});
+			Post.hasMany(Step, {as: 'steps', foreignKey: 'postId'});
+			Post.hasMany(Ingredient, {as: 'ingredients', foreignKey: 'postId'});
+		}
 	});
-	Post.hasMany(Like, { as: 'like' });
-	Post.hasMany(Comment, { as: 'comment' });
-	Post.hasMany(Step, { as: 'step' });
-	Post.hasMany(Ingredient, { as: 'ingredient' });
 	return Post;
 };
