@@ -1,12 +1,11 @@
-"use strict";
-
+/* jshint indent: 1 */
 var bcrypt = require('bcrypt-nodejs')
-var post = require('./post.js');
-var follow = require('./follow.js');
+var Post = require('./post.js');
+var Follow = require('./follow.js');
 
 
 module.exports = function (sequelize, DataTypes) {
-	var user = sequelize.define('user', {
+	var User = sequelize.define('user', {
 		userId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -68,9 +67,6 @@ module.exports = function (sequelize, DataTypes) {
       },
     }
 	});
-	user.hasMany(post, { as: 'post' });
-	user.hasMany(follow, { as: 'follow' });
-
 	// This hook is called when an entry is being added to the back end.
   // This method is used to hash the password before storing it
   // in our database.
@@ -92,5 +88,7 @@ module.exports = function (sequelize, DataTypes) {
       });
     });
   });
+	User.hasMany(Post, { as: 'post' });
+	User.hasMany(Follow, { as: 'follow' });
 	return user;
 };

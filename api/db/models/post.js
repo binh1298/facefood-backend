@@ -1,11 +1,11 @@
 /* jshint indent: 1 */
-var like = require('./like.js');
-var comment = require('./comment.js');
-var step = require('./step.js');
-var ingredient = require('./ingredient.js');
+var Like = require('./like.js');
+var Comment = require('./comment.js');
+var Step = require('./step.js');
+var Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
-	var post = sequelize.define('post', {
+	var Post = sequelize.define('post', {
 		postId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -22,20 +22,10 @@ module.exports = function (sequelize, DataTypes) {
 			allowNull: false,
 			field: 'user_id'
 		},
-		isPromoted: {
-			type: DataTypes.BOOLEAN,
-			allowNull: true,
-			field: 'is_promoted'
-		},
-		viewCount: {
+		categoryId: {
 			type: DataTypes.INTEGER,
-			allowNull: true,
-			field: 'view_count'
-		},
-		likeCount: {
-			type: DataTypes.INTEGER,
-			allowNull: true,
-			field: 'like_count'
+			allowNull: false,
+			field: 'category_id'
 		},
 		createdAt: {
 			type: DataTypes.INTEGER,
@@ -50,9 +40,9 @@ module.exports = function (sequelize, DataTypes) {
 	}, {
 		tableName: 'post'
 	});
-	post.hasMany(like, { as: 'like' });
-	post.hasMany(comment, { as: 'comment' });
-	post.hasMany(step, { as: 'step' });
-	post.hasMany(ingredient, { as: 'ingredient' });
-	return post;
+	Post.hasMany(Like, { as: 'like' });
+	Post.hasMany(Comment, { as: 'comment' });
+	Post.hasMany(Step, { as: 'step' });
+	Post.hasMany(Ingredient, { as: 'ingredient' });
+	return Post;
 };

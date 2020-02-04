@@ -1,8 +1,8 @@
 /* jshint indent: 1 */
-var user = require('./user.js');
+var User = require('./user.js');
 
 module.exports = function (sequelize, DataTypes) {
-	var role = sequelize.define('role', {
+	var Role = sequelize.define('role', {
 		roleId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -17,6 +17,6 @@ module.exports = function (sequelize, DataTypes) {
 	}, {
 		tableName: 'role'
 	});
-	role.hasMany(user, { as: 'user' });
-	return role;
+	Role.hasMany(User, { as: 'user' });
+	return Role;
 };
