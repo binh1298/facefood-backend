@@ -7,6 +7,11 @@ const Router = [
     path: '/user',
     handler: require('./UserRoutes'),
   },
+  {
+    path: '/admin',
+    handler: require('./AdminRoutes'),
+  },
+
 ];
 
 export default Router;

@@ -1,5 +1,5 @@
 'use strict';
-const User = require('../db/models/user.js');
+const models = require('../db/models/index');
 const status = require('http-status');
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
   },
   register: {
     post(req, res) {
-      User.find({
+      models.User.findOne({
         where: {username: req.body.username},
         attributes: [ 'username' ]
       }).then(function(user) {

@@ -5,7 +5,7 @@ const Follow = require('./follow.js');
 
 
 module.exports = function (sequelize, DataTypes) {
-    const User = sequelize.define('user', {
+    var User = sequelize.define('User', {
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,

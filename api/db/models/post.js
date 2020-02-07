@@ -5,7 +5,7 @@ const Step = require('./step.js');
 const Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
-	const Post = sequelize.define('post', {
+	const Post = sequelize.define('Post', {
 		postId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
