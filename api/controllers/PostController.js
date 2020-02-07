@@ -17,6 +17,20 @@ module.exports = {
                 });
         },
     },
+    addUser: {
+        post(req, res) {
+            return models.User.findAll({})
+                .then(function (users) {
+                    res.status(status.OK)
+                        .send({
+                            success: true,
+                            message: json(users),
+                            error: null,
+                            token: null
+                        });
+                });
+        },
+    },
     viewPosts: {
         get(req, res) {
             models.Post.findAll({}).then(function (posts) {

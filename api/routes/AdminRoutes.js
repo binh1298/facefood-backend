@@ -6,10 +6,10 @@
  */
 
 let express = require('express');
-let Controller = require('../controllers/AdminController');
+let UserController = require('../controllers/UserController');
 let router = express.Router();
 
-router.get('/view-users', Controller.viewUsers.get);
-router.get('/view-posts', Controller.viewPosts.get);
+router.get('/users/view', UserController.index.get);
+router.post('/users/add',UserController.new.post);
 
 module.exports = router;
