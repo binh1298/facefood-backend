@@ -21,15 +21,6 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
     logging: console.log
 });
 
-sequelize
-    .authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch(error => {
-        console.error('Unable to connect to the database:', error.message);
-    });
-
 fs.readdirSync(__dirname)
     .filter(file => {
         return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';

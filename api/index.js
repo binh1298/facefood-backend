@@ -1,11 +1,30 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import Router from './routes';
-const status = require('http-status');
+import status from 'http-status';
+import cors from 'cors';
+import { handleError } from './utils/errorHandler';
+
 import db from './db/models';
 require('dotenv').config();
 
+db.sequelize.authenticate()
+  .then(() => {
+    console.log('Connection to database has been established successfully.');
+  })
+  .catch(error => {
+    console.error('Unable to connect to the database:', error.message);
+  });
+
 const app = express();
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -25,6 +44,11 @@ app.use((req, res, next) => {
       success: false,
       error: 'Page not found!',
     });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  handleError(err, res);
 });
 
 app.listen(port, () => {
