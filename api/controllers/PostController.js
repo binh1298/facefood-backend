@@ -23,14 +23,17 @@ module.exports = {
         post(req, res) {
             return models.Post
                 .create(req.body)
-                .then(function () {
-                    res.status(status.OK)
-                        .send({
-                            success: true,
-                            message: "created!",
-                            error: null,
-                            token: null
-                        });
+                .then(function (err, post) {
+                    if (err) throw err;
+                    else {
+                        res.status(status.OK)
+                            .send({
+                                success: true,
+                                message: post,
+                                error: null,
+                                token: null
+                            });
+                    }
                 });
         },
     },
