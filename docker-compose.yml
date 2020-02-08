@@ -3,8 +3,10 @@ version: '3'
 services:
   facefood-postgres-compose:
     image: postgres
-    env_file:
-      - .env # configure postgres
+    environment: 
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: facefood-database
     ports:
       - '15432:5432'
     volumes:
