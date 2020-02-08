@@ -4,7 +4,6 @@ import Router from './routes';
 import status from 'http-status';
 import cors from 'cors';
 import { handleError } from './utils/errorHandler';
-
 import db from './db/models';
 require('dotenv').config();
 
@@ -15,6 +14,7 @@ db.sequelize.authenticate()
   .catch(error => {
     console.error('Unable to connect to the database:', error.message);
   });
+db.sequelize.sync({ force: false, logging: false });
 
 const app = express();
 
