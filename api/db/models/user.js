@@ -1,5 +1,5 @@
 /* jshint indent: 1 */
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcryptjs')
 const Post = require('./post.js');
 const Follow = require('./follow.js');
 
@@ -8,9 +8,9 @@ module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define('User', {
         userId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             primaryKey: true,
-            field: 'user_id'
+            field: 'user_id',
+            autoIncrement: true
         },
         username: {
             type: DataTypes.CHAR,
@@ -29,22 +29,19 @@ module.exports = function (sequelize, DataTypes) {
         },
         fullname: {
             type: DataTypes.CHAR,
-            allowNull: false,
             field: 'fullname'
         },
         phoneNumber: {
             type: DataTypes.CHAR,
-            allowNull: false,
             field: 'phone_number'
         },
         roleId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             field: 'role_id'
         },
         isDeleted: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            defaultValue: false,
             field: 'is_deleted'
         }
     }, {
@@ -74,23 +71,11 @@ module.exports = function (sequelize, DataTypes) {
 			// This hook is called when an entry is being added to the back end.
 			// This method is used to hash the password before storing it
 			// in our database.
-        	beforeCreate:function(user, options,callback) {
-				var SALT_WORK_FACTOR = 10;
-				bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-					if (err) {
-						return callback(err, null);
-					}
-					// generate salt.
-					bcrypt.hash(user.password, salt, null, function (err, hash) {
-						if (err) {
-							return callback(err, null);
-						}
-						// replace the password with the hash and pass on the
-						// user object to whoever should require it.
-						user.password = hash;
-						return callback(null, user);
-					});
-				});
+        	beforeCreate: (user, options) => {
+				const SALT_WORK_FACTOR = 10;
+				const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
+                const hash = bcrypt.hashSync(user.password, salt);
+                user.password = hash;
 			}
 		}
     });
