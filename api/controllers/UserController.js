@@ -1,8 +1,8 @@
 'use strict';
 const models = require('../db/models/index');
 const status = require('http-status');
-const { validationResult } = require('express-validator');
-import { ErrorHandler, DefaultErrorHandler } from '../utils/errorHandler';
+const {validationResult} = require('express-validator');
+import {ErrorHandler, DefaultErrorHandler} from '../utils/errorHandler';
 
 module.exports = {
   // Public Routes
@@ -37,7 +37,7 @@ module.exports = {
           throw new DefaultErrorHandler(status.BAD_REQUEST, 'Please enter valid values!', errors.array());
         }
         const duplicateUser = await models.User.findOne({
-          where: { username: req.body.username },
+          where: {username: req.body.username},
           attributes: ['username']
         });
         if (duplicateUser) {
@@ -59,42 +59,42 @@ module.exports = {
   },
   // Private Routes
   index: {
-    get(req, res) {
-      models.User
-        .findAll({})
-        .then(function (users) {
+    async get(req, res, next) {
+      try {
+        const users = await models.User.findAll({});
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: users,
+          });
+      } catch (error) {
+        next(error);
+      }
+    }
+  },
+  new: {
+    async post(req, res, next) {
+      try {
+        const user = await models.User
+          .findOne({
+            where: {username: req.body.username},
+          });
+        if (user != null) {
           res.status(status.OK)
             .send({
               success: true,
-              message: users,
-              error: null,
-              token: null
+              message: user,
             });
-        });
-    },
+        } else {
+          res.status(status.CREATED).send({
+            success: true,
+            user: user,
+            message: 'Register successful.',
+          });
+        }
+      } catch (error) {
+        next(error);
+      }
+    }
   },
-  new: {
-    post(req, res) {
-      models.User
-        .findOne({
-          where: { username: req.body.username },
-        })
-        .then(function (user) {
-          if (!user) {
-            models.User
-              .create(req.body)
-              .then(function (err, user) {
-                if (err) throw err;
-                else {
-                  res.status(status.CREATED).send({
-                    success: true,
-                    user: user,
-                    message: 'Register successful.',
-                  });
-                }
-              })
-          }
-        })
-    },
-  }
 };
