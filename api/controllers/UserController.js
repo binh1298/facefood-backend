@@ -2,7 +2,7 @@
 const models = require('../db/models/index');
 const status = require('http-status');
 const {validationResult} = require('express-validator');
-import {ErrorHandler, DefaultErrorHandler} from '../utils/errorHandler';
+import {DefaultErrorHandler} from '../utils/errorHandler';
 
 module.exports = {
   // Public Routes

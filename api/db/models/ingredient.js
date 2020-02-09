@@ -6,7 +6,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-			autoIncrement: true,
+      autoIncrement: true,
       field: 'ingredient_id'
     },
     name: {
