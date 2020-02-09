@@ -8,8 +8,8 @@ const Router = [
     handler: require('./UserRoutes'),
   },
   {
-    path: '/admin',
-    handler: require('./AdminRoutes'),
+    path: '/post',
+    handler: require('./PostRoutes'),
   },
 
 ];
