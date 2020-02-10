@@ -5,6 +5,8 @@ import status from 'http-status';
 import cors from 'cors';
 import { handleError } from './utils/errorHandler';
 import db from './db/models';
+import passport from 'passport';
+
 require('dotenv').config();
 
 db.sequelize.authenticate()
@@ -28,7 +30,9 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const port = process.env.PORT || 3000;
+app.use(passport.initialize());
+require('./services/passport')(passport);
+
 
 app.get('/', (req, res) => res.status(200).send({
   message: 'Welcome to this API.'
@@ -50,6 +54,8 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   handleError(err, res);
 });
+
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Server is running on PORT ${port}`);
