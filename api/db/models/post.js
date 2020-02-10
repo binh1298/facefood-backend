@@ -32,6 +32,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true,
       field: 'time_needed'
+    },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      field: 'is_deleted'
     }
   }, {
     tableName: 'post',

@@ -54,28 +54,28 @@ module.exports = {
       } catch (error) {
         next(error)
       }
-    },
+    }
+  },
 
-    delete: {
-      async put(req, res, next) {
-        try {
-          await models.Post
-            .destroy({
-              where: {
-                postId: req.params.postId
-              }
-            });
-          res.status(status.OK)
-            .send({
-              success: true,
-              message: "post deleted!"
-            });
-        } catch (error) {
-          next(error)
-        }
+  delete: {
+    async put(req, res, next) {
+      try {
+        await models.Post
+          .destroy({
+            where: {
+              postId: req.params.postId
+            }
+          });
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: "post deleted!"
+          });
+      } catch (error) {
+        next(error)
       }
-    },
-  }
+    }
+  },
 }
 
 

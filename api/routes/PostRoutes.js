@@ -12,6 +12,6 @@ let router = express.Router();
 router.get('/', Controller.index.get);
 router.post('/', Controller.create.post);
 router.post('/delete/:postId', Controller.delete.put);
-router.get('/view/:postId', Controller.view.put);
+router.get('/view/:postId', Controller.view.get);
 
 module.exports = router;
