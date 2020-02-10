@@ -10,8 +10,8 @@ let Controller = require('../controllers/PostController');
 let router = express.Router();
 
 router.get('/', Controller.index.get);
-router.post('/create', Controller.create.post);
-router.post('/delete', Controller.delete.post);
-router.get('/view', Controller.view.get);
+router.post('/', Controller.create.post);
+router.post('/delete/:postId', Controller.delete.put);
+router.get('/view/:postId', Controller.view.put);
 
 module.exports = router;

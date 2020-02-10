@@ -10,8 +10,6 @@ let Controller = require('../controllers/UserController');
 let router = express.Router();
 
 router.get('/', Controller.index.get);
-router.post('/new', Controller.new.post);
-router.get('/users/view-all', Controller.index.get);
-router.post('/users/add', Controller.new.post);
+router.post('/', Controller.new.post);
 
 module.exports = router;
