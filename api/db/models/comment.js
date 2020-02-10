@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('comment', {
+  return sequelize.define('Comment', {
     commentId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
       field: 'user_id'
     },
     content: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'content'
     }

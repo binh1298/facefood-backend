@@ -13,26 +13,26 @@ module.exports = function (sequelize, DataTypes) {
             autoIncrement: true
         },
         username: {
-            type: DataTypes.CHAR,
+            type: DataTypes.STRING,
             allowNull: false,
             field: 'username'
         },
         password: {
-            type: DataTypes.CHAR,
+            type: DataTypes.STRING,
             allowNull: false,
             field: 'password'
         },
         email: {
-            type: DataTypes.CHAR,
+            type: DataTypes.STRING,
             allowNull: false,
             field: 'email'
         },
         fullname: {
-            type: DataTypes.CHAR,
+            type: DataTypes.STRING,
             field: 'fullname'
         },
         phoneNumber: {
-            type: DataTypes.CHAR,
+            type: DataTypes.STRING,
             field: 'phone_number'
         },
         roleId: {

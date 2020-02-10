@@ -2,7 +2,7 @@
 const Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
-  const Unit = sequelize.define('unit', {
+  const Unit = sequelize.define('Unit', {
     unitId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -11,7 +11,7 @@ module.exports = function (sequelize, DataTypes) {
       field: 'unit_id'
     },
     name: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'name'
     }

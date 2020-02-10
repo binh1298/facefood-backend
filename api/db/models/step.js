@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('step', {
+  return sequelize.define('Step', {
     stepId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,12 +15,12 @@ module.exports = function (sequelize, DataTypes) {
       field: 'post_id'
     },
     imageUrl: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: true,
       field: 'image_url'
     },
     description: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: true,
       field: 'description'
     }

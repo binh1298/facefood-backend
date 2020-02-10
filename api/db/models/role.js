@@ -2,7 +2,7 @@
 const User = require('./user.js');
 
 module.exports = function (sequelize, DataTypes) {
-  const Role = sequelize.define('role', {
+  const Role = sequelize.define('Role', {
     roleId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -11,7 +11,7 @@ module.exports = function (sequelize, DataTypes) {
       field: 'role_id'
     },
     roleName: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'role_name'
     }

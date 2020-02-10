@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('like', {
+  return sequelize.define('Like', {
     likeId: {
       type: DataTypes.INTEGER,
       allowNull: false,

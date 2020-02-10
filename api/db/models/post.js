@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-			autoIncrement: true,
+      autoIncrement: true,
       field: 'post_id'
     },
     description: {
@@ -27,11 +27,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'category_id'
-    },
-    createdAt: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'created_at'
     },
     timeNeeded: {
       type: DataTypes.INTEGER,
