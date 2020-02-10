@@ -1,7 +1,7 @@
 const Router = [
   {
     path: '/',
-    handler: require('./PublicRoutes'),
+    handler: require('./RootRoutes'),
   },
   {
     path: '/user',

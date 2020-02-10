@@ -1,47 +1,50 @@
 'use strict';
 const models = require('../db/models/index');
 const status = require('http-status');
-const {validationResult} = require('express-validator');
-import {DefaultErrorHandler} from '../utils/errorHandler';
+const bcrypt = require('bcryptjs');
+
+const { validationResult } = require('express-validator');
+import { DefaultError } from '../utils/errorHandler';
 
 module.exports = {
   // Public Routes
   login: {
-    post(req, res) {
-      return models.User
-        .findOne({
+    async post(req, res, next) {
+      try {
+        const user = await models.User.findOne({
           where: {
             username: req.body.username,
-            password: req.body.password
-          }
-        })
-        .then(function (err) {
-          if (err) throw err;
-          else {
-            res.status(status.OK)
-              .send({
-                success: true,
-                message: "Login successful.",
-                error: null,
-                token: null
-              });
-          }
-        })
-    },
+          },
+          attributes: ['username', 'password'],
+        });
+        if (!user) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
+        const isValidPassword = bcrypt.compareSync(req.body.password, user.password);
+        if (!isValidPassword) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
+
+        return res.status(status.OK).send({
+          success: true,
+          message: "Login successfully.",
+          user
+        });
+      }
+      catch (error) {
+        next(error);
+      }
+    }
   },
   register: {
     async post(req, res, next) {
       try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          throw new DefaultErrorHandler(status.BAD_REQUEST, 'Please enter valid values!', errors.array());
+          throw new DefaultError(status.BAD_REQUEST, 'Please enter valid values!', errors.array());
         }
         const duplicateUser = await models.User.findOne({
-          where: {username: req.body.username},
+          where: { username: req.body.username },
           attributes: ['username']
         });
         if (duplicateUser) {
-          throw new DefaultErrorHandler(status.BAD_REQUEST, 'This username is taken!');
+          throw new DefaultError(status.BAD_REQUEST, 'This username is taken!');
         }
 
         if (!duplicateUser) {
@@ -58,6 +61,24 @@ module.exports = {
     },
   },
   // Private Routes
+  profile: {
+    async get(req, res, next) {
+      try {
+        const user = await models.User.findOne({
+          where: {
+            username: req.body.username,
+          },
+        });
+        if (!user) throw new DefaultError(status.BAD_REQUEST, 'Invalid user');
+        return res.status(status.OK).send({
+          success: true,
+          user
+        });
+      } catch (error) {
+        next(error);
+      }
+    }
+  },
   index: {
     async get(req, res, next) {
       try {
@@ -77,7 +98,7 @@ module.exports = {
       try {
         const user = await models.User
           .findOne({
-            where: {username: req.body.username},
+            where: { username: req.body.username },
           });
         if (user != null) {
           res.status(status.OK)

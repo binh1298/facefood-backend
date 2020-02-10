@@ -54,7 +54,7 @@ module.exports = {
       } catch (error) {
         next(error)
       }
-    }
+    },
   },
 
   delete: {
@@ -69,7 +69,7 @@ module.exports = {
         res.status(status.OK)
           .send({
             success: true,
-            message: "post deleted!"
+            message: "Post deleted!"
           });
       } catch (error) {
         next(error)
