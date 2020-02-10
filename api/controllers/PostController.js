@@ -19,7 +19,11 @@ module.exports = {
   },
 
   create: {
-    post(req, res) {
+    async post(req, res, next) {
+      try {
+      } catch (error) {
+        next(error)
+      }
       return models.Post
         .create(req.body)
         .then(function (err, post) {
@@ -60,12 +64,17 @@ module.exports = {
   delete: {
     async put(req, res, next) {
       try {
-        await models.Post
-          .destroy({
+        const post = await models.Post
+          .findOne({
             where: {
               postId: req.params.postId
             }
           });
+        if (post) {
+          post.update({
+            isDeleted: true,
+          })
+        }
         res.status(status.OK)
           .send({
             success: true,
