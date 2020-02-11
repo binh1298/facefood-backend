@@ -60,16 +60,14 @@ module.exports = {
   delete: {
     async put(req, res, next) {
       try {
-        await models.Post
-          .destroy({
-            where: {
-              postId: req.params.postId
-            }
-          });
+        const result = await models.Post.update(
+          {isDeleted: true},
+          {where:{postId:req.params.postId}}
+          );
         res.status(status.OK)
           .send({
             success: true,
-            message: "Post deleted!"
+            message: result
           });
       } catch (error) {
         next(error)
