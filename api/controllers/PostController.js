@@ -62,8 +62,8 @@ module.exports = {
       try {
         const result = await models.Post.update(
           {isDeleted: true},
-          {where:{postId:req.params.postId}}
-          );
+          {where: {post_id: req.params.postId}}
+        );
         res.status(status.OK)
           .send({
             success: true,

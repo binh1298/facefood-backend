@@ -42,12 +42,22 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       field: 'is_deleted'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'created_at'
     }
   }, {
     tableName: 'user',
     associate: function () {
-      User.hasMany(Post, { as: 'posts', foreignKey: 'userId' });
-      User.hasMany(Follow, { as: 'follows', foreignKey: 'userId' });
+      User.hasMany(Post, {as: 'posts', foreignKey: 'userId'});
+      User.hasMany(Follow, {as: 'follows', foreignKey: 'userId'});
     },
     hooks: {
       // This hook is called when an entry is being added to the back end.
