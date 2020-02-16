@@ -2,14 +2,15 @@
 const bcrypt = require('bcryptjs')
 const Post = require('./post.js');
 const Follow = require('./follow.js');
+const uuid = require('uuid/v4');
 
 module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define('User', {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
+      defaultValue: uuid(),
       primaryKey: true,
       field: 'user_id',
-      autoIncrement: true
     },
     username: {
       type: DataTypes.STRING,

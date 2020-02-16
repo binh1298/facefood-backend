@@ -3,8 +3,8 @@ const models = require('../db/models/index');
 const status = require('http-status');
 const bcrypt = require('bcryptjs');
 
-const { validationResult } = require('express-validator');
-import { DefaultError } from '../utils/errorHandler';
+const {validationResult} = require('express-validator');
+import {DefaultError} from '../utils/errorHandler';
 
 module.exports = {
   // Public Routes
@@ -26,8 +26,7 @@ module.exports = {
           message: "Login successfully.",
           user
         });
-      }
-      catch (error) {
+      } catch (error) {
         next(error);
       }
     }
@@ -40,7 +39,7 @@ module.exports = {
           throw new DefaultError(status.BAD_REQUEST, 'Please enter valid values!', errors.array());
         }
         const duplicateUser = await models.User.findOne({
-          where: { username: req.body.username },
+          where: {username: req.body.username},
           attributes: ['username']
         });
         if (duplicateUser) {
@@ -79,7 +78,7 @@ module.exports = {
       }
     }
   },
-  index: {
+  view: {
     async get(req, res, next) {
       try {
         const users = await models.User.findAll({});
@@ -88,31 +87,6 @@ module.exports = {
             success: true,
             message: users,
           });
-      } catch (error) {
-        next(error);
-      }
-    }
-  },
-  new: {
-    async post(req, res, next) {
-      try {
-        const user = await models.User
-          .findOne({
-            where: { username: req.body.username },
-          });
-        if (user != null) {
-          res.status(status.OK)
-            .send({
-              success: true,
-              message: user,
-            });
-        } else {
-          res.status(status.CREATED).send({
-            success: true,
-            user: user,
-            message: 'Register successful.',
-          });
-        }
       } catch (error) {
         next(error);
       }

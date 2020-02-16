@@ -1,8 +1,9 @@
 'use strict';
-
+const uuid = require('uuid/v4');
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('user', [{
+      user_id: uuid(),
       username: 'SpacePotato',
       password: 'potatopassword',
       email: 'space@potato.com',
@@ -10,6 +11,7 @@ module.exports = {
       updated_at: new Date()
     },
       {
+        user_id: uuid(),
         username: 'BinhPham',
         password: 'binhphampassword',
         email: 'binh@pham.com',
@@ -17,6 +19,7 @@ module.exports = {
         updated_at: new Date()
       },
       {
+        user_id: uuid(),
         username: 'DucPhi',
         password: 'ducphipassword',
         email: 'duc@phi.com',
@@ -24,6 +27,7 @@ module.exports = {
         updated_at: new Date()
       },
       {
+        user_id: uuid(),
         username: 'LocTrinh',
         password: 'loctrinhpassword',
         email: 'loc@trinh.com',
