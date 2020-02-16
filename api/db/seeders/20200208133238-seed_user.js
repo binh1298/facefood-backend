@@ -6,29 +6,29 @@ module.exports = {
       username: 'SpacePotato',
       password: 'potatopassword',
       email: 'space@potato.com',
-      createdAt: new Date(),
-      updatedAt: new Date()
+      created_at: new Date(),
+      updated_at: new Date()
     },
       {
         username: 'BinhPham',
         password: 'binhphampassword',
         email: 'binh@pham.com',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         username: 'DucPhi',
         password: 'ducphipassword',
         email: 'duc@phi.com',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         username: 'LocTrinh',
         password: 'loctrinhpassword',
         email: 'loc@trinh.com',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       }
     ]);
   },
