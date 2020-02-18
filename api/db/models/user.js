@@ -2,14 +2,15 @@
 const bcrypt = require('bcryptjs')
 const Post = require('./post.js');
 const Follow = require('./follow.js');
+const uuid = require('uuid/v4');
 
 module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define('User', {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
+      defaultValue: uuid(),
       primaryKey: true,
       field: 'user_id',
-      autoIncrement: true
     },
     username: {
       type: DataTypes.STRING,
@@ -42,12 +43,22 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       field: 'is_deleted'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'updated_at'
     }
   }, {
     tableName: 'user',
     associate: function () {
-      User.hasMany(Post, { as: 'posts', foreignKey: 'userId' });
-      User.hasMany(Follow, { as: 'follows', foreignKey: 'userId' });
+      User.hasMany(Post, {as: 'posts', foreignKey: 'userId'});
+      User.hasMany(Follow, {as: 'follows', foreignKey: 'userId'});
     },
     hooks: {
       // This hook is called when an entry is being added to the back end.

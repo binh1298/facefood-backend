@@ -37,7 +37,18 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       field: 'is_deleted'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'created_at'
     }
+
   }, {
     tableName: 'post',
     associate: function () {

@@ -19,11 +19,7 @@ module.exports = {
   },
 
   create: {
-    async post(req, res, next) {
-      try {
-      } catch (error) {
-        next(error)
-      }
+    post(req, res) {
       return models.Post
         .create(req.body)
         .then(function (err, post) {
@@ -66,12 +62,12 @@ module.exports = {
       try {
         const result = await models.Post.update(
           {isDeleted: true},
-          {where: {postId: req.params.postId}}
+          {where: {post_id: req.params.postId}}
         );
         res.status(status.OK)
           .send({
             success: true,
-            message: result,
+            message: result
           });
       } catch (error) {
         next(error)
