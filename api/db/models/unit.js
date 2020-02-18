@@ -1,5 +1,4 @@
 /* jshint indent: 1 */
-const Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
   const Unit = sequelize.define('Unit', {

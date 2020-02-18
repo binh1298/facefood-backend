@@ -1,7 +1,5 @@
 /* jshint indent: 1 */
 const bcrypt = require('bcryptjs')
-const Post = require('./post');
-const Follow = require('./follow.js');
 const uuid = require('uuid/v4');
 
 module.exports = function (sequelize, DataTypes) {

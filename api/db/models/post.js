@@ -1,9 +1,5 @@
 /* jshint indent: 1 */
-const Like = require('./like.js');
-const Comment = require('./comment.js');
-const Step = require('./step.js');
-const Ingredient = require('./ingredient.js');
-const User = require('./user.js');
+
 module.exports = function (sequelize, DataTypes) {
   const Post = sequelize.define('Post', {
     postId: {

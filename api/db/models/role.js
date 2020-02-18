@@ -1,5 +1,4 @@
 /* jshint indent: 1 */
-const User = require('./user.js');
 
 module.exports = function (sequelize, DataTypes) {
   const Role = sequelize.define('Role', {
