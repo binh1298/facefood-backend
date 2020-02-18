@@ -3,7 +3,7 @@ const Like = require('./like.js');
 const Comment = require('./comment.js');
 const Step = require('./step.js');
 const Ingredient = require('./ingredient.js');
-
+const User = require('./user.js');
 module.exports = function (sequelize, DataTypes) {
   const Post = sequelize.define('Post', {
     postId: {
@@ -51,12 +51,18 @@ module.exports = function (sequelize, DataTypes) {
 
   }, {
     tableName: 'post',
-    associate: function () {
-      Post.hasMany(Like, {as: 'likes', foreignKey: 'postId'});
-      Post.hasMany(Comment, {as: 'comments', foreignKey: 'postId'});
-      Post.hasMany(Step, {as: 'steps', foreignKey: 'postId'});
-      Post.hasMany(Ingredient, {as: 'ingredients', foreignKey: 'postId'});
-    }
   });
+  Post.associate = function (models) {
+    models.Post.belongsTo(models.User, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
+    models.Post.hasMany(models.Like);
+    models.Post.hasMany(models.Comment);
+    models.Post.hasMany(models.Step);
+    models.Post.hasMany(models.Ingredient);
+  }
   return Post;
 };
