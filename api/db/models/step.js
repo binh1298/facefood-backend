@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('Step', {
+  var Step = sequelize.define('Step', {
     stepId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -27,4 +27,10 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     tableName: 'step'
   });
+  Step.associate = function(models){
+    models.Step.hasMany(models.Image,{
+      foreignKey:"step_id"
+    });
+  }
+  return Step;
 };

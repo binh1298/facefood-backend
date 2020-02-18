@@ -2,6 +2,12 @@
 
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Follow', {
+    followId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      field: 'follow_id'
+    },
     followerId: {
       type: DataTypes.INTEGER,
       allowNull: false,

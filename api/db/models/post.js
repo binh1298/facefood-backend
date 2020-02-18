@@ -1,8 +1,4 @@
 /* jshint indent: 1 */
-const Like = require('./like.js');
-const Comment = require('./comment.js');
-const Step = require('./step.js');
-const Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
   const Post = sequelize.define('Post', {
@@ -51,12 +47,29 @@ module.exports = function (sequelize, DataTypes) {
 
   }, {
     tableName: 'post',
-    associate: function () {
-      Post.hasMany(Like, {as: 'likes', foreignKey: 'postId'});
-      Post.hasMany(Comment, {as: 'comments', foreignKey: 'postId'});
-      Post.hasMany(Step, {as: 'steps', foreignKey: 'postId'});
-      Post.hasMany(Ingredient, {as: 'ingredients', foreignKey: 'postId'});
-    }
   });
+  Post.associate = function (models) {
+    // models.Post.belongsTo(models.User, {
+    //   onDelete: "CASCADE",
+    //   foreignKey: {
+    //     allowNull: false
+    //   }
+    // });
+    models.Post.hasMany(models.Like, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Comment, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Step, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Ingredient, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Image, {
+      foreignKey: "post_id"
+    });
+  }
   return Post;
 };

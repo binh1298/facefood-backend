@@ -1,5 +1,4 @@
 /* jshint indent: 1 */
-const User = require('./user.js');
 
 module.exports = function (sequelize, DataTypes) {
   const Role = sequelize.define('Role', {
@@ -17,9 +16,12 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'role',
-    associate: function () {
-      Role.hasMany(User, {as: 'users', foreignKey: 'roleId'});
-    }
   });
+
+  Role.associate = function (models) {
+    models.Role.hasMany(models.User,{
+      foreignKey: "role_id"
+    });
+  }
   return Role;
 };
