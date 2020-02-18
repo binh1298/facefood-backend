@@ -91,7 +91,11 @@ module.exports = {
   view: {
     async get(req, res, next) {
       try {
-        const users = await models.User.findAll({});
+        const users = await models.User.findAll({
+          attributes:[
+            'user_id', 'username','email','fullname','phone_number','role_id','is_deleted','created_at','updated_at'
+          ]
+        });
         res.status(status.OK)
           .send({
             status: true,
