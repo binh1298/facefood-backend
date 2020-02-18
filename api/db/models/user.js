@@ -44,6 +44,7 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false,
       field: 'is_deleted'
     },
+
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: new Date(),

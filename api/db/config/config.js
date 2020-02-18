@@ -1,20 +1,21 @@
-require('dotenv').config();
+import { POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT } from '../../configurations';
 
 module.exports = {
   development: {
-    database: process.env.POSTGRES_DB,
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT,
+    database: POSTGRES_DB,
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    host: POSTGRES_HOST,
+    port: POSTGRES_PORT,
     dialect: 'postgres'
   },
 
   production: {
-    database: process.env.POSTGRES_DB,
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    host: process.env.DB_HOST,
+    database: POSTGRES_DB,
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    host: POSTGRES_HOST,
+    port: POSTGRES_PORT,
     dialect: 'postgres'
   }
 };
