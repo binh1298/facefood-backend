@@ -49,16 +49,27 @@ module.exports = function (sequelize, DataTypes) {
     tableName: 'post',
   });
   Post.associate = function (models) {
-    models.Post.belongsTo(models.User, {
-      onDelete: "CASCADE",
-      foreignKey: {
-        allowNull: false
-      }
+    // models.Post.belongsTo(models.User, {
+    //   onDelete: "CASCADE",
+    //   foreignKey: {
+    //     allowNull: false
+    //   }
+    // });
+    models.Post.hasMany(models.Like, {
+      foreignKey: "post_id"
     });
-    models.Post.hasMany(models.Like);
-    models.Post.hasMany(models.Comment);
-    models.Post.hasMany(models.Step);
-    models.Post.hasMany(models.Ingredient);
+    models.Post.hasMany(models.Comment, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Step, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Ingredient, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Image, {
+      foreignKey: "post_id"
+    });
   }
   return Post;
 };

@@ -19,7 +19,9 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Unit.associate = function (models) {
-    models.Unit.hasMany(models.Ingredient);
+    models.Unit.hasMany(models.Ingredient, {
+      foreignKey: 'unit_id'
+    });
   }
   return Unit;
 };
