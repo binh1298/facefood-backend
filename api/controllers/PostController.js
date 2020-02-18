@@ -64,21 +64,14 @@ module.exports = {
   delete: {
     async put(req, res, next) {
       try {
-        const post = await models.Post
-          .findOne({
-            where: {
-              postId: req.params.postId
-            }
-          });
-        if (post) {
-          post.update({
-            isDeleted: true,
-          })
-        }
+        const result = await models.Post.update(
+          {isDeleted: true},
+          {where: {postId: req.params.postId}}
+        );
         res.status(status.OK)
           .send({
             success: true,
-            message: "Post deleted!"
+            message: result,
           });
       } catch (error) {
         next(error)
