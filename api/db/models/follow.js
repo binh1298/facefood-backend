@@ -3,8 +3,7 @@
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Follow', {
     followId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.UUID,
       primaryKey: true,
       field: 'follow_id'
     },

@@ -3,10 +3,8 @@
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Like', {
     likeId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
       field: 'like_id'
     },
     userId: {

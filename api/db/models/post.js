@@ -3,10 +3,8 @@
 module.exports = function (sequelize, DataTypes) {
   const Post = sequelize.define('Post', {
     postId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
       field: 'post_id'
     },
     postName: {

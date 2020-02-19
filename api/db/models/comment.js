@@ -3,10 +3,8 @@
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Comment', {
     commentId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.UUID,
       primaryKey: true,
-			autoIncrement: true,
       field: 'comment_id'
     },
     userId: {

@@ -3,10 +3,8 @@
 module.exports = function (sequelize, DataTypes) {
   var Image = sequelize.define('Image', {
     imageId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
       field: 'image_id'
     },
     imageUrl: {
@@ -14,10 +12,15 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       field: 'image_url'
     },
-    uploadedAt: {
+    createdAt: {
       type: DataTypes.DATE,
-      allowNull: false,
-      field: 'uploaded_at'
+      defaultValue: new Date(),
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'updated_at'
     },
     postId: {
       type: DataTypes.INTEGER,

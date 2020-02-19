@@ -3,16 +3,9 @@
 module.exports = function (sequelize, DataTypes) {
   var Step = sequelize.define('Step', {
     stepId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.UUID,
       primaryKey: true,
-			autoIncrement: true,
       field: 'step_id'
-    },
-    postId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'post_id'
     },
     imageUrl: {
       type: DataTypes.STRING,
@@ -25,9 +18,17 @@ module.exports = function (sequelize, DataTypes) {
       field: 'description'
     },
     postId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       field: 'post_id'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     },
   }, {
     tableName: 'step'
