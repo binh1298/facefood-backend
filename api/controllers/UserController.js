@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {Op} = require("sequelize");
 const {validationResult} = require('express-validator');
+const url = require('url');
 
 import {DefaultError} from '../utils/errorHandler';
 import {JWT_SECRET} from '../configurations';
@@ -90,31 +91,24 @@ module.exports = {
   view: {
     async get(req, res, next) {
       try {
+        const queryData = url.parse(req.url, true).query;
+        if (queryData.username == undefined) {
+          queryData.username = '';
+        }
         const users = await models.User.findAll({
           attributes: [
-            'user_id', 'username', 'email', 'fullname', 'phone_number', 'role_id', 'is_deleted', 'created_at', 'updated_at'
-          ]
-        });
-        res.status(status.OK)
-          .send({
-            status: true,
-            message: users,
-          });
-      } catch (error) {
-        next(error);
-      }
-    }
-  },
-  search: {
-    async get(req, res, next) {
-      try {
-        const users = await models.User.findAll({
-          attributes: [
-            'user_id', 'username', 'email', 'fullname', 'phone_number', 'role_id', 'is_deleted', 'created_at', 'updated_at'
+            'user_id',
+            'username',
+            'email',
+            'fullname',
+            'phone_number',
+            'role_id',
+            'created_at',
+            'updated_at'
           ],
           where: {
             username: {
-              [Op.iLike]: '%' + req.params.username + '%'
+              [Op.iLike]: '%' + queryData.username + '%'
             }
           }
         });
@@ -128,4 +122,33 @@ module.exports = {
       }
     }
   },
+  view_one: {
+    async get(req, res, next) {
+      try {
+        const users = await models.User.findOne({
+            attributes: [
+              'user_id',
+              'username',
+              'email',
+              'fullname',
+              'phone_number',
+              'role_id',
+              'created_at',
+              'updated_at'
+            ],
+            where: {
+              user_id: req.params.userId
+            }
+          },
+        );
+        res.status(status.OK)
+          .send({
+            status: true,
+            message: users,
+          });
+      } catch (error) {
+        next(error);
+      }
+    }
+  }
 };

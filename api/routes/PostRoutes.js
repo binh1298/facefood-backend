@@ -8,11 +8,13 @@
 let express = require('express');
 let Controller = require('../controllers/PostController');
 let router = express.Router();
+const url = require('url');
 
-router.get('/', Controller.index.get);
-router.get('/:postName',Controller.search.get)
+router.get('/', Controller.view.get);
+router.get('/:postId', Controller.view_one.get);
+
 router.post('/', Controller.create.post);
+
 router.put('/delete/:postId', Controller.delete.put);
-router.get('/view/:postId', Controller.view.get);
 
 module.exports = router;

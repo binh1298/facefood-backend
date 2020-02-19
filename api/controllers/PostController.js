@@ -2,24 +2,35 @@
 const models = require('../db/models/index');
 const status = require('http-status');
 const {Op} = require("sequelize");
+const url = require('url');
 
 module.exports = {
-  index: {
+  view: {
     async get(req, res, next) {
       try {
-        const posts = await models.Post.findAll({
-          attributes: [
-            'post_id',
-            'post_name',
-            'description',
-            'time_needed',
-            'is_deleted',
-            'user_id',
-            'category_id',
-            'created_at',
-            'updated_at',
-          ]
-        });
+        const queryData = url.parse(req.url, true).query;
+        if (queryData.postName == undefined) {
+          queryData.postName = '';
+        }
+        const posts = await models.Post
+          .findAll({
+            attributes: [
+              'post_id',
+              'post_name',
+              'description',
+              'time_needed',
+              'is_deleted',
+              'user_id',
+              'category_id',
+              'created_at',
+              'updated_at',
+            ],
+            where: {
+              post_name: {
+                [Op.iLike]: '%' + queryData.postName + '%'
+              }
+            }
+          });
         res.status(status.OK)
           .send({
             success: true,
@@ -50,11 +61,22 @@ module.exports = {
     },
   },
 
-  view: {
+  view_one: {
     async get(req, res, next) {
       try {
-        const post = models.Post
+        const post = await models.Post
           .findOne({
+            attributes: [
+              'post_id',
+              'post_name',
+              'description',
+              'time_needed',
+              'is_deleted',
+              'user_id',
+              'category_id',
+              'created_at',
+              'updated_at',
+            ],
             where: {
               postId: req.params.postId
             }
@@ -86,37 +108,6 @@ module.exports = {
         next(error)
       }
     }
-  },
-  search: {
-    async get(req, res, next) {
-      try {
-        const posts = await models.Post.findAll({
-          attributes: [
-            'post_id',
-            'post_name',
-            'description',
-            'time_needed',
-            'is_deleted',
-            'created_at',
-            'updated_at',
-            'user_id',
-            'category_id'
-          ],
-          where: {
-            post_name: {
-              [Op.iLike]: '%' + req.params.postName + '%'
-            }
-          }
-        });
-        res.status(status.OK)
-          .send({
-            success: true,
-            message: posts
-          });
-      } catch (error) {
-        next(error)
-      }
-    },
   },
 }
 
