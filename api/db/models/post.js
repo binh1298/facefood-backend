@@ -9,20 +9,15 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       field: 'post_id'
     },
+    postName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'post_name'
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: true,
       field: 'description'
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'user_id'
-    },
-    categoryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'category_id'
     },
     timeNeeded: {
       type: DataTypes.INTEGER,
