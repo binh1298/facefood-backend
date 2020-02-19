@@ -27,14 +27,6 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false,
       field: 'is_deleted'
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      field: 'created_at'
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      field: 'updated_at'
-    },
     userId: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -43,6 +35,14 @@ module.exports = function (sequelize, DataTypes) {
     categoryId: {
       type: DataTypes.UUID,
       field: 'category_id'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     },
   }, {
     tableName: 'post',

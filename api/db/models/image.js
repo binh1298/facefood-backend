@@ -12,16 +12,6 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       field: 'image_url'
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: new Date(),
-      field: 'created_at'
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: new Date(),
-      field: 'updated_at'
-    },
     postId: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -31,6 +21,16 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true,
       field: 'step_id'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'updated_at'
     },
   }, {
     tableName: 'image'

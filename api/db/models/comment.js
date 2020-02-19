@@ -7,15 +7,15 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true,
       field: 'comment_id'
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'user_id'
-    },
     content: {
       type: DataTypes.STRING,
       allowNull: false,
       field: 'content'
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'user_id'
     },
     createdAt: {
       type: DataTypes.DATE,

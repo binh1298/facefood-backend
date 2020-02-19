@@ -42,6 +42,11 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false,
       field: 'is_deleted'
     },
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'role_id'
+    },
     createdAt: {
       type: DataTypes.DATE,
       field: 'created_at'
@@ -49,11 +54,6 @@ module.exports = function (sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       field: 'updated_at'
-    },
-    roleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'role_id'
     },
   }, {
     tableName: 'user',

@@ -14,10 +14,10 @@ module.exports = {
             'description',
             'time_needed',
             'is_deleted',
+            'user_id',
+            'category_id',
             'created_at',
             'updated_at',
-            'user_id',
-            'category_id'
           ]
         });
         res.status(status.OK)
