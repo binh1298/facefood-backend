@@ -29,12 +29,10 @@ module.exports = function (sequelize, DataTypes) {
     },
     createdAt: {
       type: DataTypes.DATE,
-      defaultValue: new Date(),
       field: 'created_at'
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: new Date(),
       field: 'updated_at'
     },
     userId: {
@@ -43,7 +41,7 @@ module.exports = function (sequelize, DataTypes) {
       field: 'user_id'
     },
     categoryId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       field: 'category_id'
     },
   }, {

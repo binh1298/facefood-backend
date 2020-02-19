@@ -7,7 +7,19 @@ module.exports = {
   index: {
     async get(req, res, next) {
       try {
-        const posts = await models.Post.findAll({});
+        const posts = await models.Post.findAll({
+          attributes: [
+            'post_id',
+            'post_name',
+            'description',
+            'time_needed',
+            'is_deleted',
+            'created_at',
+            'updated_at',
+            'user_id',
+            'category_id'
+          ]
+        });
         res.status(status.OK)
           .send({
             success: true,
@@ -79,6 +91,17 @@ module.exports = {
     async get(req, res, next) {
       try {
         const posts = await models.Post.findAll({
+          attributes: [
+            'post_id',
+            'post_name',
+            'description',
+            'time_needed',
+            'is_deleted',
+            'created_at',
+            'updated_at',
+            'user_id',
+            'category_id'
+          ],
           where: {
             post_name: {
               [Op.iLike]: '%' + req.params.postName + '%'
