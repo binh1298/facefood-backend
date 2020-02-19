@@ -52,7 +52,12 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       defaultValue: new Date(),
       field: 'updated_at'
-    }
+    },
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'role_id'
+    },
   }, {
     tableName: 'user',
     hooks: {
@@ -72,9 +77,12 @@ module.exports = function (sequelize, DataTypes) {
     models.User.hasMany(models.Post, {
       foreignKey: 'user_id'
     });
-    models.User.hasMany(models.Follow,{
+    models.User.hasMany(models.Follow, {
       foreignKey: 'user_id'
     });
+    models.User.hasMany(models.Like, {
+      foreignKey: 'user_id'
+    })
   }
   return User;
 };

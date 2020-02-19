@@ -18,7 +18,17 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false,
       field: 'uploaded_at'
-    }
+    },
+    postId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'post_id'
+    },
+    stepId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'step_id'
+    },
   }, {
     tableName: 'image'
   });

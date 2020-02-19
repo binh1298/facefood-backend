@@ -23,7 +23,12 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true,
       field: 'description'
-    }
+    },
+    postId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'post_id'
+    },
   }, {
     tableName: 'step'
   });

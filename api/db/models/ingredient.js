@@ -23,7 +23,17 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DOUBLE,
       allowNull: false,
       field: 'cost'
-    }
+    },
+    unitId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'unit_id'
+    },
+    postId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'post_id'
+    },
   }, {
     tableName: 'ingredient'
   });

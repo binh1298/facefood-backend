@@ -6,7 +6,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-			autoIncrement: true,
+      autoIncrement: true,
       field: 'like_id'
     },
     userId: {
@@ -18,7 +18,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'post_id'
-    }
+    },
+    userId: {
+      type: DataTypes.UUID,
+      field: 'user_id',
+    },
   }, {
     tableName: 'like'
   });

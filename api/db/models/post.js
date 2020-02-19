@@ -43,7 +43,16 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       defaultValue: new Date(),
       field: 'created_at'
-    }
+    },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      field: 'user_id'
+    },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      field: 'category_id'
+    },
 
   }, {
     tableName: 'post',
