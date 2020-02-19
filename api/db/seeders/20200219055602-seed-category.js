@@ -9,10 +9,10 @@ module.exports = {
       category_id: 2,
       category_name: "Desserts"
     },
-      {
-        category_id: 3,
-        category_name: "Drinks"
-      }], {});
+    {
+      category_id: 3,
+      category_name: "Drinks"
+    }], {});
   },
 
   down: (queryInterface, Sequelize) => {

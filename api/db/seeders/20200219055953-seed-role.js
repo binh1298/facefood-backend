@@ -6,10 +6,10 @@ module.exports = {
       role_id: 0,
       role_name: 'admin'
     },
-      {
-        role_id: 1,
-        role_name: 'user'
-      }], {});
+    {
+      role_id: 1,
+      role_name: 'user'
+    }], {});
 
   },
 
