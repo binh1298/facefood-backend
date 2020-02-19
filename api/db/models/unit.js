@@ -1,22 +1,34 @@
 /* jshint indent: 1 */
-var Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
-	var Unit = sequelize.define('unit', {
-		unitId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			field: 'unit_id'
-		},
-		name: {
-			type: DataTypes.CHAR,
-			allowNull: false,
-			field: 'name'
-		}
-	}, {
-		tableName: 'unit'
-	});
-	Unit.hasMany(Ingredient, { as: 'ingredient' });
-	return Unit;
+  const Unit = sequelize.define('Unit', {
+    unitId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      primaryKey: true,
+      field: 'unit_id'
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'name'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
+    },
+  }, {
+    tableName: 'unit',
+  });
+
+  Unit.associate = function (models) {
+    models.Unit.hasMany(models.Ingredient, {
+      foreignKey: 'unit_id'
+    });
+  }
+  return Unit;
 };

@@ -1,29 +1,42 @@
 /* jshint indent: 1 */
 
-module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('step', {
-		stepId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			field: 'step_id'
-		},
-		postId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			field: 'post_id'
-		},
-		imageUrl: {
-			type: DataTypes.CHAR,
-			allowNull: true,
-			field: 'image_url'
-		},
-		description: {
-			type: DataTypes.CHAR,
-			allowNull: true,
-			field: 'description'
-		}
-	}, {
-		tableName: 'step'
-	});
+module.exports = function (sequelize, DataTypes) {
+  var Step = sequelize.define('Step', {
+    stepId: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      field: 'step_id'
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'image_url'
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'description'
+    },
+    postId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      field: 'post_id'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
+    },
+  }, {
+    tableName: 'step'
+  });
+  Step.associate = function(models){
+    models.Step.hasMany(models.Image,{
+      foreignKey:"step_id"
+    });
+  }
+  return Step;
 };

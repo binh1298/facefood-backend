@@ -1,54 +1,88 @@
 /* jshint indent: 1 */
-var Post = require('./post.js');
-var Follow = require('./follow.js');
+const bcrypt = require('bcryptjs')
+const uuid = require('uuid/v4');
 
 module.exports = function (sequelize, DataTypes) {
-	var User = sequelize.define('user', {
-		userId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			field: 'user_id'
-		},
-		username: {
-			type: DataTypes.CHAR,
-			allowNull: false,
-			field: 'username'
-		},
-		password: {
-			type: DataTypes.CHAR,
-			allowNull: false,
-			field: 'password'
-		},
-		email: {
-			type: DataTypes.CHAR,
-			allowNull: false,
-			field: 'email'
-		},
-		fullname: {
-			type: DataTypes.CHAR,
-			allowNull: false,
-			field: 'fullname'
-		},
-		phoneNumber: {
-			type: DataTypes.CHAR,
-			allowNull: false,
-			field: 'phone_number'
-		},
-		roleId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			field: 'role_id'
-		},
-		isDeleted: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			field: 'is_deleted'
-		}
-	}, {
-		tableName: 'user'
-	});
-	User.hasMany(Post, { as: 'post' });
-	User.hasMany(Follow, { as: 'follow' });
-	return user;
+  var User = sequelize.define('User', {
+    userId: {
+      type: DataTypes.UUID,
+      defaultValue: uuid(),
+      primaryKey: true,
+      field: 'user_id',
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'username'
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'password'
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'email'
+    },
+    fullname: {
+      type: DataTypes.STRING,
+      field: 'fullname'
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      field: 'phone_number'
+    },
+    roleId: {
+      type: DataTypes.INTEGER,
+      field: 'role_id'
+    },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      field: 'is_deleted'
+    },
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'role_id'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
+    },
+  }, {
+    tableName: 'user',
+    hooks: {
+      // This hook is called when an entry is being added to the back end.
+      // This method is used to hash the password before storing it
+      // in our database.
+      beforeCreate: (user, options) => {
+        const SALT_WORK_FACTOR = 10;
+        const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
+        const hash = bcrypt.hashSync(user.password, salt);
+        user.password = hash;
+      }
+    }
+  });
+
+  User.associate = function (models) {
+    models.User.hasMany(models.Post, {
+      foreignKey: 'user_id'
+    });
+    models.User.hasMany(models.Follow, {
+      foreignKey: 'user_id'
+    });
+    models.User.hasMany(models.Like, {
+      foreignKey: 'user_id'
+    })
+    models.User.hasMany(models.Comment, {
+      foreignKey: 'user_id'
+    })
+  }
+  return User;
 };

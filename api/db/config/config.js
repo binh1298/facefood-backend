@@ -1,27 +1,21 @@
-require('dotenv').config();
+const {POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT} = require("../../configurations");
 
 module.exports = {
   development: {
-    database: 'facefood_database',
-    username: 'username',
-    password: 'password',
-    host: '127.0.0.1',
-    dialect: 'postgres'
-  },
-
-  test: {
-    database: 'facefood_test',
-    username: 'admin',
-    password: 'admin',
-    host: '127.0.0.1',
+    database: POSTGRES_DB,
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    host: POSTGRES_HOST,
+    port: POSTGRES_PORT,
     dialect: 'postgres'
   },
 
   production: {
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    host: process.env.DB_HOST,
+    database: POSTGRES_DB,
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    host: POSTGRES_HOST,
+    port: POSTGRES_PORT,
     dialect: 'postgres'
   }
 };

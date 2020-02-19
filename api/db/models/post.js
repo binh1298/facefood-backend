@@ -1,48 +1,74 @@
 /* jshint indent: 1 */
-var Like = require('./like.js');
-var Comment = require('./comment.js');
-var Step = require('./step.js');
-var Ingredient = require('./ingredient.js');
 
 module.exports = function (sequelize, DataTypes) {
-	var Post = sequelize.define('post', {
-		postId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			field: 'post_id'
-		},
-		description: {
-			type: DataTypes.STRING,
-			allowNull: true,
-			field: 'description'
-		},
-		userId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			field: 'user_id'
-		},
-		categoryId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			field: 'category_id'
-		},
-		createdAt: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			field: 'created_at'
-		},
-		timeNeeded: {
-			type: DataTypes.INTEGER,
-			allowNull: true,
-			field: 'time_needed'
-		}
-	}, {
-		tableName: 'post'
-	});
-	Post.hasMany(Like, { as: 'like' });
-	Post.hasMany(Comment, { as: 'comment' });
-	Post.hasMany(Step, { as: 'step' });
-	Post.hasMany(Ingredient, { as: 'ingredient' });
-	return Post;
+  const Post = sequelize.define('Post', {
+    postId: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      field: 'post_id'
+    },
+    postName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'post_name'
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'description'
+    },
+    timeNeeded: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'time_needed'
+    },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      field: 'is_deleted'
+    },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      field: 'user_id'
+    },
+    categoryId: {
+      type: DataTypes.UUID,
+      field: 'category_id'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
+    },
+  }, {
+    tableName: 'post',
+  });
+  Post.associate = function (models) {
+    // models.Post.belongsTo(models.User, {
+    //   onDelete: "CASCADE",
+    //   foreignKey: {
+    //     allowNull: false
+    //   }
+    // });
+    models.Post.hasMany(models.Like, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Comment, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Step, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Ingredient, {
+      foreignKey: "post_id"
+    });
+    models.Post.hasMany(models.Image, {
+      foreignKey: "post_id"
+    });
+  }
+  return Post;
 };
