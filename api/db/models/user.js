@@ -57,8 +57,8 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     tableName: 'user',
     associate: function () {
-      User.hasMany(Post, {as: 'posts', foreignKey: 'userId'});
-      User.hasMany(Follow, {as: 'follows', foreignKey: 'userId'});
+      User.hasMany(Post, {as: 'posts', foreignKey: 'user_id'});
+      User.hasMany(Follow, {as: 'follows', foreignKey: 'user_id'});
     },
     hooks: {
       // This hook is called when an entry is being added to the back end.

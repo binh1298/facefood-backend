@@ -3,6 +3,7 @@ const Like = require('./like.js');
 const Comment = require('./comment.js');
 const Step = require('./step.js');
 const Ingredient = require('./ingredient.js');
+const User = require('./user.js');
 
 module.exports = function (sequelize, DataTypes) {
   const Post = sequelize.define('Post', {
@@ -52,6 +53,7 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     tableName: 'post',
     associate: function () {
+      Post.belongsTo(User,{foreignKey:'post_id'});
       Post.hasMany(Like, {as: 'likes', foreignKey: 'postId'});
       Post.hasMany(Comment, {as: 'comments', foreignKey: 'postId'});
       Post.hasMany(Step, {as: 'steps', foreignKey: 'postId'});
