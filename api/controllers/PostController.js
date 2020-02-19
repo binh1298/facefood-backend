@@ -12,6 +12,10 @@ module.exports = {
         if (queryData.postName == undefined) {
           queryData.postName = '';
         }
+        if (queryData.order == undefined) {
+          queryData.order = 'created_at,asc'
+        }
+        const orderOptions = queryData.order.split(",");
         const posts = await models.Post
           .findAll({
             attributes: [
@@ -28,7 +32,10 @@ module.exports = {
               post_name: {
                 [Op.iLike]: '%' + queryData.postName + '%'
               }
-            }
+            },
+            order: [
+              [orderOptions[0], orderOptions[1]],
+            ]
           });
         res.status(status.OK)
           .send({

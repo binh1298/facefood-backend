@@ -95,6 +95,10 @@ module.exports = {
         if (queryData.username == undefined) {
           queryData.username = '';
         }
+        if (queryData.order == undefined) {
+          queryData.order = 'created_at,asc'
+        }
+        const orderOptions = queryData.order.split(",");
         const users = await models.User.findAll({
           attributes: [
             'user_id',
@@ -110,7 +114,10 @@ module.exports = {
             username: {
               [Op.iLike]: '%' + queryData.username + '%'
             }
-          }
+          },
+          order: [
+            [orderOptions[0], orderOptions[1]],
+          ]
         });
         res.status(status.OK)
           .send({
