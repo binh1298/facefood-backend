@@ -1,7 +1,5 @@
 /* jshint indent: 1 */
 const bcrypt = require('bcryptjs')
-const Post = require('./post.js');
-const Follow = require('./follow.js');
 const uuid = require('uuid/v4');
 
 module.exports = function (sequelize, DataTypes) {
@@ -44,6 +42,7 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false,
       field: 'is_deleted'
     },
+
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: new Date(),
@@ -56,10 +55,6 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'user',
-    associate: function () {
-      User.hasMany(Post, {as: 'posts', foreignKey: 'user_id'});
-      User.hasMany(Follow, {as: 'follows', foreignKey: 'user_id'});
-    },
     hooks: {
       // This hook is called when an entry is being added to the back end.
       // This method is used to hash the password before storing it
@@ -72,5 +67,14 @@ module.exports = function (sequelize, DataTypes) {
       }
     }
   });
+
+  User.associate = function (models) {
+    models.User.hasMany(models.Post, {
+      foreignKey: 'user_id'
+    });
+    models.User.hasMany(models.Follow,{
+      foreignKey: 'user_id'
+    });
+  }
   return User;
 };

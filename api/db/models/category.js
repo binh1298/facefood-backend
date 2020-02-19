@@ -1,5 +1,4 @@
 /* jshint indent: 1 */
-const Post = require('./post.js');
 
 module.exports = function (sequelize, DataTypes) {
   const Category = sequelize.define('Category', {
@@ -16,9 +15,12 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'category',
-    associate: function () {
-      Category.hasMany(Post, {as: 'posts', foreignKey: 'categoryId'})
-    }
   });
+
+  Category.associate = function(models){
+    models.Category.hasMany(models.Post,{
+      foreignKey:'category_id'
+    });
+  }
   return Category;
 };

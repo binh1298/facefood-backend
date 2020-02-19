@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true,
 			autoIncrement: true,
-      field: 'post_id'
+      field: 'comment_id'
     },
     userId: {
       type: DataTypes.INTEGER,

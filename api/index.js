@@ -6,8 +6,7 @@ import cors from 'cors';
 import { handleError } from './utils/errorHandler';
 import db from './db/models';
 import passport from 'passport';
-
-require('dotenv').config();
+import { FRONTEND_URL } from './configurations';
 
 db.sequelize.authenticate()
   .then(() => {
@@ -22,7 +21,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: FRONTEND_URL,
     credentials: true,
   })
 );
@@ -32,7 +31,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 require('./services/passport')(passport);
-
 
 app.get('/', (req, res) => res.status(200).send({
   message: 'Welcome to this API.'

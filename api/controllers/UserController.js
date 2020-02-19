@@ -2,9 +2,11 @@
 const models = require('../db/models/index');
 const status = require('http-status');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const {validationResult} = require('express-validator');
 import {DefaultError} from '../utils/errorHandler';
+import { JWT_SECRET } from '../configurations';
 
 module.exports = {
   // Public Routes
@@ -15,16 +17,17 @@ module.exports = {
           where: {
             username: req.body.username,
           },
-          attributes: ['username', 'password'],
+          attributes: ['username', 'password', 'userId'],
         });
         if (!user) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
         const isValidPassword = bcrypt.compareSync(req.body.password, user.password);
         if (!isValidPassword) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
-
+        const {userId, username, roleName = 'admin' } = user;
+        const token = jwt.sign({userId, username, roleName}, JWT_SECRET);
         return res.status(status.OK).send({
-          success: true,
+          status: true,
           message: "Login successfully.",
-          user
+          token
         });
       } catch (error) {
         next(error);
@@ -38,8 +41,9 @@ module.exports = {
         if (!errors.isEmpty()) {
           throw new DefaultError(status.BAD_REQUEST, 'Please enter valid values!', errors.array());
         }
+        const { email, username, password, confirmPassword } = req.body;
         const duplicateUser = await models.User.findOne({
-          where: {username: req.body.username},
+          where: {username},
           attributes: ['username']
         });
         if (duplicateUser) {
@@ -47,9 +51,15 @@ module.exports = {
         }
 
         if (!duplicateUser) {
-          const user = await models.User.create(req.body);
+          const user = await models.User.create({
+            email,
+            username,
+            password,
+            roleId: 2,
+            tokens: [],
+          });
           res.status(status.CREATED).send({
-            success: true,
+            status: true,
             user: user,
             message: 'Register successful.',
           });
@@ -70,7 +80,7 @@ module.exports = {
         });
         if (!user) throw new DefaultError(status.BAD_REQUEST, 'Invalid user');
         return res.status(status.OK).send({
-          success: true,
+          status: true,
           user
         });
       } catch (error) {
@@ -81,10 +91,14 @@ module.exports = {
   view: {
     async get(req, res, next) {
       try {
-        const users = await models.User.findAll({});
+        const users = await models.User.findAll({
+          attributes:[
+            'user_id', 'username','email','fullname','phone_number','role_id','is_deleted','created_at','updated_at'
+          ]
+        });
         res.status(status.OK)
           .send({
-            success: true,
+            status: true,
             message: users,
           });
       } catch (error) {
