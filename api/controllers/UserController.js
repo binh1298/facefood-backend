@@ -125,7 +125,7 @@ module.exports = {
   view_one: {
     async get(req, res, next) {
       try {
-        const users = await models.User.findOne({
+        const user = await models.User.findOne({
             attributes: [
               'user_id',
               'username',
@@ -137,14 +137,14 @@ module.exports = {
               'updated_at'
             ],
             where: {
-              user_id: req.params.userId
+              username: req.params.username
             }
           },
         );
         res.status(status.OK)
           .send({
             status: true,
-            message: users,
+            message: user,
           });
       } catch (error) {
         next(error);
