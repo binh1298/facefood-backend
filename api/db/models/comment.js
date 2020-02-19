@@ -19,10 +19,13 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       field: 'content'
     },
-    postId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'post_id'
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     },
   }, {
     tableName: 'comment'
