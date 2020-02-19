@@ -22,13 +22,13 @@ module.exports = {
       updated_at: new Date()
     }, {
       step_id: 'c42002b4-2670-4f5a-a6e2-128366411e4d',
-      post_id: '002cf14a-9cab-42fc-aa9a-502ee7e2dd22',
+      post_id: '470d1869-1308-492e-9684-4cd7cb4552a0',
       description: 'Step 4: Hello World',
       created_at: new Date(),
       updated_at: new Date()
     }, {
       step_id: '7424097d-d4f1-46b3-a143-2104574f65ce',
-      post_id: '002cf14a-9cab-42fc-aa9a-502ee7e2dd22',
+      post_id: '470d1869-1308-492e-9684-4cd7cb4552a0',
       description: 'Step 5: SpacePotato',
       created_at: new Date(),
       updated_at: new Date()
