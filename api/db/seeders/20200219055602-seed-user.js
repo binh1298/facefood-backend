@@ -1,0 +1,53 @@
+'use strict';
+
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert('user', [{
+      user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
+      username: 'SpacePotato',
+      password: 'potatopassword',
+      email: 'space@potato.com',
+      created_at: new Date(),
+      updated_at: new Date(),
+      role_id: 1
+    },
+      {
+        user_id: '9903c282-06ed-48fe-9607-76e7903f6b72',
+        username: 'BinhPham',
+        password: 'binhphampassword',
+        email: 'binh@pham.com',
+        created_at: new Date(),
+        updated_at: new Date(),
+        role_id: 0
+      },
+      {
+        user_id: 'ef71e125-37b5-4a5f-87e1-fdda43a4ccb2',
+        username: 'DucPhi',
+        password: 'ducphipassword',
+        email: 'duc@phi.com',
+        created_at: new Date(),
+        updated_at: new Date(),
+        role_id: 0
+      },
+      {
+        user_id: 'da9c7b32-0f05-48f7-b74d-d052df2347d2',
+        username: 'LocTrinh',
+        password: 'loctrinhpassword',
+        email: 'loc@trinh.com',
+        created_at: new Date(),
+        updated_at: new Date(),
+        role_id: 0
+      }
+    ]);
+  },
+
+  down: (queryInterface, Sequelize) => {
+    /*
+      Add reverting commands here.
+      Return a promise to correctly handle asynchronicity.
+
+      Example:
+      return queryInterface.bulkDelete('People', null, {});
+    */
+  }
+};
