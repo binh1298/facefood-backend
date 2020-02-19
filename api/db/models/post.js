@@ -37,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       defaultValue: new Date(),
-      field: 'created_at'
+      field: 'updated_at'
     },
     userId: {
       type: DataTypes.UUID,

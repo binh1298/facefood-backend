@@ -16,18 +16,20 @@ const publicRuntimeConfig = {
   JWT_SECRET: process.env.JWT_SECRET,
 };
 
-export const {
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_DB,
-  POSTGRES_HOST,
-  POSTGRES_PORT,
+module.exports = publicRuntimeConfig;
 
-  FRONTEND_URL,
-  HOST,
-  PORT,
+// export const {
+//   POSTGRES_USER,
+//   POSTGRES_PASSWORD,
+//   POSTGRES_DB,
+//   POSTGRES_HOST,
+//   POSTGRES_PORT,
+//
+//   FRONTEND_URL,
+//   HOST,
+//   PORT,
+//
+//   JWT_SECRET,
+// } = publicRuntimeConfig;
 
-  JWT_SECRET,
-} = publicRuntimeConfig;
-
-export default publicRuntimeConfig.NODE_ENV === 'production';
+module.exports.default = publicRuntimeConfig.NODE_ENV === 'production';

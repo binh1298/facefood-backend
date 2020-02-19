@@ -1,4 +1,4 @@
-import { POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT } from '../../configurations';
+const {POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT} = require("../../configurations");
 
 module.exports = {
   development: {

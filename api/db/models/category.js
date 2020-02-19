@@ -12,14 +12,24 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       field: 'category_name'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
     }
   }, {
     tableName: 'category',
   });
 
-  Category.associate = function(models){
-    models.Category.hasMany(models.Post,{
-      foreignKey:'category_id'
+  Category.associate = function (models) {
+    models.Category.hasMany(models.Post, {
+      foreignKey: 'category_id'
     });
   }
   return Category;
