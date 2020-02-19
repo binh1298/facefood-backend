@@ -1,6 +1,7 @@
 'use strict';
 const models = require('../db/models/index');
 const status = require('http-status');
+const {Op} = require("sequelize");
 
 module.exports = {
   index: {
@@ -73,6 +74,26 @@ module.exports = {
         next(error)
       }
     }
+  },
+  search: {
+    async get(req, res, next) {
+      try {
+        const posts = await models.Post.findAll({
+          where: {
+            post_name: {
+              [Op.iLike]: '%' + req.params.postName + '%'
+            }
+          }
+        });
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: posts
+          });
+      } catch (error) {
+        next(error)
+      }
+    },
   },
 }
 

@@ -3,10 +3,11 @@ const models = require('../db/models/index');
 const status = require('http-status');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const {Op} = require("sequelize");
 const {validationResult} = require('express-validator');
+
 import {DefaultError} from '../utils/errorHandler';
-import { JWT_SECRET } from '../configurations';
+import {JWT_SECRET} from '../configurations';
 
 module.exports = {
   // Public Routes
@@ -22,7 +23,7 @@ module.exports = {
         if (!user) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
         const isValidPassword = bcrypt.compareSync(req.body.password, user.password);
         if (!isValidPassword) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
-        const {userId, username, roleName = 'admin' } = user;
+        const {userId, username, roleName = 'admin'} = user;
         const token = jwt.sign({userId, username, roleName}, JWT_SECRET);
         return res.status(status.OK).send({
           status: true,
@@ -41,7 +42,7 @@ module.exports = {
         if (!errors.isEmpty()) {
           throw new DefaultError(status.BAD_REQUEST, 'Please enter valid values!', errors.array());
         }
-        const { email, username, password, confirmPassword } = req.body;
+        const {email, username, password, confirmPassword} = req.body;
         const duplicateUser = await models.User.findOne({
           where: {username},
           attributes: ['username']
@@ -90,9 +91,32 @@ module.exports = {
     async get(req, res, next) {
       try {
         const users = await models.User.findAll({
-          attributes:[
-            'user_id', 'username','email','fullname','phone_number','role_id','is_deleted','created_at','updated_at'
+          attributes: [
+            'user_id', 'username', 'email', 'fullname', 'phone_number', 'role_id', 'is_deleted', 'created_at', 'updated_at'
           ]
+        });
+        res.status(status.OK)
+          .send({
+            status: true,
+            message: users,
+          });
+      } catch (error) {
+        next(error);
+      }
+    }
+  },
+  search: {
+    async get(req, res, next) {
+      try {
+        const users = await models.User.findAll({
+          attributes: [
+            'user_id', 'username', 'email', 'fullname', 'phone_number', 'role_id', 'is_deleted', 'created_at', 'updated_at'
+          ],
+          where: {
+            username: {
+              [Op.iLike]: '%' + req.params.username + '%'
+            }
+          }
         });
         res.status(status.OK)
           .send({

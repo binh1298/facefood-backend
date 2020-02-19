@@ -12,6 +12,15 @@ module.exports = {
       role_id: 1
     },
       {
+        user_id: 'bfad3537-875c-4bf2-bb97-41c00b912d76',
+        username: 'Potato',
+        password: 'potatopassword',
+        email: 'potato@potato.com',
+        created_at: new Date(),
+        updated_at: new Date(),
+        role_id: 1
+      },
+      {
         user_id: '9903c282-06ed-48fe-9607-76e7903f6b72',
         username: 'BinhPham',
         password: 'binhphampassword',

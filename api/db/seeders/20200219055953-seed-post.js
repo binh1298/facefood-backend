@@ -23,6 +23,16 @@ module.exports = {
         updated_at: new Date(),
         category_id: '472a49b0-8390-4718-a5ec-ea04629b31a1',
         user_id: '468ab892-7518-4520-8243-db1c1b9607dd'
+      }, {
+        post_id: '470d1869-1308-492e-9684-4cd7cb4552a0',
+        post_name: "Potato Post 2",
+        description: "THIS IS 2ND DESCRIPTION OF POTATO!",
+        time_needed: 100,
+        is_deleted: false,
+        created_at: new Date(),
+        updated_at: new Date(),
+        category_id: '472a49b0-8390-4718-a5ec-ea04629b31a1',
+        user_id: '468ab892-7518-4520-8243-db1c1b9607dd'
       }], {});
   },
 
