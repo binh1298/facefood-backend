@@ -11,7 +11,8 @@ module.exports = {
       created_at: new Date(),
       updated_at: new Date(),
       category_id: 1
-    }, {
+    }, 
+    {
       post_id: 2,
       post_name: "Khoai 2",
       description: "Day la muc mieu ta cua bai dang Khoai 2.",

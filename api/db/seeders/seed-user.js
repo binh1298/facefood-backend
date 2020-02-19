@@ -11,30 +11,30 @@ module.exports = {
       created_at: new Date(),
       updated_at: new Date()
     },
-      {
-        user_id: uuid(),
-        username: 'BinhPham',
-        password: 'binhphampassword',
-        email: 'binh@pham.com',
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
-        user_id: uuid(),
-        username: 'DucPhi',
-        password: 'ducphipassword',
-        email: 'duc@phi.com',
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
-        user_id: uuid(),
-        username: 'LocTrinh',
-        password: 'loctrinhpassword',
-        email: 'loc@trinh.com',
-        created_at: new Date(),
-        updated_at: new Date()
-      }
+    {
+      user_id: uuid(),
+      username: 'BinhPham',
+      password: 'binhphampassword',
+      email: 'binh@pham.com',
+      created_at: new Date(),
+      updated_at: new Date()
+    },
+    {
+      user_id: uuid(),
+      username: 'DucPhi',
+      password: 'ducphipassword',
+      email: 'duc@phi.com',
+      created_at: new Date(),
+      updated_at: new Date()
+    },
+    {
+      user_id: uuid(),
+      username: 'LocTrinh',
+      password: 'loctrinhpassword',
+      email: 'loc@trinh.com',
+      created_at: new Date(),
+      updated_at: new Date()
+    }
     ]);
   },
 

@@ -51,16 +51,14 @@ module.exports = {
         }
 
         if (!duplicateUser) {
-          const user = await models.User.create({
+          await models.User.create({
             email,
             username,
             password,
             roleId: 2,
-            tokens: [],
           });
           res.status(status.CREATED).send({
             status: true,
-            user: user,
             message: 'Register successful.',
           });
         }
