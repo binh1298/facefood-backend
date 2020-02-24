@@ -10,7 +10,7 @@ module.exports = {
       email: 'space@potato.com',
       created_at: new Date(),
       updated_at: new Date(),
-      role_id: 1
+      role_id: 0
     },
       {
         user_id: 'bfad3537-875c-4bf2-bb97-41c00b912d76',
@@ -44,10 +44,10 @@ module.exports = {
       },
       {
         user_id: 'da9c7b32-0f05-48f7-b74d-d052df2347d2',
-        username: 'LocTrinh',
-        fullname: 'Trinh Thien Loc',
-        password: 'loctrinhpassword',
-        email: 'loc@trinh.com',
+        username: 'LocTran',
+        fullname: 'Tran Thien Loc',
+        password: 'loctranpassword',
+        email: 'loc@tran.com',
         created_at: new Date(),
         updated_at: new Date(),
         role_id: 0

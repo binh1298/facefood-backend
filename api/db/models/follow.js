@@ -3,17 +3,19 @@
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Follow', {
     followId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       field: 'follow_id'
     },
+    //The UserID which is following the followingID
     followerId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       field: 'follower_id'
     },
+    //The UserID which is followed by followerID
     followingId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       field: 'following_id'
     },
