@@ -57,7 +57,7 @@ module.exports = {
             email,
             username,
             password,
-            roleId: 0,
+            roleId: 1,
           });
           res.status(status.CREATED).send({
             status: true,
