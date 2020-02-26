@@ -4,11 +4,11 @@ const Router = [
     handler: require('./RootRoutes'),
   },
   {
-    path: '/user',
+    path: '/users',
     handler: require('./UserRoutes'),
   },
   {
-    path: '/post',
+    path: '/posts',
     handler: require('./PostRoutes'),
   },
 

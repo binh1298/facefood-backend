@@ -15,6 +15,6 @@ router.get('/:postId', Controller.view_one.get);
 
 router.post('/', Controller.create.post);
 
-router.put('/delete/:postId', Controller.delete.put);
+router.put('/:postId', Controller.set_avail_status.put);
 
 module.exports = router;

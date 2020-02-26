@@ -36,6 +36,7 @@ module.exports = {
       }
     }
   },
+
   register: {
     async post(req, res, next) {
       try {
@@ -88,6 +89,7 @@ module.exports = {
       }
     }
   },
+
   view: {
     async get(req, res, next) {
       try {
@@ -95,22 +97,30 @@ module.exports = {
         if (queryData.username == undefined) {
           queryData.username = '';
         }
+        if (queryData.order == undefined) {
+          queryData.order = 'created_at,asc'
+        }
+        const orderOptions = queryData.order.split(",");
         const users = await models.User.findAll({
           attributes: [
-            'user_id',
+            'userId',
             'username',
             'email',
             'fullname',
-            'phone_number',
-            'role_id',
-            'created_at',
-            'updated_at'
+            'phoneNumber',
+            'roleId',
+            'isDeleted',
+            'createdAt',
+            'updatedAt'
           ],
           where: {
             username: {
               [Op.iLike]: '%' + queryData.username + '%'
             }
-          }
+          },
+          order: [
+            [orderOptions[0], orderOptions[1]],
+          ]
         });
         res.status(status.OK)
           .send({
@@ -122,19 +132,21 @@ module.exports = {
       }
     }
   },
+
   view_one: {
     async get(req, res, next) {
       try {
         const user = await models.User.findOne({
             attributes: [
-              'user_id',
+              'userId',
               'username',
               'email',
               'fullname',
-              'phone_number',
-              'role_id',
-              'created_at',
-              'updated_at'
+              'phoneNumber',
+              'roleId',
+              'isDeleted',
+              'createdAt',
+              'updatedAt'
             ],
             where: {
               username: req.params.username
@@ -150,5 +162,38 @@ module.exports = {
         next(error);
       }
     }
-  }
+  },
+
+  set_avail_status: {
+    async put(req, res, next) {
+      try {
+        const user = await models.User.findOne({
+            attributes: [
+              'is_deleted',
+            ],
+            where: {
+              username: req.params.username
+            }
+          },
+        );
+        const newStatus = !user.dataValues.is_deleted;
+        const result = await models.User.update(
+          {isDeleted: newStatus},
+          {
+            where: {
+              username: req.params.username
+            }
+          }
+        );
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: result
+          });
+      } catch (error) {
+        next(error)
+      }
+    }
+  },
+
 };

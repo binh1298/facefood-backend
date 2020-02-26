@@ -13,4 +13,5 @@ let { isAdmin } = require('../middlewares/authorization');
 router.get('/', passport.authenticate('jwt', { session: false }), isAdmin, Controller.view.get);
 router.get('/:username', Controller.view_one.get);
 
+router.put('/:username',Controller.set_avail_status.put);
 module.exports = router;

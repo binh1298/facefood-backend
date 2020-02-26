@@ -12,23 +12,31 @@ module.exports = {
         if (queryData.postName == undefined) {
           queryData.postName = '';
         }
+        if (queryData.order == undefined) {
+          queryData.order = 'created_at,asc'
+        }
+        const orderOptions = queryData.order.split(",");
         const posts = await models.Post
           .findAll({
             attributes: [
-              'post_id',
-              'post_name',
+              'postId',
+              'postName',
               'description',
-              'time_needed',
-              'user_id',
-              'category_id',
-              'created_at',
-              'updated_at',
+              'timeNeeded',
+              'userId',
+              'categoryId',
+              'isDeleted',
+              'createdAt',
+              'updatedAt',
             ],
             where: {
               post_name: {
                 [Op.iLike]: '%' + queryData.postName + '%'
               }
-            }
+            },
+            order: [
+              [orderOptions[0], orderOptions[1]],
+            ]
           });
         res.status(status.OK)
           .send({
@@ -66,14 +74,15 @@ module.exports = {
         const post = await models.Post
           .findOne({
             attributes: [
-              'post_id',
-              'post_name',
+              'postId',
+              'postName',
               'description',
-              'time_needed',
-              'user_id',
-              'category_id',
-              'created_at',
-              'updated_at',
+              'timeNeeded',
+              'userId',
+              'categoryId',
+              'isDeleted',
+              'createdAt',
+              'updatedAt',
             ],
             where: {
               postId: req.params.postId
@@ -107,6 +116,40 @@ module.exports = {
       }
     }
   },
-}
+
+  set_avail_status: {
+    async put(req, res, next) {
+      try {
+        const post = await models.Post.findOne({
+            attributes: [
+              'is_deleted',
+            ],
+            where: {
+              postId: req.params.postId
+            }
+          },
+        );
+        console.log(post.dataValues.is_deleted);
+        const newStatus = !post.dataValues.is_deleted;
+        const result = await models.Post.update(
+          {isDeleted: newStatus},
+          {
+            where: {
+              postId: req.params.postId
+            }
+          }
+        );
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: result
+          });
+      } catch (error) {
+        next(error)
+      }
+    }
+  },
+
+};
 
 
