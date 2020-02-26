@@ -109,6 +109,7 @@ module.exports = {
             'fullname',
             'phone_number',
             'role_id',
+            'is_deleted',
             'created_at',
             'updated_at'
           ],
@@ -143,6 +144,7 @@ module.exports = {
               'fullname',
               'phone_number',
               'role_id',
+              'is_deleted',
               'created_at',
               'updated_at'
             ],
