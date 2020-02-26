@@ -51,7 +51,17 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
         role_id: 0
-      }
+      },
+      {
+        user_id: '513a3d36-ff0d-45cb-a052-a554602fe5a0',
+        username: 'admin',
+        password: 'admin',
+        fullname: 'Full Admin Name',
+        email: 'admin@admin.com',
+        created_at: new Date(),
+        updated_at: new Date(),
+        role_id: 0
+      },
     ]);
   },
 
