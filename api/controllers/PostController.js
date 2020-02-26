@@ -19,15 +19,15 @@ module.exports = {
         const posts = await models.Post
           .findAll({
             attributes: [
-              'post_id',
-              'post_name',
+              'postId',
+              'postName',
               'description',
-              'time_needed',
-              'user_id',
-              'category_id',
-              'is_deleted',
-              'created_at',
-              'updated_at',
+              'timeNeeded',
+              'userId',
+              'categoryId',
+              'isDeleted',
+              'createdAt',
+              'updatedAt',
             ],
             where: {
               post_name: {
@@ -74,15 +74,15 @@ module.exports = {
         const post = await models.Post
           .findOne({
             attributes: [
-              'post_id',
-              'post_name',
+              'postId',
+              'postName',
               'description',
-              'time_needed',
-              'user_id',
-              'category_id',
-              'is_deleted',
-              'created_at',
-              'updated_at',
+              'timeNeeded',
+              'userId',
+              'categoryId',
+              'isDeleted',
+              'createdAt',
+              'updatedAt',
             ],
             where: {
               postId: req.params.postId

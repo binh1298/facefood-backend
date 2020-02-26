@@ -103,15 +103,15 @@ module.exports = {
         const orderOptions = queryData.order.split(",");
         const users = await models.User.findAll({
           attributes: [
-            'user_id',
+            'userId',
             'username',
             'email',
             'fullname',
-            'phone_number',
-            'role_id',
-            'is_deleted',
-            'created_at',
-            'updated_at'
+            'phoneNumber',
+            'roleId',
+            'isDeleted',
+            'createdAt',
+            'updatedAt'
           ],
           where: {
             username: {
@@ -138,15 +138,15 @@ module.exports = {
       try {
         const user = await models.User.findOne({
             attributes: [
-              'user_id',
+              'userId',
               'username',
               'email',
               'fullname',
-              'phone_number',
-              'role_id',
-              'is_deleted',
-              'created_at',
-              'updated_at'
+              'phoneNumber',
+              'roleId',
+              'isDeleted',
+              'createdAt',
+              'updatedAt'
             ],
             where: {
               username: req.params.username
