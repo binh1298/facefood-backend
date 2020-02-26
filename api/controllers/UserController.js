@@ -36,6 +36,7 @@ module.exports = {
       }
     }
   },
+
   register: {
     async post(req, res, next) {
       try {
@@ -88,6 +89,7 @@ module.exports = {
       }
     }
   },
+
   view: {
     async get(req, res, next) {
       try {
@@ -129,6 +131,7 @@ module.exports = {
       }
     }
   },
+
   view_one: {
     async get(req, res, next) {
       try {
@@ -157,5 +160,38 @@ module.exports = {
         next(error);
       }
     }
-  }
+  },
+
+  set_avail_status: {
+    async put(req, res, next) {
+      try {
+        const user = await models.User.findOne({
+            attributes: [
+              'is_deleted',
+            ],
+            where: {
+              username: req.params.username
+            }
+          },
+        );
+        const newStatus = !user.dataValues.is_deleted;
+        const result = await models.User.update(
+          {isDeleted: newStatus},
+          {
+            where: {
+              username: req.params.username
+            }
+          }
+        );
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: result
+          });
+      } catch (error) {
+        next(error)
+      }
+    }
+  },
+
 };

@@ -114,6 +114,40 @@ module.exports = {
       }
     }
   },
-}
+
+  set_avail_status: {
+    async put(req, res, next) {
+      try {
+        const post = await models.Post.findOne({
+            attributes: [
+              'is_deleted',
+            ],
+            where: {
+              postId: req.params.postId
+            }
+          },
+        );
+        console.log(post.dataValues.is_deleted);
+        const newStatus = !post.dataValues.is_deleted;
+        const result = await models.Post.update(
+          {isDeleted: newStatus},
+          {
+            where: {
+              postId: req.params.postId
+            }
+          }
+        );
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: result
+          });
+      } catch (error) {
+        next(error)
+      }
+    }
+  },
+
+};
 
 
