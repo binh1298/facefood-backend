@@ -33,10 +33,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       field: 'phone_number'
     },
-    roleId: {
-      type: DataTypes.INTEGER,
-      field: 'role_id'
-    },
     isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
