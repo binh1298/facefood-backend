@@ -8,10 +8,10 @@ module.exports = function (sequelize, DataTypes) {
       field: 'follow_id'
     },
     //The UserID which is following the followingID
-    followerId: {
+      userId: {
       type: DataTypes.UUID,
       allowNull: false,
-      field: 'follower_id'
+      field: 'user_id'
     },
     //The UserID which is followed by followerID
     followingId: {

@@ -113,24 +113,29 @@ module.exports = {
             'isDeleted',
             'createdAt',
             'updatedAt',
-            [sequelize.fn('COUNT', sequelize.col('Posts.user_id')), 'totalPosts'],
-            //[sequelize.fn('COUNT', sequelize.col('Posts.Like.post_id')), 'totalLike '],
-            //[sequelize.fn('COUNT', sequelize.col('Posts.Comment.post_id')), 'totalComments'],
+            [sequelize.fn('COUNT', sequelize.col('Posts->Likes.like_id')), 'totalLikes'],
+            [sequelize.fn('COUNT', sequelize.col('Posts->Comments.comment_id')), 'totalComments'],
+            [sequelize.fn('COUNT', sequelize.col('Follows.user_id')), 'totalFollowers'],
+            [sequelize.fn('COUNT', sequelize.col('Follows.following_id')), 'totalFollowings'],
           ],
           include: [{
             model: models.Post,
-            attributes: ['post_id'],
+            attributes: [],
             include: [
               {
                 model: models.Like,
-                attributes: ['like_id'],
+                attributes: [],
               },
               {
                 model: models.Comment,
-                attributes: ['comment_id'],
+                attributes: [],
               }
             ],
-          }],
+          }, {
+            model: models.Follow,
+            attributes: [],
+          }
+          ],
           where: {
             username: {
               [Op.iLike]: '%' + queryData.username + '%'
@@ -139,7 +144,8 @@ module.exports = {
           order: [
             [orderOptions[0], orderOptions[1]],
           ],
-          group: ['User.user_id', 'Posts.post_id', 'Posts->Likes.like_id', 'Posts->Comments.comment_id'],
+
+          group: ['User.user_id', 'Posts.post_id', 'Posts->Likes.like_id', 'Posts->Comments.comment_id', 'Follows.follow_id'],
           raw: false,
           distinct: true,
         });
