@@ -38,6 +38,7 @@ module.exports = {
               [orderOptions[0], orderOptions[1]],
             ]
           });
+        console.log(posts);
         res.status(status.OK)
           .send({
             success: true,
