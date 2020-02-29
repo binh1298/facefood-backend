@@ -67,7 +67,7 @@ module.exports = {
     post(req, res) {
       return models.Post
         .create(req.body)
-        .then(function (post,err) {
+        .then(function (post, err) {
           if (post) {
             res.status(status.OK)
               .send({
@@ -164,5 +164,3 @@ module.exports = {
   },
 
 };
-
-

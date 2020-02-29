@@ -11,7 +11,7 @@ let router = express.Router();
 
 router.post('/', Controller.create.post);
 router.get('/', Controller.view_all.get);
-router.put('/delete/:commentId', Controller.delete.put);
-router.put('/update/:commentId', Controller.update.put);
+router.put('/:commentId/delete', Controller.delete.put);
+router.put('/:commentId/update', Controller.update.put);
 
 module.exports = router;

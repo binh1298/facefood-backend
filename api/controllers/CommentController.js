@@ -1,8 +1,6 @@
 'use strict';
 const models = require('../db/models/index');
 const status = require('http-status');
-const {Op} = require("sequelize");
-const url = require('url');
 
 module.exports = {
   create: {
@@ -53,7 +51,7 @@ module.exports = {
     async put(req, res, next) {
       try {
         const newContent = req.body.content;
-        if (newContent.length <= 0) {
+        if (newContent.trim().length <= 0) {
           res.status(status.BAD_REQUEST)
             .send({
               success: false,

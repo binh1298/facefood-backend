@@ -8,7 +8,6 @@
 let express = require('express');
 let Controller = require('../controllers/PostController');
 let router = express.Router();
-const url = require('url');
 
 router.get('/', Controller.view.get);
 router.get('/:postId', Controller.view_one.get);

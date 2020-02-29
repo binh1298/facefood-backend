@@ -15,6 +15,14 @@ const Router = [
     path: '/comments',
     handler: require('./CommentRoutes'),
   },
+  {
+    path: '/likes',
+    handler: require('./LikeRoutes'),
+  },
+  // {
+  //   path: '/follows',
+  //   handler: require('./FollowRoutes'),
+  // }
 
 ];
 
