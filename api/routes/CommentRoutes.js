@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Post Route
+ * Comment Route
  * path: /comment
  */
 
