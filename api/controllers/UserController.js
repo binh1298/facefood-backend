@@ -4,6 +4,7 @@ const status = require('http-status');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {Op} = require("sequelize");
+const sequelize = require('sequelize');
 const {validationResult} = require('express-validator');
 const url = require('url');
 
@@ -111,7 +112,29 @@ module.exports = {
             'roleId',
             'isDeleted',
             'createdAt',
-            'updatedAt'
+            'updatedAt',
+            [sequelize.fn('COUNT', sequelize.col('Posts->Likes.like_id')), 'totalLikes'],
+            [sequelize.fn('COUNT', sequelize.col('Posts->Comments.comment_id')), 'totalComments'],
+            [sequelize.fn('COUNT', sequelize.col('Follows.user_id')), 'totalFollowers'],
+            [sequelize.fn('COUNT', sequelize.col('Follows.following_id')), 'totalFollowings'],
+          ],
+          include: [{
+            model: models.Post,
+            attributes: [],
+            include: [
+              {
+                model: models.Like,
+                attributes: [],
+              },
+              {
+                model: models.Comment,
+                attributes: [],
+              }
+            ],
+          }, {
+            model: models.Follow,
+            attributes: [],
+          }
           ],
           where: {
             username: {
@@ -120,7 +143,11 @@ module.exports = {
           },
           order: [
             [orderOptions[0], orderOptions[1]],
-          ]
+          ],
+
+          group: ['User.user_id', 'Posts.post_id', 'Posts->Likes.like_id', 'Posts->Comments.comment_id', 'Follows.follow_id'],
+          raw: false,
+          distinct: true,
         });
         res.status(status.OK)
           .send({

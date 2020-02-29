@@ -32,6 +32,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       field: 'user_id'
     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'username'
+    },
     categoryId: {
       type: DataTypes.UUID,
       field: 'category_id'
