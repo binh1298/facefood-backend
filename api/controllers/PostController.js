@@ -4,7 +4,7 @@ const status = require('http-status');
 const {Op} = require("sequelize");
 const url = require('url');
 const sequelize = require('sequelize');
-
+const bodyParser = require('body-parser');
 module.exports = {
   view: {
     async get(req, res, next) {
@@ -67,14 +67,13 @@ module.exports = {
     post(req, res) {
       return models.Post
         .create(req.body)
-        .then(function (err, post) {
-          if (err) throw err;
-          else {
+        .then(function (post,err) {
+          if (post) {
             res.status(status.OK)
               .send({
                 success: true,
-                message: post,
-                error: null,
+                message: "OK",
+                error: err,
                 token: null
               });
           }
