@@ -19,10 +19,10 @@ const Router = [
     path: '/likes',
     handler: require('./LikeRoutes'),
   },
-  // {
-  //   path: '/follows',
-  //   handler: require('./FollowRoutes'),
-  // }
+  {
+    path: '/follows',
+    handler: require('./FollowRoutes'),
+  }
 
 ];
 
