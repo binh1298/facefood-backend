@@ -7,10 +7,10 @@
 
 let express = require('express');
 let Controller = require('../controllers/CommentController');
-const {check, body} = require('express-validator');
 let router = express.Router();
 
 router.post('/', Controller.create.post);
+router.get('/', Controller.view_all.get);
 router.put('/delete/:commentId', Controller.delete.put);
 router.put('/update/:commentId', Controller.update.put);
 

@@ -5,7 +5,6 @@ const {Op} = require("sequelize");
 const url = require('url');
 
 module.exports = {
-
   create: {
     post(req, res) {
       return models.Comment
@@ -24,22 +23,30 @@ module.exports = {
     },
   },
 
-  delete: {
-    async put(req, res, next) {
+  view_all: {
+    async get(req, res, next) {
       try {
-        const result = await models.Comment.update(
-          {isDeleted: true, updated_at: new Date()},
-          {where: [{comment_id: req.params.commentId}, {is_deleted: false}]}
-        );
+        const comments = await models.Comment
+          .findAll({
+            attributes: [
+              'commentId',
+              'content',
+              'userId',
+              'postId',
+              'isDeleted',
+              'createdAt',
+              'updatedAt',
+            ],
+          });
         res.status(status.OK)
           .send({
             success: true,
-            message: result
+            message: comments,
           });
       } catch (error) {
         next(error)
       }
-    }
+    },
   },
 
   update: {
@@ -68,6 +75,25 @@ module.exports = {
       }
     }
   },
+
+  delete: {
+    async put(req, res, next) {
+      try {
+        const result = await models.Comment.update(
+          {isDeleted: true, updated_at: new Date()},
+          {where: [{comment_id: req.params.commentId}, {is_deleted: false}]}
+        );
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: result
+          });
+      } catch (error) {
+        next(error)
+      }
+    }
+  },
+
 
 };
 
