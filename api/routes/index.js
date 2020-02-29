@@ -11,6 +11,10 @@ const Router = [
     path: '/posts',
     handler: require('./PostRoutes'),
   },
+  {
+    path: '/comments',
+    handler: require('./CommentRoutes'),
+  },
 
 ];
 

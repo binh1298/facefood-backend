@@ -4,7 +4,7 @@ const status = require('http-status');
 const {Op} = require("sequelize");
 const url = require('url');
 const sequelize = require('sequelize');
-const bodyParser = require('body-parser');
+
 module.exports = {
   view: {
     async get(req, res, next) {

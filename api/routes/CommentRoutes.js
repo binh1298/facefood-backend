@@ -6,12 +6,12 @@
  */
 
 let express = require('express');
-let Controller = require('../controllers/PostController');
+let Controller = require('../controllers/CommentController');
+const {check, body} = require('express-validator');
 let router = express.Router();
 
-router.get('/', Controller.index.get);
 router.post('/', Controller.create.post);
-router.put('/delete/:postId', Controller.delete.put);
-router.get('/view/:postId', Controller.view.get);
+router.put('/delete/:commentId', Controller.delete.put);
+router.put('/update/:commentId', Controller.update.put);
 
 module.exports = router;
