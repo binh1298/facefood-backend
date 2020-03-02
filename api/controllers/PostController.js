@@ -51,6 +51,7 @@ module.exports = {
             ],
             raw: false,
           });
+        console.log(posts);
         res.status(status.OK)
           .send({
             success: true,
@@ -66,14 +67,13 @@ module.exports = {
     post(req, res) {
       return models.Post
         .create(req.body)
-        .then(function (err, post) {
-          if (err) throw err;
-          else {
+        .then(function (post, err) {
+          if (post) {
             res.status(status.OK)
               .send({
                 success: true,
-                message: post,
-                error: null,
+                message: "OK",
+                error: err,
                 token: null
               });
           }
@@ -164,5 +164,3 @@ module.exports = {
   },
 
 };
-
-
