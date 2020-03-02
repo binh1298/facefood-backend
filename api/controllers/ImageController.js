@@ -1,0 +1,61 @@
+'use strict';
+const models = require('../db/models/index');
+const status = require('http-status');
+let express = require('express');
+
+module.exports = {
+  upload: {
+    async post(req, res, next) {
+      try {
+        return models.Image
+          .create(req.body)
+          .then(function (result, err) {
+            res.status(status.OK)
+              .send({
+                success: true,
+                message: "OK",
+                error: err,
+              })
+          })
+      } catch (error) {
+        next(error);
+      }
+    }
+  },
+  update: {
+    async post(req, res, next) {
+      try {
+        const image = await models.Image.findOne(
+          {where: [{image_id: req.params.imageId}]}
+        );
+        if (image == null) {
+          res.status(status.OK)
+            .send({
+              success: true,
+              message: "Image not found!",
+            });
+        } else {
+          return models.Image
+            .update(
+              {
+                image_url: req.body.imageUrl,
+                post_id: req.body.postId,
+                step_id: req.body.stepId,
+                updatedAt: new Date()
+              },
+              {where: [{image_id: req.params.likeId}]})
+            .then(function (result, err) {
+              res.status(status.OK)
+                .send({
+                  success: true,
+                  message: result,
+                  error: err
+                })
+            })
+        }
+      } catch (error) {
+        next(error);
+      }
+    }
+  }
+};

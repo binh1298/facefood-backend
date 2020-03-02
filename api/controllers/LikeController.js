@@ -20,7 +20,6 @@ module.exports = {
                     success: true,
                     message: "OK",
                     error: err,
-                    token: null
                   })
               }
             })
@@ -77,4 +76,4 @@ module.exports = {
       }
     }
   }
-}
+};

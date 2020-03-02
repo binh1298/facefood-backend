@@ -3,12 +3,13 @@
 module.exports = function (sequelize, DataTypes) {
   var Image = sequelize.define('Image', {
     imageId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
       field: 'image_id'
     },
     imageUrl: {
-      type: DataTypes.STRING,
+      type: DataTypes.BLOB,
       allowNull: false,
       field: 'image_url'
     },
