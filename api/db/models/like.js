@@ -4,7 +4,7 @@ module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Like', {
     likeId: {
       type: DataTypes.INTEGER,
-      autoIncrement:true,
+      autoIncrement: true,
       primaryKey: true,
       field: 'like_id'
     },
@@ -17,6 +17,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.UUID,
       allowNull: false,
       field: 'post_id'
+    },
+    isLiked: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      field: 'is_liked'
     },
     createdAt: {
       type: DataTypes.DATE,

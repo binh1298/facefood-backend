@@ -1,9 +1,11 @@
 /* jshint indent: 1 */
+const uuid = require('uuid');
 
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Comment', {
     commentId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
+      defaultValue: uuid.v4(),
       primaryKey: true,
       field: 'comment_id'
     },
@@ -21,6 +23,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.UUID,
       allowNull: false,
       field: 'post_id'
+    },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      field: 'is_deleted'
     },
     createdAt: {
       type: DataTypes.DATE,

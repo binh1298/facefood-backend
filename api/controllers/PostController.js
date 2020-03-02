@@ -3,6 +3,7 @@ const models = require('../db/models/index');
 const status = require('http-status');
 const {Op} = require("sequelize");
 const url = require('url');
+const sequelize = require('sequelize');
 
 module.exports = {
   view: {
@@ -18,26 +19,39 @@ module.exports = {
         const orderOptions = queryData.order.split(",");
         const posts = await models.Post
           .findAll({
-            attributes: [
-              'postId',
-              'postName',
-              'description',
-              'timeNeeded',
-              'userId',
-              'categoryId',
-              'isDeleted',
-              'createdAt',
-              'updatedAt',
+            attributes: {
+              include: [
+                [sequelize.fn('COUNT', sequelize.col('Likes.like_id')), 'totalLikes'],
+                [sequelize.fn('COUNT', sequelize.col('Comments.comment_id')), 'totalComments'],
+                [sequelize.fn('COUNT', sequelize.col('Steps.step_id')), 'totalSteps'],
+              ],
+              exclude: ['category_id', 'user_id', 'userId']
+            },
+            include: [
+              {
+                model: models.Like,
+                attributes: [],
+              },
+              {
+                model: models.Comment,
+                attributes: [],
+              },
+              {
+                model: models.Step,
+                attributes: [],
+              }
             ],
             where: {
               post_name: {
                 [Op.iLike]: '%' + queryData.postName + '%'
               }
-            },
+            }, group: ['Post.post_id', 'Likes.like_id', 'Comments.comment_id', 'Steps.step_id'],
             order: [
               [orderOptions[0], orderOptions[1]],
-            ]
+            ],
+            raw: false,
           });
+        console.log(posts);
         res.status(status.OK)
           .send({
             success: true,
@@ -53,14 +67,13 @@ module.exports = {
     post(req, res) {
       return models.Post
         .create(req.body)
-        .then(function (err, post) {
-          if (err) throw err;
-          else {
+        .then(function (post, err) {
+          if (post) {
             res.status(status.OK)
               .send({
                 success: true,
-                message: post,
-                error: null,
+                message: "OK",
+                error: err,
                 token: null
               });
           }
@@ -151,5 +164,3 @@ module.exports = {
   },
 
 };
-
-

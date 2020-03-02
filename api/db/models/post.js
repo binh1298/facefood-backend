@@ -1,9 +1,11 @@
 /* jshint indent: 1 */
+const uuid = require('uuid');
 
 module.exports = function (sequelize, DataTypes) {
   const Post = sequelize.define('Post', {
     postId: {
       type: DataTypes.UUID,
+      defaultValue: uuid.v4(),
       primaryKey: true,
       field: 'post_id'
     },
@@ -31,6 +33,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.UUID,
       allowNull: false,
       field: 'user_id'
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'username'
     },
     categoryId: {
       type: DataTypes.UUID,
