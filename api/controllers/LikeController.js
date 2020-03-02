@@ -34,8 +34,7 @@ module.exports = {
                 .send({
                   success: true,
                   message: "OK",
-                  error: err,
-                  token: null,
+                  error: err
                 })
             })
         }
@@ -66,8 +65,7 @@ module.exports = {
                 .send({
                   success: true,
                   message: "OK",
-                  error: err,
-                  token: null,
+                  error: err
                 });
             });
         }

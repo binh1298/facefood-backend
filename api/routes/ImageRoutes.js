@@ -2,19 +2,27 @@
 
 /**
  * Image Route
- * path: /image
+ * path: /images
  */
 
 let express = require('express');
 let Controller = require('../controllers/ImageController');
 let router = express.Router();
-let app = express();
-let bodyParser = require('body-parser');
+var app = express();
+var bodyParser = require('body-parser');
+
+router.use(bodyParser.urlencoded({
+  limit: '10mb',
+  parameterLimit: 100000,
+  extended: false
+}));
+
+router.use(bodyParser.json({
+  limit: '10mb'
+}));
 
 router.post('/', Controller.upload.post);
 router.post('/:imageId/update', Controller.update.post);
-
-router.use(bodyParser.json({limit: '50mb'}));
-router.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+router.put('/:imageId/delete', Controller.delete.put);
 
 module.exports = router;

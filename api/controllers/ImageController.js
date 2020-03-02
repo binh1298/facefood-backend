@@ -1,12 +1,12 @@
 'use strict';
 const models = require('../db/models/index');
 const status = require('http-status');
-let express = require('express');
 
 module.exports = {
   upload: {
     async post(req, res, next) {
       try {
+        console.log(req.body);
         return models.Image
           .create(req.body)
           .then(function (result, err) {
@@ -22,6 +22,7 @@ module.exports = {
       }
     }
   },
+
   update: {
     async post(req, res, next) {
       try {
@@ -57,5 +58,22 @@ module.exports = {
         next(error);
       }
     }
-  }
+  },
+  delete: {
+    async put(req, res, next) {
+      try {
+        const result = await models.Image.update(
+          {isDeleted: true, updated_at: new Date()},
+          {where: [{image_id: req.params.imageId}, {is_deleted: false}]}
+        );
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: result
+          });
+      } catch (error) {
+        next(error)
+      }
+    }
+  },
 };

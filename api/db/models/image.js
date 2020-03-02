@@ -23,6 +23,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true,
       field: 'step_id'
     },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      field: 'is_deleted'
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: new Date(),
