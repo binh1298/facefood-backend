@@ -52,6 +52,7 @@ module.exports = {
 
         const finalResult = await Promise.all(posts.map(async post => {
           const foundPostID = post.dataValues.postId;
+          const foundCategoryID = post.dataValues.categoryId;
           const totalLikes = await models.Like
             .findAndCountAll({
               where: {post_id: foundPostID}
@@ -64,10 +65,16 @@ module.exports = {
             .findAndCountAll({
               where: {post_id: foundPostID}
             });
+          const category = await models.Category
+            .findOne({
+              attributes: ['category_name'],
+              where: {category_id: foundCategoryID}
+            });
           const likeCount = totalLikes.count;
           const commentCount = totalComments.count;
           const stepCount = totalSteps.count;
-          return {...post.dataValues, likeCount, commentCount, stepCount}
+          const categoryName = category.dataValues.category_name;
+          return {...post.dataValues, categoryName, likeCount, commentCount, stepCount}
         }));
         res.status(status.OK)
           .send({
