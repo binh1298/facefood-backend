@@ -22,8 +22,11 @@ const Router = [
   {
     path: '/follows',
     handler: require('./FollowRoutes'),
+  },
+  {
+    path: '/images',
+    handler: require('./ImageRoutes'),
   }
-
 ];
 
 export default Router;

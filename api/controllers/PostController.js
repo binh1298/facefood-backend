@@ -3,65 +3,8 @@ const models = require('../db/models/index');
 const status = require('http-status');
 const {Op} = require("sequelize");
 const url = require('url');
-const sequelize = require('sequelize');
 
 module.exports = {
-  view: {
-    async get(req, res, next) {
-      try {
-        const queryData = url.parse(req.url, true).query;
-        if (queryData.postName == undefined) {
-          queryData.postName = '';
-        }
-        if (queryData.order == undefined) {
-          queryData.order = 'created_at,asc'
-        }
-        const orderOptions = queryData.order.split(",");
-        const posts = await models.Post
-          .findAll({
-            attributes: {
-              include: [
-                [sequelize.fn('COUNT', sequelize.col('Likes.like_id')), 'totalLikes'],
-                [sequelize.fn('COUNT', sequelize.col('Comments.comment_id')), 'totalComments'],
-                [sequelize.fn('COUNT', sequelize.col('Steps.step_id')), 'totalSteps'],
-              ],
-              exclude: ['category_id', 'user_id', 'userId']
-            },
-            include: [
-              {
-                model: models.Like,
-                attributes: [],
-              },
-              {
-                model: models.Comment,
-                attributes: [],
-              },
-              {
-                model: models.Step,
-                attributes: [],
-              }
-            ],
-            where: {
-              post_name: {
-                [Op.iLike]: '%' + queryData.postName + '%'
-              }
-            }, group: ['Post.post_id', 'Likes.like_id', 'Comments.comment_id', 'Steps.step_id'],
-            order: [
-              [orderOptions[0], orderOptions[1]],
-            ],
-            raw: false,
-          });
-        console.log(posts);
-        res.status(status.OK)
-          .send({
-            success: true,
-            message: posts
-          });
-      } catch (error) {
-        next(error)
-      }
-    },
-  },
 
   create: {
     post(req, res) {
@@ -73,11 +16,74 @@ module.exports = {
               .send({
                 success: true,
                 message: "OK",
-                error: err,
-                token: null
+                error: err
               });
           }
         });
+    },
+  },
+
+  view: {
+    async get(req, res, next) {
+      try {
+        const queryData = url.parse(req.url, true).query;
+        if (queryData.postName == undefined) {
+          queryData.postName = '';
+        }
+        if (queryData.order == undefined) {
+          queryData.order = 'created_at,asc'
+        }
+
+        const orderOptions = queryData.order.split(",");
+        const posts = await models.Post
+          .findAll({
+            attributes: {
+              exclude: ['category_id', 'user_id', 'userId']
+            },
+            where: {
+              post_name: {
+                [Op.iLike]: '%' + queryData.postName + '%'
+              }
+            },
+            order: [
+              [orderOptions[0], orderOptions[1]],
+            ],
+          });
+
+        const finalResult = await Promise.all(posts.map(async post => {
+          const foundPostID = post.dataValues.postId;
+          const foundCategoryID = post.dataValues.categoryId;
+          const totalLikes = await models.Like
+            .findAndCountAll({
+              where: {post_id: foundPostID}
+            });
+          const totalComments = await models.Comment
+            .findAndCountAll({
+              where: {post_id: foundPostID}
+            });
+          const totalSteps = await models.Step
+            .findAndCountAll({
+              where: {post_id: foundPostID}
+            });
+          const category = await models.Category
+            .findOne({
+              attributes: ['category_name'],
+              where: {category_id: foundCategoryID}
+            });
+          const likeCount = totalLikes.count;
+          const commentCount = totalComments.count;
+          const stepCount = totalSteps.count;
+          const categoryName = category.dataValues.category_name;
+          return {...post.dataValues, categoryName, likeCount, commentCount, stepCount}
+        }));
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: finalResult
+          });
+      } catch (error) {
+        next(error)
+      }
     },
   },
 
@@ -86,25 +92,41 @@ module.exports = {
       try {
         const post = await models.Post
           .findOne({
-            attributes: [
-              'postId',
-              'postName',
-              'description',
-              'timeNeeded',
-              'userId',
-              'categoryId',
-              'isDeleted',
-              'createdAt',
-              'updatedAt',
-            ],
+            attributes: {
+              exclude: ['category_id', 'user_id', 'userId']
+            },
             where: {
               postId: req.params.postId
             }
           });
+        const foundPostID = post.dataValues.postId;
+        const totalLikes = await models.Like
+          .findAndCountAll({
+            where: {post_id: foundPostID}
+          });
+        const totalComments = await models.Comment
+          .findAndCountAll({
+            where: {post_id: foundPostID}
+          });
+        const totalSteps = await models.Step
+          .findAndCountAll({
+            where: {post_id: foundPostID}
+          });
+        const imageData = await models.Image
+          .findOne({
+            attributes: ['image_url'],
+            where: {post_id: foundPostID}
+          });
+        //Get data from requests
+        const likeCount = totalLikes.count;
+        const commentCount = totalComments.count;
+        const stepCount = totalSteps.count;
+        const imageUrl = imageData.dataValues.image_url;
+        const finalResult = {...post.dataValues, likeCount, commentCount, stepCount, imageUrl};
         res.status(status.OK)
           .send({
             success: true,
-            message: post,
+            message: finalResult,
           });
       } catch (error) {
         next(error)

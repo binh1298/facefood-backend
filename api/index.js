@@ -3,10 +3,10 @@ import bodyParser from 'body-parser';
 import Router from './routes';
 import status from 'http-status';
 import cors from 'cors';
-import { handleError } from './utils/errorHandler';
+import {handleError} from './utils/errorHandler';
 import db from './db/models';
 import passport from 'passport';
-import { FRONTEND_URL } from './configurations';
+import {FRONTEND_URL} from './configurations';
 
 db.sequelize.authenticate()
   .then(() => {
@@ -15,7 +15,7 @@ db.sequelize.authenticate()
   .catch(error => {
     console.error('Unable to connect to the database:', error.message);
   });
-db.sequelize.sync({ force: false, logging: false });
+db.sequelize.sync({force: false, logging: false});
 
 const app = express();
 
@@ -27,7 +27,7 @@ app.use(
 );
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(passport.initialize());
 require('./services/passport')(passport);

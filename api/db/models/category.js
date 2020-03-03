@@ -3,8 +3,8 @@
 module.exports = function (sequelize, DataTypes) {
   const Category = sequelize.define('Category', {
     categoryId: {
-      type: DataTypes.UUID,
-      allowNull: false,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
       field: 'category_id'
     },

@@ -113,28 +113,6 @@ module.exports = {
             'isDeleted',
             'createdAt',
             'updatedAt',
-            [sequelize.fn('COUNT', sequelize.col('Posts->Likes.like_id')), 'totalLikes'],
-            [sequelize.fn('COUNT', sequelize.col('Posts->Comments.comment_id')), 'totalComments'],
-            [sequelize.fn('COUNT', sequelize.col('Follows.user_id')), 'totalFollowers'],
-            [sequelize.fn('COUNT', sequelize.col('Follows.following_id')), 'totalFollowings'],
-          ],
-          include: [{
-            model: models.Post,
-            attributes: [],
-            include: [
-              {
-                model: models.Like,
-                attributes: [],
-              },
-              {
-                model: models.Comment,
-                attributes: [],
-              }
-            ],
-          }, {
-            model: models.Follow,
-            attributes: [],
-          }
           ],
           where: {
             username: {
@@ -144,15 +122,37 @@ module.exports = {
           order: [
             [orderOptions[0], orderOptions[1]],
           ],
-
-          group: ['User.user_id', 'Posts.post_id', 'Posts->Likes.like_id', 'Posts->Comments.comment_id', 'Follows.follow_id'],
           raw: false,
           distinct: true,
         });
+        const finalUserResult = await Promise.all(users.map(async user => {
+          var likeCount = 0, commentCount = 0;
+          const foundUserID = user.dataValues.userId;
+          const totalPosts = await models.Post
+            .findAndCountAll({
+              where: {user_id: foundUserID}
+            });
+          await Promise.all(totalPosts.rows.map(async post => {
+            const foundPostID = post.dataValues.postId;
+            const totalLikes = await models.Like
+              .findAndCountAll({
+                where: {post_id: foundPostID}
+              });
+            const totalComments = await models.Comment
+              .findAndCountAll({
+                where: {post_id: foundPostID}
+              });
+            likeCount += totalLikes.count;
+            commentCount += totalComments.count;
+          }));
+          //count related objects
+          const postCount = totalPosts.count;
+          return {...user.dataValues, postCount, likeCount, commentCount}
+        }));
         res.status(status.OK)
           .send({
             status: true,
-            message: users,
+            message: finalUserResult,
           });
       } catch (error) {
         next(error);

@@ -3,7 +3,8 @@
 module.exports = function (sequelize, DataTypes) {
   var Step = sequelize.define('Step', {
     stepId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
       field: 'step_id'
     },
@@ -33,9 +34,9 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     tableName: 'step'
   });
-  Step.associate = function(models){
-    models.Step.hasMany(models.Image,{
-      foreignKey:"step_id"
+  Step.associate = function (models) {
+    models.Step.hasMany(models.Image, {
+      foreignKey: "step_id"
     });
   }
   return Step;
