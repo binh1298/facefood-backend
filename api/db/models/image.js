@@ -9,7 +9,7 @@ module.exports = function (sequelize, DataTypes) {
       field: 'image_id'
     },
     imageUrl: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING(5000000),
       allowNull: false,
       field: 'image_url'
     },

@@ -5,6 +5,24 @@ const {Op} = require("sequelize");
 const url = require('url');
 
 module.exports = {
+
+  create: {
+    post(req, res) {
+      return models.Post
+        .create(req.body)
+        .then(function (post, err) {
+          if (post) {
+            res.status(status.OK)
+              .send({
+                success: true,
+                message: "OK",
+                error: err
+              });
+          }
+        });
+    },
+  },
+
   view: {
     async get(req, res, next) {
       try {
@@ -49,11 +67,6 @@ module.exports = {
           const likeCount = totalLikes.count;
           const commentCount = totalComments.count;
           const stepCount = totalSteps.count;
-          console.log('\n-------PostID: ', foundPostID);
-          console.log('--------- total likes:', totalLikes);
-          console.log('--------- total comments:', totalComments);
-          console.log('--------- total steps:', totalSteps, '\n');
-          console.log('--------- Final Post: ', {...post.dataValues, likeCount, commentCount, stepCount});
           return {...post.dataValues, likeCount, commentCount, stepCount}
         }));
         res.status(status.OK)
@@ -67,47 +80,46 @@ module.exports = {
     },
   },
 
-  create: {
-    post(req, res) {
-      return models.Post
-        .create(req.body)
-        .then(function (post, err) {
-          if (post) {
-            res.status(status.OK)
-              .send({
-                success: true,
-                message: "OK",
-                error: err
-              });
-          }
-        });
-    },
-  },
-
   view_one: {
     async get(req, res, next) {
       try {
         const post = await models.Post
           .findOne({
-            attributes: [
-              'postId',
-              'postName',
-              'description',
-              'timeNeeded',
-              'userId',
-              'categoryId',
-              'isDeleted',
-              'createdAt',
-              'updatedAt',
-            ],
+            attributes: {
+              exclude: ['category_id', 'user_id', 'userId']
+            },
             where: {
               postId: req.params.postId
             }
           });
+        const foundPostID = post.dataValues.postId;
+        const totalLikes = await models.Like
+          .findAndCountAll({
+            where: {post_id: foundPostID}
+          });
+        const totalComments = await models.Comment
+          .findAndCountAll({
+            where: {post_id: foundPostID}
+          });
+        const totalSteps = await models.Step
+          .findAndCountAll({
+            where: {post_id: foundPostID}
+          });
+        const imageData = await models.Image
+          .findOne({
+            attributes: ['image_url'],
+            where: {post_id: foundPostID}
+          });
+        //Get data from requests
+        const likeCount = totalLikes.count;
+        const commentCount = totalComments.count;
+        const stepCount = totalSteps.count;
+        const imageUrl = imageData.dataValues.image_url;
+        const finalResult = {...post.dataValues, likeCount, commentCount, stepCount, imageUrl};
         res.status(status.OK)
           .send({
             success: true,
-            message: post,
+            message: finalResult,
           });
       } catch (error) {
         next(error)
