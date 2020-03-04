@@ -8,11 +8,6 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       field: 'step_id'
     },
-    imageUrl: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      field: 'image_url'
-    },
     description: {
       type: DataTypes.STRING,
       allowNull: true,
