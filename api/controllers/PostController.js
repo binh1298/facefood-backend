@@ -87,7 +87,7 @@ module.exports = {
     },
   },
 
-  view_one: {
+  view_post_details: {
     async get(req, res, next) {
       try {
         const post = await models.Post
