@@ -4,9 +4,9 @@ const uuid = require('uuid');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Comment', {
     commentId: {
-      type: DataTypes.UUID,
-      defaultValue: uuid.v4(),
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
       field: 'comment_id'
     },
     content: {
@@ -20,7 +20,7 @@ module.exports = function (sequelize, DataTypes) {
       field: 'user_id'
     },
     postId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: false,
       field: 'post_id'
     },

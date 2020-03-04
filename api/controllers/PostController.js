@@ -55,11 +55,11 @@ module.exports = {
           const foundCategoryID = post.dataValues.categoryId;
           const totalLikes = await models.Like
             .findAndCountAll({
-              where: {post_id: foundPostID}
+              where: {post_id: foundPostID, is_liked: true}
             });
           const totalComments = await models.Comment
             .findAndCountAll({
-              where: {post_id: foundPostID}
+              where: {post_id: foundPostID, is_deleted: false}
             });
           const totalSteps = await models.Step
             .findAndCountAll({
@@ -102,11 +102,11 @@ module.exports = {
         const foundPostID = post.dataValues.postId;
         const totalLikes = await models.Like
           .findAndCountAll({
-            where: {post_id: foundPostID}
+            where: {post_id: foundPostID, is_liked: true}
           });
         const totalComments = await models.Comment
           .findAndCountAll({
-            where: {post_id: foundPostID}
+            where: {post_id: foundPostID, is_deleted: false}
           });
         const totalSteps = await models.Step
           .findAndCountAll({

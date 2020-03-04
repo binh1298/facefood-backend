@@ -3,8 +3,9 @@
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Ingredient', {
     ingredientId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
       field: 'ingredient_id'
     },
     name: {

@@ -3,8 +3,8 @@
 module.exports = function (sequelize, DataTypes) {
   const Unit = sequelize.define('Unit', {
     unitId: {
-      type: DataTypes.UUID,
-      allowNull: false,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
       field: 'unit_id'
     },

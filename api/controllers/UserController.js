@@ -136,11 +136,11 @@ module.exports = {
             const foundPostID = post.dataValues.postId;
             const totalLikes = await models.Like
               .findAndCountAll({
-                where: {post_id: foundPostID}
+                where: {post_id: foundPostID, is_liked: true}
               });
             const totalComments = await models.Comment
               .findAndCountAll({
-                where: {post_id: foundPostID}
+                where: {post_id: foundPostID, is_deleted: false}
               });
             likeCount += totalLikes.count;
             commentCount += totalComments.count;

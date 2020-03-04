@@ -4,8 +4,8 @@ module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Follow', {
     followId: {
       type: DataTypes.INTEGER,
-      autoIncrement:true,
       primaryKey: true,
+      autoIncrement:true,
       field: 'follow_id'
     },
     //The UserID which is following the followingID
