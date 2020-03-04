@@ -200,6 +200,7 @@ module.exports = {
         });
         const posts = await Promise.all(userPosts.map(async post => {
           const foundPostID = post.dataValues.postId;
+          //Additional Data
           const imageData = await models.Image
             .findOne({
               attributes: ['image_url'],
@@ -208,8 +209,16 @@ module.exports = {
           const imageUrl = imageData.dataValues.image_url;
           return {...post.dataValues, imageUrl}
         }));
-        const finalResult = {...user.dataValues, posts};
-
+        const totalFollowers = await models.Follow
+          .findAndCountAll({
+            where: {following_id: foundUserID, is_following: true}
+          });
+        const totalFollowings = await models.Follow
+          .findAndCountAll({
+            where: {user_id: foundUserID, is_following: true}
+          });
+        //response
+        const finalResult = {...user.dataValues, posts, totalFollowers, totalFollowings};
         res.status(status.OK)
           .send({
             status: true,
