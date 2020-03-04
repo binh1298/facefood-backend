@@ -110,6 +110,7 @@ module.exports = {
           });
         const totalSteps = await models.Step
           .findAndCountAll({
+            attributes: ['image_url', 'description', 'step_count'],
             where: {post_id: foundPostID}
           });
         const imageData = await models.Image
@@ -122,7 +123,8 @@ module.exports = {
         const commentCount = totalComments.count;
         const stepCount = totalSteps.count;
         const imageUrl = imageData.dataValues.image_url;
-        const finalResult = {...post.dataValues, likeCount, commentCount, stepCount, imageUrl};
+        const steps = totalSteps.rows;
+        const finalResult = {...post.dataValues, likeCount, commentCount, stepCount, imageUrl, steps};
         res.status(status.OK)
           .send({
             success: true,
