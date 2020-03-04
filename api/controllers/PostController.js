@@ -99,7 +99,9 @@ module.exports = {
               postId: req.params.postId
             }
           });
+
         const foundPostID = post.dataValues.postId;
+        //Additional data for Post
         const totalLikes = await models.Like
           .findAndCountAll({
             where: {post_id: foundPostID, is_liked: true}
@@ -108,11 +110,21 @@ module.exports = {
           .findAndCountAll({
             where: {post_id: foundPostID, is_deleted: false}
           });
-        const totalSteps = await models.Step
+        const stepsData = await models.Step
           .findAndCountAll({
-            attributes: ['image_url', 'description', 'step_count'],
+            attributes: ['stepId', 'description', 'stepCount'],
             where: {post_id: foundPostID}
           });
+        const steps = await Promise.all(stepsData.rows.map(async step => {
+          const foundStepID = step.dataValues.stepId;
+          const stepImage = await models.Image
+            .findOne({
+              attributes: ['image_url'],
+              where: {stepId: foundStepID}
+            })
+          const imageUrl = stepImage.dataValues.image_url;
+          return {...step.dataValues, imageUrl}
+        }))
         const imageData = await models.Image
           .findOne({
             attributes: ['image_url'],
@@ -121,9 +133,9 @@ module.exports = {
         //Get data from requests
         const likeCount = totalLikes.count;
         const commentCount = totalComments.count;
-        const stepCount = totalSteps.count;
+        const stepCount = stepsData.count;
         const imageUrl = imageData.dataValues.image_url;
-        const steps = totalSteps.rows;
+        console.log(steps);
         const finalResult = {...post.dataValues, likeCount, commentCount, stepCount, imageUrl, steps};
         res.status(status.OK)
           .send({
