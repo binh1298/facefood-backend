@@ -18,6 +18,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true,
       field: 'description'
     },
+    stepCount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'step_count'
+    },
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
