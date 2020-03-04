@@ -180,10 +180,27 @@ module.exports = {
             }
           },
         );
+        const foundUserID = user.dataValues.userId;
+        const userPosts = await models.Post.findAll({
+          attributes: ['postId', 'postName', 'createdAt'],
+          where: {user_id: foundUserID}
+        });
+        const posts = await Promise.all(userPosts.map(async post => {
+          const foundPostID = post.dataValues.postId;
+          const imageData = await models.Image
+            .findOne({
+              attributes: ['image_url'],
+              where: {post_id: foundPostID}
+            });
+          const imageUrl = imageData.dataValues.image_url;
+          return {...post.dataValues, imageUrl}
+        }));
+        const finalResult = {...user.dataValues, posts};
+
         res.status(status.OK)
           .send({
             status: true,
-            message: user,
+            message: finalResult,
           });
       } catch (error) {
         next(error);
