@@ -20,25 +20,58 @@ module.exports = {
     },
   },
 
-  view_all: {
+  view_by_post_id: {
     async get(req, res, next) {
       try {
-        const comments = await models.Comment
-          .findAll({
-            attributes: [
-              'commentId',
-              'content',
-              'userId',
-              'postId',
-              'isDeleted',
-              'createdAt',
-              'updatedAt',
-            ],
+        var comments;
+        if (req.params.postId == undefined) {
+          comments = await models.Comment
+            .findAll({
+              attributes: [
+                'commentId',
+                'content',
+                'userId',
+                'postId',
+                'isDeleted',
+                'createdAt',
+                'updatedAt',
+              ],
+              where: {
+                is_deleted: false,
+              }
+            });
+        } else {
+          comments = await models.Comment
+            .findAll({
+              attributes: [
+                'commentId',
+                'content',
+                'userId',
+                'postId',
+                'isDeleted',
+                'createdAt',
+                'updatedAt',
+              ],
+              where: {
+                is_deleted: false,
+                post_id: req.params.postId
+              }
+            });
+        }
+        const finalResult = await Promise.all(comments.map(async comment => {
+          const foundUserID = comment.dataValues.userId;
+          const foundUsername = await models.User.findOne({
+            attributes: ['username'],
+            where: {user_id: foundUserID}
           });
+          console.log('username: ', foundUsername);
+          const username = foundUsername.dataValues.username;
+          return {...comment.dataValues, username}
+        }));
         res.status(status.OK)
           .send({
             success: true,
-            message: comments,
+            message: finalResult,
           });
       } catch (error) {
         next(error)

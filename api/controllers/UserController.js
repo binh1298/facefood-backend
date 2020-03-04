@@ -128,6 +128,7 @@ module.exports = {
         const finalUserResult = await Promise.all(users.map(async user => {
           var likeCount = 0, commentCount = 0;
           const foundUserID = user.dataValues.userId;
+          //Additional data
           const totalPosts = await models.Post
             .findAndCountAll({
               where: {user_id: foundUserID}
@@ -145,9 +146,21 @@ module.exports = {
             likeCount += totalLikes.count;
             commentCount += totalComments.count;
           }));
-          //count related objects
+          const totalFollowers = await models.Follow
+            .findAndCountAll({
+              where: {following_id: foundUserID, is_following: true}
+            });
+          const totalFollowings = await models.Follow
+            .findAndCountAll({
+              where: {user_id: foundUserID, is_following: true}
+            });
+
+          //count additional data objects
           const postCount = totalPosts.count;
-          return {...user.dataValues, postCount, likeCount, commentCount}
+          const followerCount = totalFollowers.count;
+          const followingCount = totalFollowings.count;
+
+          return {...user.dataValues, postCount, likeCount, commentCount, followerCount, followingCount}
         }));
         res.status(status.OK)
           .send({
@@ -180,10 +193,36 @@ module.exports = {
             }
           },
         );
+        const foundUserID = user.dataValues.userId;
+        const userPosts = await models.Post.findAll({
+          attributes: ['postId', 'postName', 'createdAt'],
+          where: {user_id: foundUserID}
+        });
+        const posts = await Promise.all(userPosts.map(async post => {
+          const foundPostID = post.dataValues.postId;
+          //Additional Data
+          const imageData = await models.Image
+            .findOne({
+              attributes: ['image_url'],
+              where: {post_id: foundPostID}
+            });
+          const imageUrl = imageData.dataValues.image_url;
+          return {...post.dataValues, imageUrl}
+        }));
+        const totalFollowers = await models.Follow
+          .findAndCountAll({
+            where: {following_id: foundUserID, is_following: true}
+          });
+        const totalFollowings = await models.Follow
+          .findAndCountAll({
+            where: {user_id: foundUserID, is_following: true}
+          });
+        //response
+        const finalResult = {...user.dataValues, posts, totalFollowers, totalFollowings};
         res.status(status.OK)
           .send({
             status: true,
-            message: user,
+            message: finalResult,
           });
       } catch (error) {
         next(error);
