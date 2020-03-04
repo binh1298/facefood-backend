@@ -4,8 +4,8 @@ module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Like', {
     likeId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       field: 'like_id'
     },
     userId: {
@@ -14,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
       field: 'user_id'
     },
     postId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: false,
       field: 'post_id'
     },

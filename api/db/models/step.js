@@ -4,8 +4,8 @@ module.exports = function (sequelize, DataTypes) {
   var Step = sequelize.define('Step', {
     stepId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       field: 'step_id'
     },
     imageUrl: {
@@ -19,7 +19,7 @@ module.exports = function (sequelize, DataTypes) {
       field: 'description'
     },
     postId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: false,
       field: 'post_id'
     },

@@ -4,7 +4,6 @@ module.exports = function (sequelize, DataTypes) {
   const Role = sequelize.define('Role', {
     roleId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey: true,
       autoIncrement: true,
       field: 'role_id'

@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('post', [
       {
-        post_id: '40eb286f-b859-4643-becb-72ea2a4f613e',
+        post_id: 1,
         post_name: "Potato Post 1",
         description: "this is a potato description of a post.",
         time_needed: 60,
@@ -16,7 +16,7 @@ module.exports = {
         username: 'SpacePotato',
       },
       {
-        post_id: '36d0dca0-994f-4dac-b71d-3a9189b84758',
+        post_id: 2,
         post_name: "Potato Post 2",
         description: "THIS IS 2ND DESCRIPTION OF POTATO!",
         time_needed: 100,
@@ -28,7 +28,7 @@ module.exports = {
         username: 'SpacePotato',
       },
       {
-        post_id: '8f8a506b-cb8c-4d70-bda8-b86dd88dd7d7',
+        post_id: 3,
         post_name: "DucPhi 1",
         description: "DucPhi 1's Description.",
         time_needed: 100,
@@ -40,7 +40,7 @@ module.exports = {
         username: 'DucPhi',
       },
       {
-        post_id: 'b8c24881-e053-46f1-afea-6b27653905d6',
+        post_id: 4,
         post_name: "DucPhi 2",
         description: "DucPhi 2's Description.",
         time_needed: 100,
@@ -52,7 +52,7 @@ module.exports = {
         username: 'DucPhi',
       },
       {
-        post_id: 'bb9ace81-51ff-4941-84dd-2922404b970d',
+        post_id: 5,
         post_name: "DucPhi 3",
         description: "DucPhi 3's Description.",
         time_needed: 100,
@@ -64,7 +64,7 @@ module.exports = {
         username: 'DucPhi',
       },
       {
-        post_id: '0cab3544-1956-4c0e-ac2a-924fcca259a3',
+        post_id: 6,
         post_name: "DucPhi 4",
         description: "DucPhi 4's Description.",
         time_needed: 100,
@@ -76,7 +76,7 @@ module.exports = {
         username: 'DucPhi',
       },
       {
-        post_id: '46c76de2-bc37-4feb-918b-06a7a76f81b0',
+        post_id: 7,
         post_name: "DucPhi 5",
         description: "DucPhi 5's Description.",
         time_needed: 100,
