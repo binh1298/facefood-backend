@@ -128,6 +128,7 @@ module.exports = {
         const finalUserResult = await Promise.all(users.map(async user => {
           var likeCount = 0, commentCount = 0;
           const foundUserID = user.dataValues.userId;
+          //Additional data
           const totalPosts = await models.Post
             .findAndCountAll({
               where: {user_id: foundUserID}
@@ -145,9 +146,21 @@ module.exports = {
             likeCount += totalLikes.count;
             commentCount += totalComments.count;
           }));
-          //count related objects
+          const totalFollowers = await models.Follow
+            .findAndCountAll({
+              where: {following_id: foundUserID, is_following: true}
+            });
+          const totalFollowings = await models.Follow
+            .findAndCountAll({
+              where: {user_id: foundUserID, is_following: true}
+            });
+
+          //count additional data objects
           const postCount = totalPosts.count;
-          return {...user.dataValues, postCount, likeCount, commentCount}
+          const followerCount = totalFollowers.count;
+          const followingCount = totalFollowings.count;
+
+          return {...user.dataValues, postCount, likeCount, commentCount, followerCount, followingCount}
         }));
         res.status(status.OK)
           .send({
