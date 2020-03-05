@@ -26,6 +26,10 @@ const Router = [
   {
     path: '/images',
     handler: require('./ImageRoutes'),
+  },
+  {
+    path: '/ingredients',
+    handler: require('./IngredientRoutes'),
   }
 ];
 
