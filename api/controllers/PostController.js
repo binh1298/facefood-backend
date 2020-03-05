@@ -27,24 +27,46 @@ module.exports = {
     async get(req, res, next) {
       try {
         const queryData = url.parse(req.url, true).query;
-        if (queryData.postName == undefined) {
-          queryData.postName = '';
+        var postName = queryData.postName;
+        var order = queryData.order;
+        var categoryName = queryData.categoryName;
+        var categoryID;
+        var whereCondition;
+        if (postName == undefined) {
+          postName = '';
         }
-        if (queryData.order == undefined) {
-          queryData.order = 'created_at,asc'
+        if (order == undefined) {
+          order = 'created_at,asc'
         }
+        const orderOptions = order.split(",");
 
-        const orderOptions = queryData.order.split(",");
+        if (categoryName != undefined) {
+          const requestCategory = await models.Category.findOne({
+            attributes: ['category_id'],
+            where: {category_name: categoryName}
+          });
+          categoryID = requestCategory.dataValues.category_id;
+        }
+        if (categoryID != undefined) {
+          whereCondition = {
+            post_name: {
+              [Op.iLike]: '%' + postName + '%'
+            },
+            category_id: categoryID,
+          }
+        } else {
+          whereCondition = {
+            post_name: {
+              [Op.iLike]: '%' + postName + '%'
+            },
+          }
+        }
         const posts = await models.Post
           .findAll({
             attributes: {
               exclude: ['category_id', 'user_id', 'userId']
             },
-            where: {
-              post_name: {
-                [Op.iLike]: '%' + queryData.postName + '%'
-              }
-            },
+            where: whereCondition,
             order: [
               [orderOptions[0], orderOptions[1]],
             ],
@@ -142,7 +164,7 @@ module.exports = {
         const stepCount = stepsData.count;
         const imageUrl = imageData.dataValues.image_url;
         const categoryName = category.dataValues.category_name;
-        const finalResult = {...post.dataValues,categoryName, likeCount, commentCount, stepCount, imageUrl, steps};
+        const finalResult = {...post.dataValues, categoryName, likeCount, commentCount, stepCount, imageUrl, steps};
         res.status(status.OK)
           .send({
             success: true,
