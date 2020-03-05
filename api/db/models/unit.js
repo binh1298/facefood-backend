@@ -8,10 +8,10 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true,
       field: 'unit_id'
     },
-    name: {
+    unitName: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: 'name'
+      field: 'unit_name'
     },
     createdAt: {
       type: DataTypes.DATE,

@@ -8,20 +8,15 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       field: 'ingredient_id'
     },
-    name: {
+    ingredientName: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: 'name'
+      field: 'ingredient_name'
     },
     value: {
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'value'
-    },
-    cost: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-      field: 'cost'
     },
     unitId: {
       type: DataTypes.INTEGER,
