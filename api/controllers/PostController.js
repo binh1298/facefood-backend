@@ -99,7 +99,8 @@ module.exports = {
               postId: req.params.postId
             }
           });
-
+        //data from initial response
+        const foundCategoryID = post.dataValues.categoryId;
         const foundPostID = post.dataValues.postId;
         //Additional data for Post
         const totalLikes = await models.Like
@@ -124,19 +125,24 @@ module.exports = {
             })
           const imageUrl = stepImage.dataValues.image_url;
           return {...step.dataValues, imageUrl}
-        }))
+        }));
         const imageData = await models.Image
           .findOne({
             attributes: ['image_url'],
             where: {post_id: foundPostID}
+          });
+        const category = await models.Category
+          .findOne({
+            attributes: ['category_name'],
+            where: {category_id: foundCategoryID}
           });
         //Get data from requests
         const likeCount = totalLikes.count;
         const commentCount = totalComments.count;
         const stepCount = stepsData.count;
         const imageUrl = imageData.dataValues.image_url;
-        console.log(steps);
-        const finalResult = {...post.dataValues, likeCount, commentCount, stepCount, imageUrl, steps};
+        const categoryName = category.dataValues.category_name;
+        const finalResult = {...post.dataValues,categoryName, likeCount, commentCount, stepCount, imageUrl, steps};
         res.status(status.OK)
           .send({
             success: true,
