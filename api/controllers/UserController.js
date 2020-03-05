@@ -1,4 +1,6 @@
 'use strict';
+import {query} from "express-validator";
+
 const models = require('../db/models/index');
 const status = require('http-status');
 const bcrypt = require('bcryptjs');
@@ -94,14 +96,61 @@ module.exports = {
   view: {
     async get(req, res, next) {
       try {
+        //Data from request
         const queryData = url.parse(req.url, true).query;
-        if (queryData.username == undefined) {
-          queryData.username = '';
+        var query = queryData.query;
+        const roleID = queryData.roleId;
+        const isDeleted = queryData.isDeleted;
+        var whereCondition;
+        //Validate data from request
+        if (query == undefined) {
+          query = '';
         }
         if (queryData.order == undefined) {
           queryData.order = 'created_at,asc'
         }
         const orderOptions = queryData.order.split(",");
+
+        if (roleID != undefined) {
+          if (isDeleted == 'true' || isDeleted == 'false') {
+            //RoleID + isDeleted
+            whereCondition = {
+              [Op.or]: [
+                {username: {[Op.iLike]: '%' + query + '%'}},
+                {fullname: {[Op.iLike]: '%' + query + '%'}}
+              ],
+              role_id: roleID,
+              is_deleted: isDeleted,
+            }
+          } else {
+            //RoleID only
+            whereCondition = {
+              [Op.or]: [
+                {username: {[Op.iLike]: '%' + query + '%'}},
+                {fullname: {[Op.iLike]: '%' + query + '%'}}
+              ],
+              role_id: roleID,
+            }
+          }
+        } else if (isDeleted == 'true' || isDeleted == 'false') {
+          //isDeleted only
+          whereCondition = {
+            [Op.or]: [
+              {username: {[Op.iLike]: '%' + query + '%'}},
+              {fullname: {[Op.iLike]: '%' + query + '%'}}
+            ],
+            is_deleted: isDeleted,
+          }
+        } else {
+          //username & fullname only
+          whereCondition = {
+            [Op.or]: [
+              {username: {[Op.iLike]: '%' + query + '%'}},
+              {fullname: {[Op.iLike]: '%' + query + '%'}}
+            ],
+          }
+        }
+
         const users = await models.User.findAll({
           attributes: [
             'userId',
@@ -114,11 +163,7 @@ module.exports = {
             'createdAt',
             'updatedAt',
           ],
-          where: {
-            username: {
-              [Op.iLike]: '%' + queryData.username + '%'
-            }
-          },
+          where: whereCondition,
           order: [
             [orderOptions[0], orderOptions[1]],
           ],
@@ -167,7 +212,8 @@ module.exports = {
             status: true,
             message: finalUserResult,
           });
-      } catch (error) {
+      } catch
+        (error) {
         next(error);
       }
     }
