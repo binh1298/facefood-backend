@@ -2,8 +2,8 @@
 const models = require('../db/models/index');
 const status = require('http-status');
 const {Op} = require("sequelize");
+const Sequelize = require("sequelize");
 const url = require('url');
-
 module.exports = {
 
   create: {
@@ -98,6 +98,94 @@ module.exports = {
           const categoryName = category.dataValues.category_name;
           return {...post.dataValues, categoryName, likeCount, commentCount, stepCount}
         }));
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: finalResult
+          });
+      } catch (error) {
+        next(error)
+      }
+    },
+  },
+
+  explore: {
+    async get(req, res, next) {
+      try {
+        const posts = await models.Post
+          .findAll({
+            attributes: {
+              exclude: ['category_id', 'user_id', 'userId']
+            },
+            order: [Sequelize.fn('RANDOM')],
+            limit: 5
+          });
+
+        const finalResult = await Promise.all(posts.map(async post => {
+          const foundPostID = post.dataValues.postId;
+          const foundCategoryID = post.dataValues.categoryId;
+          const totalLikes = await models.Like
+            .findAndCountAll({
+              where: {post_id: foundPostID, is_liked: true}
+            });
+          const totalComments = await models.Comment
+            .findAndCountAll({
+              where: {post_id: foundPostID, is_deleted: false}
+            });
+          const category = await models.Category
+            .findOne({
+              attributes: ['category_name'],
+              where: {category_id: foundCategoryID}
+            });
+          const likeCount = totalLikes.count;
+          const commentCount = totalComments.count;
+          const categoryName = category.dataValues.category_name;
+          return {...post.dataValues, categoryName, likeCount, commentCount}
+        }));
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: finalResult
+          });
+      } catch (error) {
+        next(error)
+      }
+    },
+  },
+
+  popular: {
+    async get(req, res, next) {
+      try {
+        const posts = await models.Post
+          .findAll({
+            attributes: {
+              exclude: ['category_id', 'user_id', 'userId']
+            },
+          });
+
+        var finalResult = await Promise.all(posts.map(async post => {
+            const foundPostID = post.dataValues.postId;
+            const foundCategoryID = post.dataValues.categoryId;
+            const totalLikes = await models.Like
+              .findAndCountAll({
+                where: {post_id: foundPostID, is_liked: true}
+              });
+            const totalComments = await models.Comment
+              .findAndCountAll({
+                where: {post_id: foundPostID, is_deleted: false}
+              });
+            const category = await models.Category
+              .findOne({
+                attributes: ['category_name'],
+                where: {category_id: foundCategoryID}
+              });
+            const likeCount = totalLikes.count;
+            const commentCount = totalComments.count;
+            const categoryName = category.dataValues.category_name;
+            return {...post.dataValues, categoryName, likeCount, commentCount}
+          }
+        ));
+        finalResult.sort((a, b) => (a.totalLikes > b.totalLikes) ? 1 : ((b.totalLikes > a.totalLikes) ? -1 : 0));
         res.status(status.OK)
           .send({
             success: true,
