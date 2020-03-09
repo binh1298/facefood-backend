@@ -3,7 +3,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('ingredient', [{
-      ingredient_id: 1,
       ingredient_name: 'Potato',
       value: 500,
       unit_id: 1,
@@ -12,7 +11,6 @@ module.exports = {
       updated_at: new Date()
     },
       {
-        ingredient_id: 2,
         ingredient_name: 'Beef',
         value: 200,
         unit_id: 1,
@@ -21,7 +19,6 @@ module.exports = {
         updated_at: new Date()
       },
       {
-        ingredient_id: 3,
         ingredient_name: 'Sauce',
         value: 100,
         unit_id: 2,
@@ -30,7 +27,6 @@ module.exports = {
         updated_at: new Date()
       },
       {
-        ingredient_id: 4,
         ingredient_name: 'Salt',
         value: 10,
         unit_id: 1,
@@ -39,7 +35,6 @@ module.exports = {
         updated_at: new Date()
       },
       {
-        ingredient_id: 5,
         ingredient_name: 'Cabbage',
         value: 1,
         unit_id: 3,

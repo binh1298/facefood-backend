@@ -42,10 +42,10 @@ module.exports = {
 
         if (categoryName != undefined) {
           const requestCategory = await models.Category.findOne({
-            attributes: ['category_id'],
+            attributes: ['id'],
             where: {category_name: categoryName}
           });
-          categoryID = requestCategory.dataValues.category_id;
+          categoryID = requestCategory.dataValues.id;
         }
         if (categoryID != undefined) {
           whereCondition = {
@@ -73,8 +73,8 @@ module.exports = {
           });
 
         const finalResult = await Promise.all(posts.map(async post => {
-          const foundPostID = post.dataValues.postId;
-          const foundCategoryID = post.dataValues.categoryId;
+          const foundPostID = post.dataValues.id;
+          const foundCategoryID = post.dataValues.category_id;
           const totalLikes = await models.Like
             .findAndCountAll({
               where: {post_id: foundPostID, is_liked: true}
@@ -87,15 +87,19 @@ module.exports = {
             .findAndCountAll({
               where: {post_id: foundPostID}
             });
-          const category = await models.Category
-            .findOne({
-              attributes: ['category_name'],
-              where: {category_id: foundCategoryID}
-            });
+          var category;
+          var categoryName;
+          if (foundCategoryID != undefined) {
+             category = await models.Category
+              .findOne({
+                attributes: ['category_name'],
+                where: {id: foundCategoryID}
+              });
+            categoryName = category.dataValues.category_name;
+          }
           const likeCount = totalLikes.count;
           const commentCount = totalComments.count;
           const stepCount = totalSteps.count;
-          const categoryName = category.dataValues.category_name;
           return {...post.dataValues, categoryName, likeCount, commentCount, stepCount}
         }));
         res.status(status.OK)
@@ -122,7 +126,7 @@ module.exports = {
           });
 
         const finalResult = await Promise.all(posts.map(async post => {
-          const foundPostID = post.dataValues.postId;
+          const foundPostID = post.dataValues.id;
           const foundCategoryID = post.dataValues.categoryId;
           const totalLikes = await models.Like
             .findAndCountAll({
@@ -135,11 +139,11 @@ module.exports = {
           const category = await models.Category
             .findOne({
               attributes: ['category_name'],
-              where: {category_id: foundCategoryID}
+              where: {id: foundCategoryID}
             });
           const likeCount = totalLikes.count;
           const commentCount = totalComments.count;
-          const categoryName = category.dataValues.category_name;
+          const categoryName =  category.dataValues.category_name;
           return {...post.dataValues, categoryName, likeCount, commentCount}
         }));
         res.status(status.OK)
@@ -164,27 +168,27 @@ module.exports = {
           });
 
         var finalResult = await Promise.all(posts.map(async post => {
-            const foundPostID = post.dataValues.postId;
-            const foundCategoryID = post.dataValues.categoryId;
-            const totalLikes = await models.Like
-              .findAndCountAll({
-                where: {post_id: foundPostID, is_liked: true}
-              });
-            const totalComments = await models.Comment
-              .findAndCountAll({
-                where: {post_id: foundPostID, is_deleted: false}
-              });
-            const category = await models.Category
-              .findOne({
-                attributes: ['category_name'],
-                where: {category_id: foundCategoryID}
-              });
-            const likeCount = totalLikes.count;
-            const commentCount = totalComments.count;
-            const categoryName = category.dataValues.category_name;
-            return {...post.dataValues, categoryName, likeCount, commentCount}
-          }
-        ));
+          const foundPostID = post.dataValues.id;
+          const foundCategoryID = post.dataValues.category_id;
+          const totalLikes = await models.Like
+            .findAndCountAll({
+              where: {post_id: foundPostID, is_liked: true}
+            });
+          const totalComments = await models.Comment
+            .findAndCountAll({
+              where: {post_id: foundPostID, is_deleted: false}
+            });
+          const category = await models.Category
+            .findOne({
+              attributes: ['category_name'],
+              where: {id: foundCategoryID}
+            });
+          const likeCount = totalLikes.count;
+          const commentCount = totalComments.count;
+          const categoryName = category.dataValues.category_name;
+          return {...post.dataValues, categoryName, likeCount, commentCount}
+        }));
+
         finalResult.sort((a, b) => (a.totalLikes > b.totalLikes) ? 1 : ((b.totalLikes > a.totalLikes) ? -1 : 0));
         res.status(status.OK)
           .send({

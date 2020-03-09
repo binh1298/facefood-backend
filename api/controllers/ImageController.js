@@ -27,7 +27,7 @@ module.exports = {
     async post(req, res, next) {
       try {
         const image = await models.Image.findOne(
-          {where: [{image_id: req.params.imageId}]}
+          {where: [{id: req.params.imageId}]}
         );
         if (image == null) {
           res.status(status.OK)
@@ -44,7 +44,7 @@ module.exports = {
                 step_id: req.body.stepId,
                 updatedAt: new Date()
               },
-              {where: [{image_id: req.params.likeId}]})
+              {where: {id: req.params.imageId}})
             .then(function (result, err) {
               res.status(status.OK)
                 .send({
@@ -64,7 +64,7 @@ module.exports = {
       try {
         const result = await models.Image.update(
           {isDeleted: true, updated_at: new Date()},
-          {where: [{image_id: req.params.imageId}, {is_deleted: false}]}
+          {where: [{id: req.params.imageId}, {is_deleted: false}]}
         );
         res.status(status.OK)
           .send({

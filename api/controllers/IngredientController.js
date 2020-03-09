@@ -15,7 +15,7 @@ module.exports = {
         var ingredients = await models.Ingredient
           .findAll({
             attributes: [
-              'ingredientId',
+              'id',
               'ingredientName',
               'value',
               'unitId',
@@ -29,7 +29,7 @@ module.exports = {
           const foundUnitID = ingredient.dataValues.unitId;
           const foundUnitData = await models.Unit.findOne({
             attributes: ['unit_name'],
-            where: {unit_id: foundUnitID}
+            where: {id: foundUnitID}
           });
           const unitName = foundUnitData.dataValues.unit_name;
           return {...ingredient.dataValues, unitName}

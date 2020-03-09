@@ -2,12 +2,6 @@
 
 module.exports = function (sequelize, DataTypes) {
   var Image = sequelize.define('Image', {
-    imageId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      field: 'image_id'
-    },
     imageUrl: {
       type: DataTypes.STRING(5000000),
       allowNull: false,
