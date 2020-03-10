@@ -7,7 +7,7 @@ module.exports = {
     async post(req, res, next) {
       try {
         const followObject = await models.Follow.findOne(
-          {where: [{follow_id: req.params.followId}, {is_following: false}]}
+          {where: [{id: req.params.followId}, {is_following: false}]}
         );
         //User follows the selected followingID for the first time
         if (followObject == null) {
@@ -26,7 +26,7 @@ module.exports = {
           return models.Follow
             .update(
               {isFollowing: true, updatedAt: new Date()},
-              {where: [{follow_id: req.params.followId}]})
+              {where: [{id: req.params.followId}]})
             .then(function (result, err) {
               res.status(status.OK)
                 .send({
@@ -45,7 +45,7 @@ module.exports = {
     async post(req, res, next) {
       try {
         const followObject = await models.Follow.findOne(
-          {where: [{follow_id: req.params.followId}, {is_following: true}]});
+          {where: [{id: req.params.followId}, {is_following: true}]});
         //User is not yet following the selected followingID
         if (followObject == null) {
           res.status(status.BAD_REQUEST)
@@ -58,7 +58,7 @@ module.exports = {
           return models.Follow
             .update(
               {isFollowing: false, updatedAt: new Date()},
-              {where: [{follow_id: req.params.followId}, {is_following: true}]}
+              {where: [{id: req.params.followId}, {is_following: true}]}
             ).then(function (result, err) {
               res.status(status.OK)
                 .send({

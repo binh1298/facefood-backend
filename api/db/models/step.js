@@ -2,12 +2,6 @@
 
 module.exports = function (sequelize, DataTypes) {
   var Step = sequelize.define('Step', {
-    stepId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      field: 'step_id'
-    },
     description: {
       type: DataTypes.STRING,
       allowNull: true,

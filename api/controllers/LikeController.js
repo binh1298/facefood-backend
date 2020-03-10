@@ -7,7 +7,7 @@ module.exports = {
     async post(req, res, next) {
       try {
         const likeObject = await models.Like.findOne(
-          {where: [{like_id: req.params.likeId}, {is_liked: false}]}
+          {where: [{id: req.params.likeId}, {is_liked: false}]}
         );
         //User likes the post for the first time
         if (likeObject == null) {
@@ -28,7 +28,7 @@ module.exports = {
           return models.Like
             .update(
               {isLiked: true, updatedAt: new Date()},
-              {where: [{like_id: req.params.likeId}]})
+              {where: [{id: req.params.likeId}]})
             .then(function (result, err) {
               res.status(status.OK)
                 .send({
@@ -46,7 +46,7 @@ module.exports = {
   unlike: {
     async post(req, res, next) {
       try {
-        const likeObject = await models.Like.findOne({where: [{like_id: req.params.likeId}, {is_liked: true}]});
+        const likeObject = await models.Like.findOne({where: [{id: req.params.likeId}, {is_liked: true}]});
         //User has not liked this post yet
         if (likeObject == null) {
           res.status(status.BAD_REQUEST)
@@ -59,7 +59,7 @@ module.exports = {
           return models.Like
             .update(
               {isLiked: false, updatedAt: new Date()},
-              {where: [{like_id: req.params.likeId}, {is_liked: true}]}
+              {where: [{id: req.params.likeId}, {is_liked: true}]}
             ).then(function (result, err) {
               res.status(status.OK)
                 .send({

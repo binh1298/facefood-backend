@@ -3,12 +3,7 @@ const uuid = require('uuid');
 
 module.exports = function (sequelize, DataTypes) {
   const Post = sequelize.define('Post', {
-    postId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      field: 'post_id'
-    },
+
     postName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -41,14 +36,17 @@ module.exports = function (sequelize, DataTypes) {
     },
     categoryId: {
       type: DataTypes.INTEGER,
-      field: 'category_id'
+      field: 'category_id',
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.DATE,
+      defaultValue: new Date(),
       field: 'created_at'
     },
     updatedAt: {
       type: DataTypes.DATE,
+      defaultValue: new Date(),
       field: 'updated_at'
     },
   }, {

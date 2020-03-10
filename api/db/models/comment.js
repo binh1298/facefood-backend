@@ -3,12 +3,6 @@ const uuid = require('uuid');
 
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Comment', {
-    commentId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      field: 'comment_id'
-    },
     content: {
       type: DataTypes.STRING,
       allowNull: false,
