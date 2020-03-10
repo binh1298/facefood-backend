@@ -64,7 +64,6 @@ module.exports = {
             attributes: ['username'],
             where: {id: foundUserID}
           });
-          console.log('username: ', foundUsername);
           const username = foundUsername.dataValues.username;
           return {...comment.dataValues, username}
         }));

@@ -36,7 +36,8 @@ module.exports = function (sequelize, DataTypes) {
     },
     categoryId: {
       type: DataTypes.INTEGER,
-      field: 'category_id'
+      field: 'category_id',
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.DATE,

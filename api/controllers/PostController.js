@@ -169,7 +169,7 @@ module.exports = {
 
         var finalResult = await Promise.all(posts.map(async post => {
           const foundPostID = post.dataValues.id;
-          const foundCategoryID = post.dataValues.category_id;
+          const foundCategoryID = post.dataValues.categoryId;
           const totalLikes = await models.Like
             .findAndCountAll({
               where: {post_id: foundPostID, is_liked: true}
@@ -188,7 +188,6 @@ module.exports = {
           const categoryName = category.dataValues.category_name;
           return {...post.dataValues, categoryName, likeCount, commentCount}
         }));
-
         finalResult.sort((a, b) => (a.totalLikes > b.totalLikes) ? 1 : ((b.totalLikes > a.totalLikes) ? -1 : 0));
         res.status(status.OK)
           .send({
@@ -210,12 +209,12 @@ module.exports = {
               exclude: ['category_id', 'user_id', 'userId']
             },
             where: {
-              postId: req.params.postId
+              id: req.params.postId
             }
           });
         //data from initial response
         const foundCategoryID = post.dataValues.categoryId;
-        const foundPostID = post.dataValues.postId;
+        const foundPostID = post.dataValues.id;
         //Additional data for Post
         const totalLikes = await models.Like
           .findAndCountAll({
@@ -227,15 +226,15 @@ module.exports = {
           });
         const stepsData = await models.Step
           .findAndCountAll({
-            attributes: ['stepId', 'description', 'stepCount'],
+            attributes: ['id', 'description', 'stepCount'],
             where: {post_id: foundPostID}
           });
         const steps = await Promise.all(stepsData.rows.map(async step => {
-          const foundStepID = step.dataValues.stepId;
+          const foundStepID = step.dataValues.id;
           const stepImage = await models.Image
             .findOne({
               attributes: ['image_url'],
-              where: {stepId: foundStepID}
+              where: {id: foundStepID}
             })
           const imageUrl = stepImage.dataValues.image_url;
           return {...step.dataValues, imageUrl}
@@ -248,7 +247,7 @@ module.exports = {
         const category = await models.Category
           .findOne({
             attributes: ['category_name'],
-            where: {category_id: foundCategoryID}
+            where: {id: foundCategoryID}
           });
         //Get data from requests
         const likeCount = totalLikes.count;
@@ -294,17 +293,16 @@ module.exports = {
               'is_deleted',
             ],
             where: {
-              postId: req.params.postId
+              id: req.params.postId
             }
           },
         );
-        console.log(post.dataValues.is_deleted);
         const newStatus = !post.dataValues.is_deleted;
         const result = await models.Post.update(
           {isDeleted: newStatus},
           {
             where: {
-              postId: req.params.postId
+              id: req.params.postId
             }
           }
         );
