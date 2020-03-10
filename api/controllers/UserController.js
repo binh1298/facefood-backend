@@ -22,7 +22,7 @@ module.exports = {
           where: {
             username: req.body.username,
           },
-          attributes: ['username', 'password', 'userId'],
+          attributes: ['username', 'password', 'id'],
         });
         if (!user) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
         const isValidPassword = bcrypt.compareSync(req.body.password, user.password);
@@ -153,7 +153,7 @@ module.exports = {
 
         const users = await models.User.findAll({
           attributes: [
-            'userId',
+            'id',
             'username',
             'email',
             'fullname',
@@ -172,14 +172,14 @@ module.exports = {
         });
         const finalUserResult = await Promise.all(users.map(async user => {
           var likeCount = 0, commentCount = 0;
-          const foundUserID = user.dataValues.userId;
+          const foundUserID = user.dataValues.id;
           //Additional data
           const totalPosts = await models.Post
             .findAndCountAll({
               where: {user_id: foundUserID}
             });
           await Promise.all(totalPosts.rows.map(async post => {
-            const foundPostID = post.dataValues.postId;
+            const foundPostID = post.dataValues.id;
             const totalLikes = await models.Like
               .findAndCountAll({
                 where: {post_id: foundPostID, is_liked: true}
@@ -224,7 +224,7 @@ module.exports = {
       try {
         const user = await models.User.findOne({
             attributes: [
-              'userId',
+              'id',
               'username',
               'email',
               'fullname',
@@ -239,13 +239,13 @@ module.exports = {
             }
           },
         );
-        const foundUserID = user.dataValues.userId;
+        const foundUserID = user.dataValues.id;
         const userPosts = await models.Post.findAll({
-          attributes: ['postId', 'postName', 'createdAt'],
+          attributes: ['id', 'postName', 'createdAt'],
           where: {user_id: foundUserID}
         });
         const posts = await Promise.all(userPosts.map(async post => {
-          const foundPostID = post.dataValues.postId;
+          const foundPostID = post.dataValues.id;
           //Additional Data
           const imageData = await models.Image
             .findOne({

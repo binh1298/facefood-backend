@@ -28,7 +28,7 @@ module.exports = {
           comments = await models.Comment
             .findAll({
               attributes: [
-                'commentId',
+                'id',
                 'content',
                 'userId',
                 'postId',
@@ -44,7 +44,7 @@ module.exports = {
           comments = await models.Comment
             .findAll({
               attributes: [
-                'commentId',
+                'id',
                 'content',
                 'userId',
                 'postId',
@@ -62,9 +62,8 @@ module.exports = {
           const foundUserID = comment.dataValues.userId;
           const foundUsername = await models.User.findOne({
             attributes: ['username'],
-            where: {user_id: foundUserID}
+            where: {id: foundUserID}
           });
-          console.log('username: ', foundUsername);
           const username = foundUsername.dataValues.username;
           return {...comment.dataValues, username}
         }));
@@ -92,7 +91,7 @@ module.exports = {
         } else {
           const result = await models.Comment.update(
             {content: newContent, updated_at: new Date()},
-            {where: [{comment_id: req.params.commentId}, {is_deleted: false}]}
+            {where: [{id: req.params.commentId}, {is_deleted: false}]}
           );
           res.status(status.OK)
             .send({
@@ -111,7 +110,7 @@ module.exports = {
       try {
         const result = await models.Comment.update(
           {isDeleted: true, updated_at: new Date()},
-          {where: [{comment_id: req.params.commentId}, {is_deleted: false}]}
+          {where: [{id: req.params.commentId}, {is_deleted: false}]}
         );
         res.status(status.OK)
           .send({
