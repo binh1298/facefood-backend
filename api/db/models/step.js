@@ -17,6 +17,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       field: 'post_id'
     },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'image_url'
+    },
     createdAt: {
       type: DataTypes.DATE,
       field: 'created_at'
@@ -28,10 +33,5 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     tableName: 'step'
   });
-  Step.associate = function (models) {
-    models.Step.hasMany(models.Image, {
-      foreignKey: "step_id"
-    });
-  }
   return Step;
 };
