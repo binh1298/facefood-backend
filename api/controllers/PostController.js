@@ -74,7 +74,7 @@ module.exports = {
 
         const finalResult = await Promise.all(posts.map(async post => {
           const foundPostID = post.dataValues.id;
-          const foundCategoryID = post.dataValues.category_id;
+          const foundCategoryID = post.dataValues.categoryId;
           const totalLikes = await models.Like
             .findAndCountAll({
               where: {post_id: foundPostID, is_liked: true}
