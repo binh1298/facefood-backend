@@ -8,6 +8,7 @@ module.exports = {
       fullname: 'Hello Space Potato',
       password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
       email: 'space@potato.com',
+      avatar_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/avatars%2Favatar_potato.jpg?alt=media&token=f7b5e12e-6819-4c55-ace7-03155106f3f3',
       created_at: new Date(),
       updated_at: new Date(),
       role_id: 2
@@ -18,6 +19,7 @@ module.exports = {
         fullname: 'Hello Potato',
         password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
         email: 'potato@potato.com',
+        avatar_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/avatars%2Favatar_none.png?alt=media&token=99b44006-6136-4c11-8f8c-3f82d65483e6',
         created_at: new Date(),
         updated_at: new Date(),
         role_id: 2
@@ -28,6 +30,7 @@ module.exports = {
         fullname: 'Pham Duc Binh',
         password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
         email: 'binh@pham.com',
+        avatar_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/avatars%2Favatar_binh.jpg?alt=media&token=57fb0d7f-4692-4560-b29c-5275e33d6ad6',
         created_at: new Date(),
         updated_at: new Date(),
         role_id: 1
@@ -38,6 +41,7 @@ module.exports = {
         fullname: 'Phi Do Hong Duc',
         password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
         email: 'duc@phi.com',
+        avatar_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/avatars%2Favatar_duc.jpg?alt=media&token=389bf32e-1e1d-4662-9875-914b424d74cf',
         created_at: new Date(),
         updated_at: new Date(),
         role_id: 1
@@ -48,6 +52,7 @@ module.exports = {
         fullname: 'Tran Thien Loc',
         password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
         email: 'loc@tran.com',
+        avatar_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/avatars%2Favatar_loc.jpg?alt=media&token=bdfaa794-c6ea-4658-860a-26f3759855a4',
         created_at: new Date(),
         updated_at: new Date(),
         role_id: 1
@@ -58,6 +63,7 @@ module.exports = {
         password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
         fullname: 'Full Admin Name',
         email: 'admin@admin.com',
+        avatar_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/avatars%2Favatar_none.png?alt=media&token=99b44006-6136-4c11-8f8c-3f82d65483e6',
         created_at: new Date(),
         updated_at: new Date(),
         role_id: 1

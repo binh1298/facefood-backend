@@ -90,7 +90,7 @@ module.exports = {
           var category;
           var categoryName;
           if (foundCategoryID != undefined) {
-             category = await models.Category
+            category = await models.Category
               .findOne({
                 attributes: ['category_name'],
                 where: {id: foundCategoryID}
@@ -143,7 +143,7 @@ module.exports = {
             });
           const likeCount = totalLikes.count;
           const commentCount = totalComments.count;
-          const categoryName =  category.dataValues.category_name;
+          const categoryName = category.dataValues.category_name;
           return {...post.dataValues, categoryName, likeCount, commentCount}
         }));
         res.status(status.OK)
@@ -226,22 +226,7 @@ module.exports = {
           });
         const stepsData = await models.Step
           .findAndCountAll({
-            attributes: ['id', 'description', 'stepCount'],
-            where: {post_id: foundPostID}
-          });
-        const steps = await Promise.all(stepsData.rows.map(async step => {
-          const foundStepID = step.dataValues.id;
-          const stepImage = await models.Image
-            .findOne({
-              attributes: ['image_url'],
-              where: {id: foundStepID}
-            })
-          const imageUrl = stepImage.dataValues.image_url;
-          return {...step.dataValues, imageUrl}
-        }));
-        const imageData = await models.Image
-          .findOne({
-            attributes: ['image_url'],
+            attributes: ['id', 'description', 'stepCount','imageUrl'],
             where: {post_id: foundPostID}
           });
         const category = await models.Category
@@ -253,9 +238,9 @@ module.exports = {
         const likeCount = totalLikes.count;
         const commentCount = totalComments.count;
         const stepCount = stepsData.count;
-        const imageUrl = imageData.dataValues.image_url;
         const categoryName = category.dataValues.category_name;
-        const finalResult = {...post.dataValues, categoryName, likeCount, commentCount, stepCount, imageUrl, steps};
+        const steps = stepsData.rows;
+        const finalResult = {...post.dataValues, categoryName, likeCount, commentCount, stepCount, steps};
         res.status(status.OK)
           .send({
             success: true,
