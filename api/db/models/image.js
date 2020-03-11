@@ -17,6 +17,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true,
       field: 'step_id'
     },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      field: 'user_id'
+    },
     isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
