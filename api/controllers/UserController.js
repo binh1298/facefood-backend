@@ -162,6 +162,7 @@ module.exports = {
             'isDeleted',
             'createdAt',
             'updatedAt',
+            'avatarUrl'
           ],
           where: whereCondition,
           order: [
@@ -232,7 +233,8 @@ module.exports = {
               'roleId',
               'isDeleted',
               'createdAt',
-              'updatedAt'
+              'updatedAt',
+              'avatarUrl'
             ],
             where: {
               username: req.params.username
@@ -244,17 +246,6 @@ module.exports = {
           attributes: ['id', 'postName', 'createdAt'],
           where: {user_id: foundUserID}
         });
-        const posts = await Promise.all(userPosts.map(async post => {
-          const foundPostID = post.dataValues.id;
-          //Additional Data
-          const imageData = await models.Image
-            .findOne({
-              attributes: ['image_url'],
-              where: {post_id: foundPostID}
-            });
-          const imageUrl = imageData.dataValues.image_url;
-          return {...post.dataValues, imageUrl}
-        }));
         const totalFollowers = await models.Follow
           .findAndCountAll({
             where: {following_id: foundUserID, is_following: true}
@@ -264,7 +255,7 @@ module.exports = {
             where: {user_id: foundUserID, is_following: true}
           });
         //response
-        const finalResult = {...user.dataValues, posts, totalFollowers, totalFollowings};
+        const finalResult = {...user.dataValues, userPosts, totalFollowers, totalFollowings};
         res.status(status.OK)
           .send({
             status: true,

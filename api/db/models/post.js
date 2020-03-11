@@ -34,6 +34,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true,
       field: 'username'
     },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'image_url'
+    },
     categoryId: {
       type: DataTypes.INTEGER,
       field: 'category_id',
@@ -71,9 +76,6 @@ module.exports = function (sequelize, DataTypes) {
     models.Post.hasMany(models.Ingredient, {
       foreignKey: "post_id"
     });
-    models.Post.hasMany(models.Image, {
-      foreignKey: "post_id"
-    });
-  }
+  };
   return Post;
 };

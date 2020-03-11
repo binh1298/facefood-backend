@@ -33,6 +33,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       field: 'phone_number'
     },
+    avatarUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'avatar_url'
+    },
     isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
