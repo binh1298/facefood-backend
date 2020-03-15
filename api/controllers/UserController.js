@@ -100,6 +100,7 @@ module.exports = {
         const queryData = url.parse(req.url, true).query;
         var query = queryData.query;
         const roleID = queryData.roleId;
+        console.log(roleID);
         const isDeleted = queryData.isDeleted;
         var whereCondition;
         //Validate data from request
@@ -111,7 +112,7 @@ module.exports = {
         }
         const orderOptions = queryData.order.split(",");
 
-        if (roleID != undefined) {
+        if (roleID != '') {
           if (isDeleted == 'true' || isDeleted == 'false') {
             //RoleID + isDeleted
             whereCondition = {
