@@ -27,7 +27,7 @@ module.exports = {
         if (!user) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
         const isValidPassword = bcrypt.compareSync(req.body.password, user.password);
         if (!isValidPassword) throw new DefaultError(status.BAD_REQUEST, 'Invalid Username or password');
-        const {userId, username, roleName = 'admin'} = user;
+        const {id: userId, username, roleName = 'admin'} = user;
         const token = jwt.sign({userId, username, roleName}, JWT_SECRET);
         return res.status(status.OK).send({
           status: true,
