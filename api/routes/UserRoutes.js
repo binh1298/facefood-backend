@@ -2,7 +2,7 @@
 
 /**
  * User Route
- * path: /user
+ * path: /users
  */
 
 let express = require('express');
