@@ -241,11 +241,26 @@ module.exports = {
             }
           },
         );
+        var likeCount = 0, commentCount = 0;
         const foundUserID = user.dataValues.id;
-        const userPosts = await models.Post.findAll({
-          attributes: ['id', 'postName', 'createdAt'],
-          where: {user_id: foundUserID}
-        });
+        //Additional data
+        const totalPosts = await models.Post
+          .findAndCountAll({
+            where: {user_id: foundUserID}
+          });
+        await Promise.all(totalPosts.rows.map(async post => {
+          const foundPostID = post.dataValues.id;
+          const totalLikes = await models.Like
+            .findAndCountAll({
+              where: {post_id: foundPostID, is_liked: true}
+            });
+          const totalComments = await models.Comment
+            .findAndCountAll({
+              where: {post_id: foundPostID, is_deleted: false}
+            });
+          likeCount += totalLikes.count;
+          commentCount += totalComments.count;
+        }));
         const totalFollowers = await models.Follow
           .findAndCountAll({
             where: {following_id: foundUserID, is_following: true}
@@ -254,14 +269,19 @@ module.exports = {
           .findAndCountAll({
             where: {user_id: foundUserID, is_following: true}
           });
-        //response
-        const finalResult = {...user.dataValues, userPosts, totalFollowers, totalFollowings};
+
+        //count additional data objects
+        const postCount = totalPosts.count;
+        const followerCount = totalFollowers.count;
+        const followingCount = totalFollowings.count;
+        const finalUserResult = {...user.dataValues, postCount, likeCount, commentCount, followerCount, followingCount};
         res.status(status.OK)
           .send({
             status: true,
-            message: finalResult,
+            message: finalUserResult,
           });
-      } catch (error) {
+      } catch
+        (error) {
         next(error);
       }
     }
