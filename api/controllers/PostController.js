@@ -50,7 +50,6 @@ module.exports = {
             }
           });
           categoryID = requestCategory?.dataValues.id;
-          console.log(categoryID)
         }
         if (categoryID != null) {
           whereCondition = {
