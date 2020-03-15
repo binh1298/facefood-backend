@@ -43,11 +43,15 @@ module.exports = {
         if (categoryName != undefined) {
           const requestCategory = await models.Category.findOne({
             attributes: ['id'],
-            where: {category_name: categoryName}
+            where: {
+              category_name: {
+                [Op.iLike]: '%' + categoryName + '%'
+              },
+            }
           });
-          categoryID = requestCategory.dataValues.id;
+          categoryID = requestCategory?.dataValues.id;
         }
-        if (categoryID != undefined) {
+        if (categoryID != null) {
           whereCondition = {
             post_name: {
               [Op.iLike]: '%' + postName + '%'
@@ -226,7 +230,7 @@ module.exports = {
           });
         const stepsData = await models.Step
           .findAndCountAll({
-            attributes: ['id', 'description', 'stepCount','imageUrl'],
+            attributes: ['id', 'description', 'stepCount', 'imageUrl'],
             where: {post_id: foundPostID}
           });
         const category = await models.Category
