@@ -1,4 +1,11 @@
-const {DATABASE_URL, POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT} = require("../../configurations");
+const {
+  DATABASE_URL,
+  POSTGRES_DB,
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_HOST,
+  POSTGRES_PORT
+} = require("../../configurations");
 
 module.exports = {
   development: {
@@ -8,7 +15,10 @@ module.exports = {
     password: POSTGRES_PASSWORD,
     host: POSTGRES_HOST,
     port: POSTGRES_PORT,
-    dialect: 'postgres'
+    dialect: "postgres",
+    protocol: "postgres",
+    ssl: true,
+    dialectOptions: { ssl: true },
   },
 
   production: {
@@ -18,6 +28,9 @@ module.exports = {
     password: POSTGRES_PASSWORD,
     host: POSTGRES_HOST,
     port: POSTGRES_PORT,
-    dialect: 'postgres'
+    dialect: "postgres",
+    protocol: "postgres",
+    ssl: true,
+    dialectOptions: { ssl: true },
   }
 };
