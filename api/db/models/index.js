@@ -9,19 +9,27 @@ const env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
 const config = configJson[env];
 const db = {};
 
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  {
+let sequelize;
+console.log(config.databaseUrl);
+if (config.databaseUrl) {
+  // the application is executed on Heroku ... use the postgres database
+  sequelize = new Sequelize(config.databaseUrl, {
+    dialect: "postgres",
+    protocol: "postgres",
+    ssl: true,
+    dialectOptions: { ssl: true },
+    logging: true //false
+  });
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
     port: config.port,
     dialect: "postgres",
     ssl: true,
     dialectOptions: { ssl: true },
     logging: console.log
-  }
-);
+  });
+}
 
 fs.readdirSync(__dirname)
   .filter(file => {
