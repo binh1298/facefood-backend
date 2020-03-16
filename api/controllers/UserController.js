@@ -111,7 +111,7 @@ module.exports = {
         }
         const orderOptions = queryData.order.split(",");
 
-        if (roleID != '') {
+        if (roleID && roleID != '') {
           if (isDeleted == 'true' || isDeleted == 'false') {
             //RoleID + isDeleted
             whereCondition = {
