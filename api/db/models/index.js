@@ -25,8 +25,8 @@ if (config.databaseUrl) {
     host: config.host,
     port: config.port,
     dialect: "postgres",
-    ssl: true,
-    dialectOptions: { ssl: true },
+    // ssl: true,
+    // dialectOptions: { ssl: true },
     logging: console.log
   });
 }
