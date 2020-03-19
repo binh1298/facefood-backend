@@ -18,14 +18,12 @@ db.sequelize.authenticate()
 db.sequelize.sync({force: false, logging: false});
 
 const app = express();
-
 app.use(
   cors({
     origin: FRONTEND_URL,
     credentials: true,
   })
 );
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 

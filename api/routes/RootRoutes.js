@@ -25,7 +25,7 @@ router.post('/register', [
   check('email', 'Invalid Email').isEmail().normalizeEmail(),
   check('username', 'Username must be at least 5 characters').isLength({ min: 5 }),
   check('password', 'Password must be at least 5 characters').isLength({ min: 5 }),
-  check('password', 'Password have to match Confirm Password').custom((value, { req, loc, path }) => {
+  check('confirmPassword', 'Password have to match Confirm Password').custom((value, { req, loc, path }) => {
     if (value !== req.body.confirmPassword) {
       throw new Error("Passwords don't match");
     } else {

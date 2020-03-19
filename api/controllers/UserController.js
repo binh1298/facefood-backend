@@ -61,7 +61,7 @@ module.exports = {
             email,
             username,
             password,
-            roleId: 1,
+            roleId: 2,
           });
           res.status(status.CREATED).send({
             status: true,
@@ -111,7 +111,7 @@ module.exports = {
         }
         const orderOptions = queryData.order.split(",");
 
-        if (roleID != '') {
+        if (roleID && roleID != '') {
           if (isDeleted == 'true' || isDeleted == 'false') {
             //RoleID + isDeleted
             whereCondition = {
@@ -246,6 +246,7 @@ module.exports = {
         //Additional data
         const totalPosts = await models.Post
           .findAndCountAll({
+            attributes: {exclude: ['category_id', 'user_id','userId']},
             where: {user_id: foundUserID}
           });
         await Promise.all(totalPosts.rows.map(async post => {
@@ -274,7 +275,15 @@ module.exports = {
         const postCount = totalPosts.count;
         const followerCount = totalFollowers.count;
         const followingCount = totalFollowings.count;
-        const finalUserResult = {...user.dataValues, postCount, likeCount, commentCount, followerCount, followingCount};
+        const finalUserResult = {
+          ...user.dataValues,
+          totalPosts,
+          postCount,
+          likeCount,
+          commentCount,
+          followerCount,
+          followingCount
+        };
         res.status(status.OK)
           .send({
             status: true,
