@@ -1,7 +1,7 @@
 'use strict';
 const models = require('../db/models/index');
 const status = require('http-status');
-
+const url = require('url');
 module.exports = {
   like: {
     async post(req, res, next) {
@@ -73,5 +73,49 @@ module.exports = {
         next(error);
       }
     }
+  },
+  check_if_liked: {
+    async get(req, res, next) {
+      try {
+        const queryData = url.parse(req.url, true).query;
+        var postId = parseInt(queryData.postId, 10);
+        var username = queryData.username;
+        console.log(postId);
+        console.log(username);
+        if (postId == undefined) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Must include post ID!"
+            });
+        }
+        if (username == undefined) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Must include username!"
+            });
+        }
+        const isLiked = await models.Like
+          .findOne({
+            attributes: ['isLiked'],
+            where: {postId: postId, username: username},
+          });
+        if (isLiked == null) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Like not exist!"
+            });
+        }
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: isLiked
+          });
+      } catch (error) {
+        next(error)
+      }
+    },
   }
 };

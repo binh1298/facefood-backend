@@ -7,6 +7,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       field: 'user_id'
     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'username'
+    },
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
