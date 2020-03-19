@@ -17,8 +17,8 @@ module.exports = {
     port: POSTGRES_PORT,
     dialect: "postgres",
     protocol: "postgres",
-    ssl: true,
-    dialectOptions: { ssl: true },
+    // ssl: true,
+    // dialectOptions: { ssl: true },
   },
 
   production: {
