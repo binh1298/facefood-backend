@@ -4,8 +4,11 @@ module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Like', {
     userId: {
       type: DataTypes.UUID,
-      allowNull: false,
       field: 'user_id'
+    },
+    username: {
+      type: DataTypes.STRING,
+      field: 'username'
     },
     postId: {
       type: DataTypes.INTEGER,

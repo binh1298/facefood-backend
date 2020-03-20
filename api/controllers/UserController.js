@@ -246,7 +246,7 @@ module.exports = {
         //Additional data
         const totalPosts = await models.Post
           .findAndCountAll({
-            attributes: {exclude: ['category_id', 'user_id','userId']},
+            attributes: {exclude: ['category_id', 'user_id', 'userId']},
             where: {user_id: foundUserID}
           });
         await Promise.all(totalPosts.rows.map(async post => {
@@ -322,6 +322,38 @@ module.exports = {
             success: true,
             message: result
           });
+      } catch (error) {
+        next(error)
+      }
+    }
+  },
+
+  update_avatar_url: {
+    async put(req, res, next) {
+      try {
+        const queryData = url.parse(req.url, true).query;
+        const newAvatarURL = queryData.avatarUrl;
+        if (!newAvatarURL.includes('http://')) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Please input valid URL!"
+            });
+        } else {
+          const result = await models.User.update(
+            {avatarUrl: newAvatarURL},
+            {
+              where: {
+                username: req.params.username
+              }
+            }
+          );
+          res.status(status.OK)
+            .send({
+              success: true,
+              message: result
+            });
+        }
       } catch (error) {
         next(error)
       }
