@@ -61,10 +61,10 @@ module.exports = {
             });
         }
         const finalResult = await Promise.all(comments.map(async comment => {
-          const foundUserID = comment.dataValues.userId;
+          const foundUsername = comment.dataValues.username;
           const foundAvatarUrl = await models.User.findOne({
             attributes: ['avatarUrl'],
-            where: {id: foundUserID}
+            where: {username: foundUsername}
           });
           const avatarUrl = foundAvatarUrl.dataValues.avatarUrl;
           return {...comment.dataValues, avatarUrl}
