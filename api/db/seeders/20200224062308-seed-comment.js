@@ -4,6 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('comment', [{
       user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
+      username: 'SpacePotato',
       post_id: 1,
       content: 'That looks delicious!',
       is_deleted: false,
@@ -11,6 +12,7 @@ module.exports = {
       updated_at: new Date()
     }, {
       user_id: '9903c282-06ed-48fe-9607-76e7903f6b72',
+      username: 'BinhPham',
       post_id: 1,
       content: 'Thank you for this post!',
       is_deleted: false,
@@ -18,6 +20,7 @@ module.exports = {
       updated_at: new Date()
     }, {
       user_id: 'bfad3537-875c-4bf2-bb97-41c00b912d76',
+      username: 'Potato',
       post_id: 2,
       content: 'I have tried this recipe, but no luck. Well, there is always next time!',
       is_deleted: false,
@@ -25,6 +28,7 @@ module.exports = {
       updated_at: new Date()
     }, {
       user_id: 'ef71e125-37b5-4a5f-87e1-fdda43a4ccb2',
+      username: 'DucPhi',
       post_id: 2,
       content: 'Followed the instructions, and the result is wonderful!',
       is_deleted: false,
