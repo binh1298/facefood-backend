@@ -4,20 +4,42 @@ const status = require('http-status');
 
 module.exports = {
   create: {
-    post(req, res) {
-      return models.Comment
-        .create(req.body)
-        .then(function (comment, err) {
-          if (comment) {
-            res.status(status.OK)
-              .send({
-                success: true,
-                message: "OK",
-                error: err
-              });
-          }
+    async post(req, res, next) {
+      try {
+        const userId = req.body.userId;
+        const foundUser = await models.User.findOne({
+          attributes: ['username'],
+          where: {id: userId}
         });
-    },
+        const username = foundUser.dataValues.username;
+        if (username == undefined) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "User not found!",
+              error: err
+            });
+        } else {
+          //add username into request body
+          req.body.username = username;
+          return await models.Comment
+            .create(
+              req.body,
+            )
+            .then(function (comment) {
+              if (comment) {
+                res.status(status.OK)
+                  .send({
+                    success: true,
+                    message: "OK",
+                  });
+              }
+            });
+        }
+      } catch (error) {
+        next(error)
+      }
+    }
   },
 
   view_by_post_id: {
