@@ -305,5 +305,86 @@ module.exports = {
       }
     }
   },
+  search: {
+    async get(req, res, next) {
+      try {
+        const queryData = url.parse(req.url, true).query;
+        const type = queryData.type;
+        const query = queryData.query;
+        var foundPosts;
+        if (query == undefined) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Input search query!"
+            });
+        } else {
+          switch (type) {
+            //Find by postName
+            case "name": {
+              foundPosts = await models.Post.findAll({
+                where: {
+                  post_name: {
+                    [Op.iLike]: '%' + query + '%'
+                  },
+                }
+              });
+              break;
+            }
+            //Find by categoryName
+            case "category": {
+              const category = await models.Category.findAll({
+                attributes: ['id'],
+                where: {
+                  category_name: {
+                    [Op.iLike]: '%' + query + '%'
+                  }
+                },
+                raw: true,
+              });
+              const categoryIds = category.map(category => category.id);
 
-};
+              foundPosts = await models.Post.findAll({
+                where: {category_id: categoryIds}
+              });
+              break;
+            }
+            //Find by ingredientName
+            case "ingredient": {
+              const ingredients = await models.Ingredient.findAll({
+                attributes: ['post_id'],
+                where: {
+                  ingredient_name: {
+                    [Op.iLike]: '%' + query + '%'
+                  }
+                },
+                raw: true,
+              });
+              const postIds = ingredients.map(ingredient => ingredient.post_id);
+
+              foundPosts = await models.Post.findAll({
+                where: {id: postIds}
+              });
+              break;
+            }
+            default: {
+              res.status(status.OK)
+                .send({
+                  success: false,
+                  message: "Invalid search type!"
+                });
+            }
+          }
+          return res.status(status.OK)
+            .send({
+              success: true,
+              message: foundPosts
+            });
+        }
+      } catch
+        (error) {
+        next(error)
+      }
+    }
+  },
+}
