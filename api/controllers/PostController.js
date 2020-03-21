@@ -373,10 +373,35 @@ module.exports = {
                 });
             }
           }
+          const finalResult = await Promise.all(foundPosts.map(async post => {
+            const foundPostID = post.dataValues.id;
+            const foundCategoryID = post.dataValues.categoryId;
+            const totalLikes = await models.Like
+              .findAndCountAll({
+                where: {post_id: foundPostID, is_liked: true}
+              });
+            const totalComments = await models.Comment
+              .findAndCountAll({
+                where: {post_id: foundPostID, is_deleted: false}
+              });
+            var category;
+            var categoryName;
+            if (foundCategoryID != undefined) {
+              category = await models.Category
+                .findOne({
+                  attributes: ['category_name'],
+                  where: {id: foundCategoryID}
+                });
+              categoryName = category.dataValues.category_name;
+            }
+            const likeCount = totalLikes.count;
+            const commentCount = totalComments.count;
+            return {...post.dataValues, categoryName, likeCount, commentCount}
+          }));
           return res.status(status.OK)
             .send({
               success: true,
-              message: foundPosts
+              message: finalResult
             });
         }
       } catch
