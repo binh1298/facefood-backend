@@ -343,7 +343,6 @@ module.exports = {
                 raw: true,
               });
               const categoryIds = category.map(category => category.id);
-
               foundPosts = await models.Post.findAll({
                 where: {category_id: categoryIds}
               });
@@ -361,7 +360,6 @@ module.exports = {
                 raw: true,
               });
               const postIds = ingredients.map(ingredient => ingredient.post_id);
-
               foundPosts = await models.Post.findAll({
                 where: {id: postIds}
               });
