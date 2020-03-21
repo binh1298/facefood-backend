@@ -15,9 +15,7 @@ router.get('/popular',Controller.popular.get);
 router.get('/search',Controller.search.get)
 router.get('/:postId', Controller.view_post_details.get);
 
-
 router.post('/', Controller.create.post);
 router.put('/:postId', Controller.set_avail_status.put);
-
 
 module.exports = router;
