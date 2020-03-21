@@ -312,7 +312,7 @@ module.exports = {
         const type = queryData.type;
         const query = queryData.query;
         var foundPosts;
-        if (query == undefined) {
+        if (query == '') {
           res.status(status.OK)
             .send({
               success: false,
