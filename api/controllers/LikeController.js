@@ -3,85 +3,159 @@ const models = require('../db/models/index');
 const status = require('http-status');
 const url = require('url');
 module.exports = {
-  like: {
+  like_unlike: {
     async post(req, res, next) {
       try {
+        //Validation
+
+        //find username based on userId
+        const userId = req.body.userId;
+        if (userId == undefined) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Please enter userId",
+            })
+        }
+        const foundUser = await models.User.findOne({
+          attributes: ['username'],
+          where: {id: userId}
+        });
+        const username = foundUser.dataValues.username;
+        if (username == undefined) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "No user found!",
+            })
+        }
+        ;
+
+        //find post based on postId
+        const postId = req.body.postId;
+        if (postId == undefined) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Please enter postId!",
+            })
+        }
+        const foundPost = await models.Post.findOne({
+          where: {id: postId}
+        })
+        if (foundPost == undefined) {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Post not found!",
+            })
+        }
+        //Find Like based on userId and postId
         const likeObject = await models.Like.findOne(
-          {where: [{id: req.params.likeId}, {is_liked: false}]}
+          {
+            where:
+              [
+                {user_id: userId},
+                {post_id: postId},
+              ]
+          }
         );
-        //User likes the post for the first time
-        if (likeObject == null) {
-          return models.Like
-            .create(req.body)
-            .then(function (like, err) {
-              if (like) {
+        //Start action
+        const action = req.params.action;
+        if (action == "like") {
+          //User likes the post for the first time
+          if (likeObject == null) {
+            return models.Like
+              .create(
+                {
+                  userId: userId,
+                  username: username,
+                  postId: postId,
+                  isLiked: true
+                }
+              )
+              .then(function (like, err) {
+                if (like) {
+                  res.status(status.OK)
+                    .send({
+                      success: true,
+                      message: "OK",
+                      error: err,
+                    })
+                }
+              })
+            //User re-likes the post
+          } else if (likeObject.dataValues.isLiked == false) {
+            return models.Like
+              .update(
+                {
+                  isLiked: true,
+                  updatedAt: new Date()
+                },
+                {
+                  where: [
+                    {user_id: userId},
+                    {post_id: postId}
+                  ]
+                })
+              .then(function (result, err) {
                 res.status(status.OK)
                   .send({
                     success: true,
                     message: "OK",
-                    error: err,
-                  })
-              }
-            })
-          //User re-likes the post
-        } else {
-          return models.Like
-            .update(
-              {isLiked: true, updatedAt: new Date()},
-              {where: [{id: req.params.likeId}]})
-            .then(function (result, err) {
-              res.status(status.OK)
-                .send({
-                  success: true,
-                  message: "OK",
-                  error: err
+                    error: err
+                  });
+              });
+          }
+        } else if (action == "unlike") {
+          if (likeObject.dataValues.isLiked == false) {
+            res.status(status.OK)
+              .send({
+                success: false,
+                message: "User has not liked this post!",
+              });
+          } else {
+            return models.Like
+              .update(
+                {
+                  isLiked: false,
+                  updatedAt: new Date()
+                },
+                {
+                  where: [
+                    {user_id: userId},
+                    {post_id: postId}
+                  ]
                 })
-            })
-        }
-      } catch (error) {
-        next(error);
-      }
-    }
-  },
-  unlike: {
-    async post(req, res, next) {
-      try {
-        const likeObject = await models.Like.findOne({where: [{id: req.params.likeId}, {is_liked: true}]});
-        //User has not liked this post yet
-        if (likeObject == null) {
-          res.status(status.BAD_REQUEST)
-            .send({
-              success: false,
-              message: "User has not liked this post yet!",
-            })
-          //User un-likes the post
+              .then(function (result, err) {
+                res.status(status.OK)
+                  .send({
+                    success: true,
+                    message: "OK",
+                    error: err
+                  });
+              });
+          }
         } else {
-          return models.Like
-            .update(
-              {isLiked: false, updatedAt: new Date()},
-              {where: [{id: req.params.likeId}, {is_liked: true}]}
-            ).then(function (result, err) {
-              res.status(status.OK)
-                .send({
-                  success: true,
-                  message: "OK",
-                  error: err
-                });
+          res.status(status.OK)
+            .send({
+              success: true,
+              message: "Action not supported!",
             });
         }
-      } catch (error) {
+      } catch
+        (error) {
         next(error);
       }
     }
   },
+
   check_if_liked: {
     async get(req, res, next) {
       try {
         const queryData = url.parse(req.url, true).query;
         var postId = parseInt(queryData.postId, 10);
         var username = queryData.username;
-        console.log(postId);
-        console.log(username);
         if (postId == undefined) {
           res.status(status.OK)
             .send({
