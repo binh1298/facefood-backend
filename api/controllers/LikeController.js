@@ -178,15 +178,18 @@ module.exports = {
         if (isLiked == null) {
           res.status(status.OK)
             .send({
-              success: false,
-              message: "Like not exist!"
+              success: true,
+              message: {
+                isLiked: false,
+              }
+            });
+        } else {
+          res.status(status.OK)
+            .send({
+              success: true,
+              message: isLiked
             });
         }
-        res.status(status.OK)
-          .send({
-            success: true,
-            message: isLiked
-          });
       } catch (error) {
         next(error)
       }
