@@ -7,14 +7,19 @@ module.exports = {
       created_at: new Date(),
       updated_at: new Date()
     }, {
-      category_name: "Desserts",
+      category_name: "Dessert",
       created_at: new Date(),
       updated_at: new Date()
     }, {
-      category_name: "Drinks",
+      category_name: "Soup",
       created_at: new Date(),
       updated_at: new Date()
-    }], {});
+    }, {
+      category_name: "Breakfast",
+      created_at: new Date(),
+      updated_at: new Date()
+    },
+    ], {});
   },
 
   down: (queryInterface, Sequelize) => {
