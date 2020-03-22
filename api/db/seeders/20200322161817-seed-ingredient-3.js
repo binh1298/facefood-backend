@@ -2,34 +2,44 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('unit', [
+    return queryInterface.bulkInsert('ingredient', [
       {
-        unit_name: 'g',
+        post_id: 3,
+        ingredient_name: 'Avocado',
+        value: 1,
+        unit_id: 3,
         created_at: new Date(),
         updated_at: new Date()
       },
       {
-        unit_name: 'ml',
+        post_id: 3,
+        ingredient_name: 'Onion',
+        value: 40,
+        unit_id: 1,
         created_at: new Date(),
         updated_at: new Date()
       },
       {
-        unit_name: 'piece(s)',
+        post_id: 3,
+        ingredient_name: 'Garlic',
+        value: 1,
+        unit_id: 3,
         created_at: new Date(),
         updated_at: new Date()
       },
       {
-        unit_name: 'l',
+        post_id: 3,
+        ingredient_name: 'Lemon juice',
+        value: 20,
+        unit_id: 2,
         created_at: new Date(),
         updated_at: new Date()
       },
       {
-        unit_name: 'kg',
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
-        unit_name: 'cup(s)',
+        post_id: 3,
+        ingredient_name: 'Salt',
+        value: 10,
+        unit_id: 1,
         created_at: new Date(),
         updated_at: new Date()
       },
