@@ -241,7 +241,7 @@ module.exports = {
             }
           },
         );
-        var likeCount = 0, commentCount = 0;
+        var totalLikes = 0, totalComments = 0;
         const foundUserID = user.dataValues.id;
         //Additional data
         const totalPosts = await models.Post
@@ -249,19 +249,24 @@ module.exports = {
             attributes: {exclude: ['category_id', 'user_id', 'userId']},
             where: {user_id: foundUserID}
           });
-        await Promise.all(totalPosts.rows.map(async post => {
-          const foundPostID = post.dataValues.id;
-          const totalLikes = await models.Like
-            .findAndCountAll({
-              where: {post_id: foundPostID, is_liked: true}
-            });
-          const totalComments = await models.Comment
-            .findAndCountAll({
-              where: {post_id: foundPostID, is_deleted: false}
-            });
-          likeCount += totalLikes.count;
-          commentCount += totalComments.count;
-        }));
+        const posts = await Promise.all(totalPosts.rows.map(async post => {
+            const foundPostID = post.dataValues.id;
+            const likes = await models.Like
+              .findAndCountAll({
+                where: {id: foundPostID, is_liked: true}
+              });
+            const likeCount = likes.count;
+            const comments = await models.Comment
+              .findAndCountAll({
+                where: {id: foundPostID, is_deleted: false}
+              });
+            const commentCount = comments.count;
+            totalLikes += likeCount;
+            totalComments += commentCount;
+            return {...post.dataValues, likeCount, commentCount}
+          }
+          )
+        );
         const totalFollowers = await models.Follow
           .findAndCountAll({
             where: {following_id: foundUserID, is_following: true}
@@ -277,10 +282,10 @@ module.exports = {
         const followingCount = totalFollowings.count;
         const finalUserResult = {
           ...user.dataValues,
-          totalPosts,
           postCount,
-          likeCount,
-          commentCount,
+          posts,
+          totalLikes,
+          totalComments,
           followerCount,
           followingCount
         };
