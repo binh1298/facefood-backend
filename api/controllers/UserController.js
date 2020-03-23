@@ -249,7 +249,7 @@ module.exports = {
             attributes: {exclude: ['category_id', 'user_id', 'userId']},
             where: {user_id: foundUserID}
           });
-        const postsWithCount = await Promise.all(totalPosts.rows.map(async post => {
+        const posts = await Promise.all(totalPosts.rows.map(async post => {
             const foundPostID = post.dataValues.id;
             const likes = await models.Like
               .findAndCountAll({
@@ -282,7 +282,7 @@ module.exports = {
         const followingCount = totalFollowings.count;
         const finalUserResult = {
           ...user.dataValues,
-          postsWithCount,
+          posts,
           postCount,
           totalLikes,
           totalComments,
