@@ -282,8 +282,8 @@ module.exports = {
         const followingCount = totalFollowings.count;
         const finalUserResult = {
           ...user.dataValues,
-          posts,
           postCount,
+          posts,
           totalLikes,
           totalComments,
           followerCount,
