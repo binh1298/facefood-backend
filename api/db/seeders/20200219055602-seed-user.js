@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('user', [{
       id: '468ab892-7518-4520-8243-db1c1b9607dd',
       username: 'SpacePotato',
-      fullname: 'Hello Space Potato',
+      fullname: 'Nguyen Tuan Anh',
       password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
       email: 'space@potato.com',
       phone_number: '0123456789',
@@ -17,7 +17,7 @@ module.exports = {
       {
         id: 'bfad3537-875c-4bf2-bb97-41c00b912d76',
         username: 'Potato',
-        fullname: 'Hello Potato',
+        fullname: 'Nguyen Van Anh',
         password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
         email: 'potato@potato.com',
         phone_number: '0987654321',
