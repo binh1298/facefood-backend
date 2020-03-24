@@ -9,6 +9,7 @@ module.exports = {
         post_id: 1,
         content: 'That looks delicious!',
         is_deleted: false,
+        is_reported: false,
         created_at: new Date(),
         updated_at: new Date()
       }, {
@@ -17,6 +18,7 @@ module.exports = {
         post_id: 1,
         content: 'Thank you for this post!',
         is_deleted: false,
+        is_reported: false,
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -26,6 +28,7 @@ module.exports = {
         post_id: 1,
         content: 'This post is very informational. But I think that there are things that can be improved, especially the ingredient measurements, which are a bit more than my taste. You can try to reduce the amount of potatoes to just 5.',
         is_deleted: false,
+        is_reported: false,
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -35,6 +38,7 @@ module.exports = {
         post_id: 1,
         content: 'Can you record a video describing the steps? I have followed closely to the steps, but cannot replicate the dish somehow :(',
         is_deleted: false,
+        is_reported: false,
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -44,6 +48,7 @@ module.exports = {
         post_id: 2,
         content: 'I have tried this recipe, but no luck. Well, there is always next time!',
         is_deleted: false,
+        is_reported: false,
         created_at: new Date(),
         updated_at: new Date()
       }, {
@@ -52,6 +57,7 @@ module.exports = {
         post_id: 2,
         content: 'Followed the instructions, and the result is wonderful!',
         is_deleted: false,
+        is_reported: false,
         created_at: new Date(),
         updated_at: new Date()
       },

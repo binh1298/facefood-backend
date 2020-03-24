@@ -26,6 +26,11 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false,
       field: 'is_deleted'
     },
+    isReported: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      field: 'is_reported'
+    },
     createdAt: {
       type: DataTypes.DATE,
       field: 'created_at'
