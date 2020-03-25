@@ -150,14 +150,6 @@ module.exports = {
           },
           {where: [{id: req.params.commentId}, {is_reported: false}]}
         );
-        if (result == 0) {
-          result = await models.Comment.update({
-              isReported: false,
-              updateAt: new Date()
-            },
-            {where: [{id: req.params.commentId}, {is_reported: true}]}
-          )
-        }
         res.status(status.OK)
           .send({
             success: true,
