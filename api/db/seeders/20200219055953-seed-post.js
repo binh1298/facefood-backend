@@ -13,7 +13,7 @@ module.exports = {
         category_id: 1,
         image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_9.jpg?alt=media&token=7450ceec-9674-47ea-93d3-4f87acde4e8f',
         user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
-        username: 'SpacePotato',
+        username: 'AnhBui',
       },
       {
         post_name: "Healthy ★ fried grilled potato croquette",
@@ -25,7 +25,7 @@ module.exports = {
         category_id: 1,
         image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_2.jpg?alt=media&token=2a60a655-def3-4f68-b452-e7d08281bcf3',
         user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
-        username: 'SpacePotato',
+        username: 'AnhBui',
       },
       {
         post_name: "Perfect ☆ guacamole toast!",
@@ -110,7 +110,7 @@ module.exports = {
         category_id: 1,
         image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_1.jpg?alt=media&token=0171ccd1-773d-40db-bcbe-4a2b14a88b1c',
         user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
-        username: 'SpacePotato',
+        username: 'AnhBui',
       },
     ], {});
   },
