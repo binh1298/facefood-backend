@@ -5,24 +5,59 @@ const {Op} = require("sequelize");
 const Sequelize = require("sequelize");
 const url = require('url');
 module.exports = {
-
   create: {
-    post(req, res) {
-      return models.Post
-        .create(req.body)
-        .then(function (post, err) {
-          if (post) {
-            res.status(status.OK)
-              .send({
-                success: true,
-                message: "OK",
-                error: err
-              });
+    async post(req, res) {
+      try {
+        const bodyPost = req.body.post;
+        var bodySteps = req.body.steps;
+        const categoryName = bodyPost.categoryName;
+        //Create Post
+        var foundCategory = await models.Category.findOne({
+            attributes: ['id'],
+            where: {
+              category_name: {
+                [Op.eq]: categoryName
+                //categoryName,
+              },
+            }
           }
-        });
+        );
+        if (foundCategory == null) {
+          await models.Category.create({
+            categoryName: categoryName
+          });
+          foundCategory = await models.Category.findOne({
+            attributes: ['id'],
+            where: {
+              category_name: {
+                [Op.eq]: categoryName
+              },
+            }
+          });
+        }
+        const categoryID = foundCategory.dataValues.id
+        bodyPost.categoryId = categoryID;
+        const createdPost = await models.Post.create(bodyPost)
+        //Create Steps
+        bodySteps = await Promise.all(bodySteps.map(async step => {
+          const postId = createdPost.dataValues.id;
+          return {...step, postId};
+        }));
+        await models.Step.bulkCreate(bodySteps);
+        res.status(status.OK)
+          .send({
+            success: true,
+            message: "OK",
+          });
+      } catch (error) {
+        res.status(status.BAD_REQUEST)
+          .send({
+            success: false,
+            message: error,
+          });
+      }
     },
   },
-
   view: {
     async get(req, res, next) {
       try {
