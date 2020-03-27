@@ -5,11 +5,11 @@ module.exports = {
     return queryInterface.bulkInsert('user', [{
       id: '468ab892-7518-4520-8243-db1c1b9607dd',
       username: 'SpacePotato',
-      fullname: 'Nguyen Tuan Anh',
+      fullname: 'Bui Nguyen Phuong Anh',
       password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
       email: 'space@potato.com',
       phone_number: '0123456789',
-      avatar_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/avatars%2Favatar_potato.jpg?alt=media&token=f7b5e12e-6819-4c55-ace7-03155106f3f3',
+      avatar_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/avatars%2Favatar_mitsuki.jpg?alt=media&token=136252c1-b7fb-45ea-bf88-fc08923ede81',
       created_at: new Date(),
       updated_at: new Date(),
       role_id: 2
@@ -17,7 +17,7 @@ module.exports = {
       {
         id: 'bfad3537-875c-4bf2-bb97-41c00b912d76',
         username: 'Potato',
-        fullname: 'Nguyen Van Anh',
+        fullname: 'Nguyen Tuan Anh',
         password: '$2a$10$rc8ARtv74lGR.SUI/CgUxuox3qjSri307g8g2k2BSWrzd0nTB2QRK',
         email: 'potato@potato.com',
         phone_number: '0987654321',
