@@ -35,23 +35,16 @@ module.exports = {
             }
           });
         }
-        const categoryID = foundCategory.dataValues.id;
+        const categoryID = foundCategory.dataValues.id
         bodyPost.categoryId = categoryID;
-        const createdPost = await models.Post.create(bodyPost);
+        const createdPost = await models.Post.create(bodyPost)
         //Create Steps
         bodySteps = await Promise.all(bodySteps.map(async step => {
           const postId = createdPost.dataValues.id;
           return {...step, postId};
         }));
         await models.Step.bulkCreate(bodySteps);
-        //Create Ingredients
-        var bodyIngredients = req.body.ingredients;
-        bodyIngredients = await Promise.all(bodyIngredients.map(async ingredient => {
-          const postId = createdPost.dataValues.id;
-          return {...ingredient, postId};
-        }));
-        console.log("====== Ingredients:" + bodyIngredients);
-        await models.Ingredient.bulkCreate(bodyIngredients);
+
         res.status(status.OK)
           .send({
             success: true,
@@ -453,4 +446,4 @@ module.exports = {
       }
     }
   },
-};
+}
