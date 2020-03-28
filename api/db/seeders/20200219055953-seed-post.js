@@ -4,16 +4,16 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('post', [
       {
-        post_name: "Simple Potato Croquette ♡",
-        description: "Even a small amount of mince is a satisfying dish. Egg-free batter solution for allergy.",
-        time_needed: 60,
+        post_name: "Spaghetti in a Couple Easy Steps",
+        description: "It's really easy to make spaghetti at home! Using jarred tomato sauce means you can have dinner on the table in under a half hour, too. Keep on reading to find out how to make a basic spaghetti with meat sauce!",
+        time_needed: 30,
         is_deleted: false,
         created_at: new Date(),
         updated_at: new Date(),
         category_id: 1,
-        image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_potato_1.jpg?alt=media&token=d6081f54-4278-466b-96c5-a1c88079bf7a',
+        image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_9.jpg?alt=media&token=7450ceec-9674-47ea-93d3-4f87acde4e8f',
         user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
-        username: 'SpacePotato',
+        username: 'AnhBui',
       },
       {
         post_name: "Healthy ★ fried grilled potato croquette",
@@ -23,9 +23,9 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
         category_id: 1,
-        image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_potato_2.jpg?alt=media&token=6271bf1e-ab74-40d2-bda3-17c704a92c1b',
+        image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_2.jpg?alt=media&token=2a60a655-def3-4f68-b452-e7d08281bcf3',
         user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
-        username: 'SpacePotato',
+        username: 'AnhBui',
       },
       {
         post_name: "Perfect ☆ guacamole toast!",
@@ -71,7 +71,7 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
         category_id: 1,
-        image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_ducphi_3.jpg?alt=media&token=1d6fd0ba-288e-494e-a632-8974ec9cb526',
+        image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_6.jpg?alt=media&token=0a7259af-263d-460c-99d8-16a22490de0f',
         user_id: 'ef71e125-37b5-4a5f-87e1-fdda43a4ccb2',
         username: 'DucPhi',
       },
@@ -98,6 +98,19 @@ module.exports = {
         image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_8.jpg?alt=media&token=3afa4712-36b2-49e2-9137-018726816362',
         user_id: '9903c282-06ed-48fe-9607-76e7903f6b72',
         username: 'BinhPham',
+      },
+
+      {
+        post_name: "Simple Potato Croquette ♡",
+        description: "Even a small amount of mince is a satisfying dish. Egg-free batter solution for allergy.",
+        time_needed: 60,
+        is_deleted: false,
+        created_at: new Date(),
+        updated_at: new Date(),
+        category_id: 1,
+        image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/posts%2Fpost_1.jpg?alt=media&token=0171ccd1-773d-40db-bcbe-4a2b14a88b1c',
+        user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
+        username: 'AnhBui',
       },
     ], {});
   },

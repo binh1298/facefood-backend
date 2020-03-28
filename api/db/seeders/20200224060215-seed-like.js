@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('like', [{
       user_id: '468ab892-7518-4520-8243-db1c1b9607dd',
-      username: 'SpacePotato',
+      username: 'AnhBui',
       post_id: 1,
       is_liked: true,
       created_at: new Date(),

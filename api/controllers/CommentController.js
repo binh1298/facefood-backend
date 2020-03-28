@@ -143,17 +143,25 @@ module.exports = {
   report: {
     async put(req, res, next) {
       try {
-        var result = await models.Comment.update(
+        const reportComment = await models.Comment.update(
           {
             isReported: true,
             updatedAt: new Date()
           },
           {where: [{id: req.params.commentId}, {is_reported: false}]}
         );
+        if (reportComment == 1) {
+          await models.Report.create(
+            {
+              reportCause: req.body.reportCause,
+              commentId: req.params.commentId
+            }
+          )
+        }
         res.status(status.OK)
           .send({
             success: true,
-            message: result
+            message: reportComment
           });
       } catch (error) {
         next(error)
