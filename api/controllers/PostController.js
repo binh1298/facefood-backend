@@ -8,8 +8,8 @@ module.exports = {
   create: {
     async post(req, res) {
       try {
-        const bodyPost = req.body.post;
-        var bodySteps = req.body.steps;
+        const bodyPost = req.body;
+        var bodySteps = JSON.parse(bodyPost.steps);
         const categoryName = bodyPost.categoryName;
         //Create Post
         var foundCategory = await models.Category.findOne({
@@ -44,10 +44,10 @@ module.exports = {
           return {...step, postId};
         }));
         await models.Step.bulkCreate(bodySteps);
-        res.status(status.OK)
+        res.status(status.CREATED)
           .send({
             success: true,
-            message: "OK",
+            message: "Create Post Successfully",
           });
       } catch (error) {
         res.status(status.BAD_REQUEST)
