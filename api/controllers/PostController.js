@@ -11,13 +11,12 @@ module.exports = {
         const bodyPost = req.body.post;
         var bodySteps = req.body.steps;
         const categoryName = bodyPost.categoryName;
-        //Create Post
+        //Create Category
         var foundCategory = await models.Category.findOne({
             attributes: ['id'],
             where: {
               category_name: {
-                [Op.eq]: categoryName
-                //categoryName,
+                [Op.eq]: categoryName,
               },
             }
           }
@@ -35,9 +34,17 @@ module.exports = {
             }
           });
         }
-        const categoryID = foundCategory.dataValues.id
+        const categoryID = foundCategory.dataValues.id;
         bodyPost.categoryId = categoryID;
-        const createdPost = await models.Post.create(bodyPost)
+        //Get Username
+        const userId = req.body.post.userId;
+        const user = await models.User.findOne({
+          attributes: ['username'],
+          where: {id: userId},
+        });
+        bodyPost.username = user.dataValues.username;
+        //Create Post
+        const createdPost = await models.Post.create(bodyPost);
         //Create Steps
         bodySteps = await Promise.all(bodySteps.map(async step => {
           const postId = createdPost.dataValues.id;
@@ -51,10 +58,10 @@ module.exports = {
           return {...ingredient, postId};
         }));
         await models.Ingredient.bulkCreate(bodyIngredients);
-        res.status(status.OK)
+        res.status(status.CREATED)
           .send({
             success: true,
-            message: "OK",
+            message: "Create Post Successfully",
           });
       } catch (error) {
         res.status(status.BAD_REQUEST)
