@@ -23,6 +23,6 @@ module.exports = function (sequelize, DataTypes) {
     models.Category.hasMany(models.Post, {
       foreignKey: 'category_id'
     });
-  }
+  };
   return Category;
 };
