@@ -44,7 +44,13 @@ module.exports = {
           return {...step, postId};
         }));
         await models.Step.bulkCreate(bodySteps);
-
+        //Create Ingredients
+        var bodyIngredients = req.body.ingredients;
+        bodyIngredients = await Promise.all(bodyIngredients.map(async ingredient => {
+          const postId = createdPost.dataValues.id;
+          return {...ingredient, postId};
+        }));
+        await models.Ingredient.bulkCreate(bodyIngredients);
         res.status(status.OK)
           .send({
             success: true,
