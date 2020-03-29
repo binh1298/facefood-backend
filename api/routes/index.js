@@ -30,7 +30,15 @@ const Router = [
   {
     path: '/ingredients',
     handler: require('./IngredientRoutes'),
-  }
+  },
+  {
+    path: '/categories',
+    handler: require('./CategoryRoutes'),
+  },
+  {
+    path: '/units',
+    handler: require('./UnitRoutes'),
+  },
 ];
 
 export default Router;

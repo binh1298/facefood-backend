@@ -247,7 +247,10 @@ module.exports = {
         const totalPosts = await models.Post
           .findAndCountAll({
             attributes: {exclude: ['category_id', 'user_id', 'userId']},
-            where: {user_id: foundUserID}
+            where: {user_id: foundUserID},
+            order: [
+              ['createdAt', 'desc'],
+            ],
           });
         const posts = await Promise.all(totalPosts.rows.map(async post => {
             const foundPostID = post.dataValues.id;
