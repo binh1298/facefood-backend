@@ -8,8 +8,8 @@ module.exports = {
   create: {
     async post(req, res) {
       try {
-        const bodyPost = req.body.post;
-        var bodySteps = req.body.steps;
+        const bodyPost = req.body;
+        var bodySteps = JSON.parse(bodyPost.steps);
         const categoryName = bodyPost.categoryName;
         //Create Category
         var foundCategory = await models.Category.findOne({
@@ -37,7 +37,7 @@ module.exports = {
         const categoryID = foundCategory.dataValues.id;
         bodyPost.categoryId = categoryID;
         //Get Username
-        const userId = req.body.post.userId;
+        const userId = bodyPost.userId;
         const user = await models.User.findOne({
           attributes: ['username'],
           where: {id: userId},
@@ -52,7 +52,7 @@ module.exports = {
         }));
         await models.Step.bulkCreate(bodySteps);
         //Create Ingredients
-        var bodyIngredients = req.body.ingredients;
+        var bodyIngredients = JSON.parse(bodyPost.ingredients);
         bodyIngredients = await Promise.all(bodyIngredients.map(async ingredient => {
           const postId = createdPost.dataValues.id;
           return {...ingredient, postId};
