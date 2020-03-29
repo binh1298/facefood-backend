@@ -9,7 +9,7 @@ module.exports = {
     async post(req, res) {
       try {
         const bodyPost = req.body;
-        var bodySteps = JSON.parse(bodyPost.steps);
+        var bodySteps = bodyPost.steps;
         const categoryName = bodyPost.categoryName;
         //Create Category
         var foundCategory = await models.Category.findOne({
@@ -52,7 +52,7 @@ module.exports = {
         }));
         await models.Step.bulkCreate(bodySteps);
         //Create Ingredients
-        var bodyIngredients = JSON.parse(bodyPost.ingredients);
+        var bodyIngredients = bodyPost.ingredients;
         bodyIngredients = await Promise.all(bodyIngredients.map(async ingredient => {
           const postId = createdPost.dataValues.id;
           return {...ingredient, postId};
