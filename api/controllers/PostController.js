@@ -53,6 +53,31 @@ module.exports = {
         await models.Step.bulkCreate(bodySteps);
         //Create Ingredients
         var bodyIngredients = JSON.parse(bodyPost.ingredients);
+        for (var i = 0; i < bodyIngredients.length; i++) {
+          const unitName = bodyIngredients[i].unitName;
+          var unit = await models.Unit.findOne({
+            attributes: ['id'],
+            where: {
+              unit_name: {
+                [Op.eq]: unitName,
+              }
+            }
+          });
+          if (unit == null) {
+            await models.Unit.create({
+              unitName: unitName
+            });
+            unit = await models.Unit.findOne({
+              attributes: ['id'],
+              where: {
+                unit_name: {
+                  [Op.eq]: unitName,
+                }
+              }
+            });
+          }
+          bodyIngredients[i].unitId = unit.dataValues.id;
+        }
         bodyIngredients = await Promise.all(bodyIngredients.map(async ingredient => {
           const postId = createdPost.dataValues.id;
           return {...ingredient, postId};
