@@ -219,7 +219,6 @@ module.exports = {
               exclude: ['category_id', 'user_id', 'userId']
             },
           });
-
         var finalResult = await Promise.all(posts.map(async post => {
           const foundPostID = post.dataValues.id;
           const foundCategoryID = post.dataValues.categoryId;
@@ -459,4 +458,99 @@ module.exports = {
       }
     }
   },
+
+  feed: {
+    async get(req, res, next) {
+      try {
+        const queryData = url.parse(req.url, true).query;
+        var username = queryData.username;
+        if (username == undefined) {
+          res.status(status.BAD_REQUEST)
+            .send({
+              success: true,
+              message: "Please enter username!"
+            });
+        } else {
+          const user = await models.User.findOne({
+            attributes: ['id'],
+            where: {
+              username: {
+                [Op.eq]: username
+              }
+            }
+          });
+          if (user == null) {
+            res.status(status.BAD_REQUEST)
+              .send({
+                success: true,
+                message: "User not found!"
+              });
+          } else {
+            const userID = user.dataValues.id;
+            const followings = await models.Follow.findAll({
+              attributes: ['followingId'],
+              where: {
+                user_id: {
+                  [Op.eq]: userID
+                }
+              }
+            })
+            if (followings.length == 0) {
+              res.status(status.BAD_REQUEST)
+                .send({
+                  success: false,
+                  message: "User has not followed anyone!"
+                });
+            } else {
+              const followingsIDs = await Promise.all(followings.map(async following => {
+                return following.dataValues.followingId;
+              }));
+              console.log(followingsIDs);
+              const posts = await models.Post
+                .findAll({
+                  attributes: {
+                    exclude: ['category_id', 'user_id', 'userId']
+                  },
+                  where: {
+                    user_id: followingsIDs,
+                  }
+                });
+              var finalResult = await Promise.all(posts.map(async post => {
+                const foundPostID = post.dataValues.id;
+                const foundCategoryID = post.dataValues.categoryId;
+                const totalLikes = await models.Like
+                  .findAndCountAll({
+                    where: {post_id: foundPostID, is_liked: true}
+                  });
+                const totalComments = await models.Comment
+                  .findAndCountAll({
+                    where: {post_id: foundPostID, is_deleted: false}
+                  });
+                const category = await models.Category
+                  .findOne({
+                    attributes: ['category_name'],
+                    where: {id: foundCategoryID}
+                  });
+                const likeCount = totalLikes.count;
+                const commentCount = totalComments.count;
+                const categoryName = category.dataValues.category_name;
+                return {...post.dataValues, categoryName, likeCount, commentCount}
+              }));
+              res.status(status.OK)
+                .send({
+                  success: true,
+                  message: finalResult
+                });
+            }
+          }
+        }
+      } catch (error) {
+        res.status(status.BAD_REQUEST)
+          .send({
+            success: false,
+            message: error
+          });
+      }
+    }
+  }
 }
