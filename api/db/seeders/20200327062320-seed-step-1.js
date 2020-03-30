@@ -12,21 +12,21 @@ module.exports = {
     }, {
       post_id: 1,
       step_count: 2,
-      description: 'You will need to cook the of meat. Take all of the meat out of its container and set it all in a large pan, then put the pan on the stove and set the stove to medium. After that you will need to break the meat into smaller pieces. ',
+      description: 'Take all of the meat out of its container and set it all in a large pan, then put the pan on the stove and set the stove to medium. Break the meat into smaller pieces. ',
       image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/steps%2Fpost_9%2Fpost_1_revise_step_2.jpg?alt=media&token=0e6ef75e-8608-42e4-8db8-85fe67845d96',
       created_at: new Date(),
       updated_at: new Date()
     }, {
       post_id: 1,
       step_count: 3,
-      description: 'Next you will need to mix your marinara sauce with your cooked meat. Take your jar of marinara sauce and pour all of it on the cooked meat and then stir it all around until it is all blended together.',
+      description: 'Mix  marinara sauce with your cooked meat. Take your jar of marinara sauce and pour all of it on the cooked meat. Stir it all around until it is all blended together.',
       image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/steps%2Fpost_9%2Fpost_1_revise_step_3.jpg?alt=media&token=2878a547-de9e-4526-9f10-004db1d4351c',
       created_at: new Date(),
       updated_at: new Date()
     }, {
       post_id: 1,
       step_count: 4,
-      description: 'Once the water has come up to a boil, you can throw the spaghetti in. Typically it should cook within 7-11 minutes - just follow the time on the box!',
+      description: 'You can throw the spaghetti in when the water boils. Typically it should cook within 7-11 minutes - just follow the time on the box!',
       image_url: 'https://firebasestorage.googleapis.com/v0/b/facefood-41e90.appspot.com/o/steps%2Fpost_9%2Fpost_1_revise_step_4.jpg?alt=media&token=78449d3a-6dba-44c9-b0b0-edd4c4210ea0',
       created_at: new Date(),
       updated_at: new Date()

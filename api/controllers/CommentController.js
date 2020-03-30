@@ -143,9 +143,18 @@ module.exports = {
   report: {
     async put(req, res, next) {
       try {
+        const reportCause = req.body.cause;
+        if (reportCause == undefined || reportCause == ""){
+          res.status(status.BAD_REQUEST)
+            .send({
+              success: false,
+              message: "Report must have cause!"
+            });
+        }
         const reportComment = await models.Comment.update(
           {
             isReported: true,
+            reportCause: reportCause,
             updatedAt: new Date()
           },
           {where: [{id: req.params.commentId}, {is_reported: false}]}
@@ -192,6 +201,7 @@ module.exports = {
               'postId',
               'isReported',
               'isDeleted',
+              'reportCause',
               'createdAt',
               'updatedAt',
             ],

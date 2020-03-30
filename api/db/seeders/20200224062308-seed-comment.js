@@ -71,6 +71,28 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date()
       },
+      {
+        user_id: 'ef71e125-37b5-4a5f-87e1-fdda43a4ccb2',
+        username: 'DucPhi',
+        post_id: 3,
+        content: 'I hate this post!',
+        is_deleted: false,
+        is_reported: true,
+        report_cause: 'Spamming',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        user_id: '9903c282-06ed-48fe-9607-76e7903f6b72',
+        username: 'BinhPham',
+        post_id: 4,
+        content: 'việt nam vô địch',
+        is_deleted: false,
+        is_reported: true,
+        report_cause: 'Spamming',
+        created_at: new Date(),
+        updated_at: new Date()
+      }
     ], {});
   },
 
