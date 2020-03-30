@@ -143,9 +143,9 @@ module.exports = {
   report: {
     async put(req, res, next) {
       try {
-        const reportCause = req.body.cause;
+        const reportCause = req.body.reportCause;
         if (reportCause == undefined || reportCause == ""){
-          res.status(status.BAD_REQUEST)
+          return res.status(status.BAD_REQUEST)
             .send({
               success: false,
               message: "Report must have cause!"
@@ -157,7 +157,7 @@ module.exports = {
             reportCause: reportCause,
             updatedAt: new Date()
           },
-          {where: [{id: req.params.commentId}, {is_reported: false}]}
+          {where: [{id: req.params.commentId}]}
         );
         if (reportComment == 1) {
           await models.Report.create(
@@ -167,7 +167,7 @@ module.exports = {
             }
           )
         }
-        res.status(status.OK)
+        return res.status(status.OK)
           .send({
             success: true,
             message: reportComment
