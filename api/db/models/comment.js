@@ -31,6 +31,10 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false,
       field: 'is_reported'
     },
+    reportCause: {
+      type: DataTypes.STRING,
+      field: 'report_cause'
+    },
     createdAt: {
       type: DataTypes.DATE,
       field: 'created_at'
