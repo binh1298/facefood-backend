@@ -45,9 +45,9 @@ module.exports = {
         bodyPost.username = user.dataValues.username;
         //Create Post
         const createdPost = await models.Post.create(bodyPost);
+        const postId = createdPost.dataValues.id;
         //Create Steps
         bodySteps = await Promise.all(bodySteps.map(async step => {
-          const postId = createdPost.dataValues.id;
           return {...step, postId};
         }));
         await models.Step.bulkCreate(bodySteps);
@@ -86,7 +86,7 @@ module.exports = {
         res.status(status.CREATED)
           .send({
             success: true,
-            message: "Create Post Successfully",
+            message: postId,
           });
       } catch (error) {
         res.status(status.BAD_REQUEST)
