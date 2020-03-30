@@ -241,7 +241,14 @@ module.exports = {
             }
           },
         );
-        var totalLikes = 0, totalComments = 0;
+        if(user == null){
+          res.status(status.BAD_REQUEST)
+            .send({
+              status: false,
+              message: "User not found!",
+            });
+        }
+        var totalLikes = 0, totalComments = 0, activePostsCount = 0;
         const foundUserID = user.dataValues.id;
         //Additional data
         const totalPosts = await models.Post
@@ -252,6 +259,13 @@ module.exports = {
               ['createdAt', 'desc'],
             ],
           });
+        await Promise.all(totalPosts.rows.map(async post => {
+          const isDeleted = post.dataValues.isDeleted;
+          if (!isDeleted) {
+            activePostsCount++;
+          }
+          return activePostsCount;
+        }));
         const posts = await Promise.all(totalPosts.rows.map(async post => {
             const foundPostID = post.dataValues.id;
             const likes = await models.Like
@@ -286,12 +300,14 @@ module.exports = {
         const followingCount = totalFollowings.count;
         const finalUserResult = {
           ...user.dataValues,
-          postCount,
-          posts,
           totalLikes,
           totalComments,
           followerCount,
-          followingCount
+          followingCount,
+          postCount,
+          activePostsCount,
+          posts,
+
         };
         res.status(status.OK)
           .send({
