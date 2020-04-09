@@ -356,9 +356,9 @@ module.exports = {
   update_avatar_url: {
     async put(req, res, next) {
       try {
-        const queryData = url.parse(req.url, true).query;
-        const newAvatarURL = queryData.avatarUrl;
-        if (!newAvatarURL.includes('http://')) {
+        const queryData = url.parse(req.url, false).query;
+        const newAvatarURL = queryData;
+        if (!newAvatarURL.includes('https://')) {
           res.status(status.OK)
             .send({
               success: false,
