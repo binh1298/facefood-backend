@@ -384,5 +384,39 @@ module.exports = {
       }
     }
   },
-
+  update_fullname: {
+    async put(req, res, next) {
+      try {
+        const queryData = url.parse(req.url, true).query;
+        const newFullname = queryData.value;
+        if (newFullname == undefined || newFullname.trim() == '') {
+          res.status(status.OK)
+            .send({
+              success: false,
+              message: "Please input fullname!"
+            });
+        } else {
+          const result = await models.User.update(
+            {fullname: newFullname},
+            {
+              where: {
+                username: req.params.username
+              }
+            }
+          );
+          res.status(status.OK)
+            .send({
+              success: true,
+              message: result
+            });
+        }
+      } catch (error) {
+        res.status(status.OK)
+          .send({
+            success: false,
+            message: error
+          });
+      }
+    }
+  },
 };

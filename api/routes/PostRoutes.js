@@ -12,8 +12,8 @@ let router = express.Router();
 router.get('/', Controller.view.get);
 router.get('/explore',Controller.explore.get);
 router.get('/popular',Controller.popular.get);
-router.get('/search',Controller.search.get)
-router.get('/feed',Controller.feed.get)
+router.get('/search',Controller.search.get);
+router.get('/feed',Controller.feed.get);
 router.get('/:postId', Controller.view_post_details.get);
 
 router.post('/', Controller.create.post);
